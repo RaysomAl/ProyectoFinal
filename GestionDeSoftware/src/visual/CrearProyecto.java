@@ -59,7 +59,7 @@ public class CrearProyecto extends JDialog {
 	private JComboBox<String> cbxTipoAux1;
 	private JComboBox<String> cbxTipoAux2; 
 	private JComboBox<String>cbxTipoAux3;
-	
+	//hola 
 	
 	/**
 	 * Launch the application.
