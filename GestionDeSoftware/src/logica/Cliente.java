@@ -17,20 +17,21 @@ public abstract class Cliente implements Serializable {
 	//private int proyectosActivos;-Ralddy-lo cambie por la funcion cantidadProyectosActivo
 	protected String ciudad;
 	protected String pais;
+	protected String email;
 	
 	public Cliente() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente( String nombre,String telefono,String ciudad, String pais) {
+	public Cliente( String nombre,String telefono,String ciudad, String pais,String email) {
 		super();
 
 		this.nombre = nombre;
 
 		this.telefono = telefono;
 
-
 		this.ciudad = ciudad;
+		this.email=email;
 
 		this.pais = pais;
 		this.misContratos = new ArrayList<>();
@@ -87,6 +88,14 @@ public abstract class Cliente implements Serializable {
 			
 		}
 		return cantidad;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		email = email;
 	}
 	
 	
