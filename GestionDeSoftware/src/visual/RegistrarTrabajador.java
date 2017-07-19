@@ -32,6 +32,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import logica.*;
+import javax.swing.ImageIcon;
 
 
 public class RegistrarTrabajador extends JDialog {
@@ -136,7 +137,7 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				ftCedula = new JFormattedTextField(cedula);
-				ftCedula.setBounds(77, 19, 154, 20);
+				ftCedula.setBounds(77, 19, 154, 22);
 				datosGenerales.add(ftCedula);
 				
 			}
@@ -151,7 +152,7 @@ public class RegistrarTrabajador extends JDialog {
 					}
 					
 				});
-				txtNombres.setBounds(77, 56, 154, 20);
+				txtNombres.setBounds(77, 56, 154, 22);
 				datosGenerales.add(txtNombres);
 				txtNombres.setColumns(10);
 			}
@@ -165,14 +166,14 @@ public class RegistrarTrabajador extends JDialog {
 							e.consume();
 					}
 				});
-				txtApellidos.setBounds(77, 93, 154, 20);
+				txtApellidos.setBounds(77, 93, 154, 22);
 				datosGenerales.add(txtApellidos);
 				txtApellidos.setColumns(10);
 			}
 			{
 				cbxSexo = new JComboBox();
 				cbxSexo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Masculino", "Femenino"}));
-				cbxSexo.setBounds(77, 130, 154, 20);
+				cbxSexo.setBounds(77, 130, 154, 22);
 				datosGenerales.add(cbxSexo);
 			}
 			{
@@ -204,7 +205,7 @@ public class RegistrarTrabajador extends JDialog {
 				horasTrab.setMaximum(8);
 				horasTrab.setMinimum(8);
 				spnHorasTrab.setModel(horasTrab);
-				spnHorasTrab.setBounds(390, 93, 178, 20);
+				spnHorasTrab.setBounds(390, 93, 178, 22);
 				datosGenerales.add(spnHorasTrab);
 			}
 			{
@@ -218,13 +219,13 @@ public class RegistrarTrabajador extends JDialog {
 						
 					}
 				});
-				txtPago.setBounds(389, 130, 179, 20);
+				txtPago.setBounds(389, 130, 179, 22);
 				datosGenerales.add(txtPago);
 				txtPago.setColumns(10);
 			}
 			{
 				ftTelefono = new JFormattedTextField(telefono);
-				ftTelefono.setBounds(390, 56, 178, 20);
+				ftTelefono.setBounds(390, 56, 178, 22);
 				datosGenerales.add(ftTelefono);
 				
 			}
@@ -236,7 +237,7 @@ public class RegistrarTrabajador extends JDialog {
 				edad.setMaximum(30);
 				edad.setMinimum(20);
 		        spnEdad.setModel(edad);
-				spnEdad.setBounds(390, 19, 178, 20);
+				spnEdad.setBounds(390, 19, 178, 22);
 				datosGenerales.add(spnEdad);
 			}
 		}
@@ -254,7 +255,7 @@ public class RegistrarTrabajador extends JDialog {
 			{
 				cbxProvincia = new JComboBox();
 				cbxProvincia.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Azua", "Bahoruco", "Barahona", "Dajab\u00F3n", "Distrito Nacional", "Duarte", "El\u00EDas Pi\u00F1a", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal", "Independencia", "La Altagracia", "La Romana", "La Vega", "Mar\u00EDa Trinidad S\u00E1nchez", "Monse\u00F1or Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Saman\u00E1", "San Crist\u00F3bal", "San Jos\u00E9 De Ocoa", "San Juan", "San Pedro de Macor\u00EDs", "S\u00E1nchez Ramirez", "Santiago", "Santiago Rodr\u00EDguez", "Santo Domingo", "Valverde"}));
-				cbxProvincia.setBounds(78, 20, 165, 20);
+				cbxProvincia.setBounds(78, 20, 165, 22);
 				datosUbicacion.add(cbxProvincia);
 			}
 			{
@@ -264,7 +265,7 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				txtCiudad = new JTextField();
-				txtCiudad.setBounds(78, 55, 165, 20);
+				txtCiudad.setBounds(78, 55, 165, 22);
 				datosUbicacion.add(txtCiudad);
 				txtCiudad.setColumns(10);
 			}
@@ -283,7 +284,7 @@ public class RegistrarTrabajador extends JDialog {
 							e.consume();
 					}
 				});
-				txtSector.setBounds(327, 20, 241, 20);
+				txtSector.setBounds(327, 20, 241, 22);
 				datosUbicacion.add(txtSector);
 				txtSector.setColumns(10);
 			}
@@ -294,7 +295,7 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				txtCalle = new JTextField();
-				txtCalle.setBounds(327, 55, 122, 20);
+				txtCalle.setBounds(327, 55, 122, 22);
 				datosUbicacion.add(txtCalle);
 				txtCalle.setColumns(10);
 			}
@@ -310,7 +311,7 @@ public class RegistrarTrabajador extends JDialog {
 				num.setStepSize(1);
 				num.setMinimum(0);
 				spnNo.setModel(num);
-				spnNo.setBounds(488, 55, 80, 20);
+				spnNo.setBounds(488, 55, 80, 22);
 				datosUbicacion.add(spnNo);
 			}
 		}
@@ -461,7 +462,7 @@ public class RegistrarTrabajador extends JDialog {
 		ExpJefe.setStepSize(1);
 		ExpJefe.setMinimum(0);
 		SpnExperienciaJefe.setModel(ExpJefe);
-		SpnExperienciaJefe.setBounds(140, 21, 136, 20);
+		SpnExperienciaJefe.setBounds(140, 21, 136, 22);
 		jefeProyecto.add(SpnExperienciaJefe);
 		
 		programador = new JPanel();
@@ -479,7 +480,7 @@ public class RegistrarTrabajador extends JDialog {
 		{
 			cbxLenguajeProgramador = new JComboBox();
 			cbxLenguajeProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
-			cbxLenguajeProgramador.setBounds(80, 21, 159, 20);
+			cbxLenguajeProgramador.setBounds(80, 21, 159, 22);
 			programador.add(cbxLenguajeProgramador);
 		}
 		{
@@ -490,7 +491,7 @@ public class RegistrarTrabajador extends JDialog {
 		{
 			cbxTipoProgramador = new JComboBox();
 			cbxTipoProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Escritorio", "Web"}));
-			cbxTipoProgramador.setBounds(435, 24, 128, 20);
+			cbxTipoProgramador.setBounds(435, 24, 128, 22);
 			programador.add(cbxTipoProgramador);
 		}
 		{
@@ -510,7 +511,7 @@ public class RegistrarTrabajador extends JDialog {
 			ExpPlanificador.setStepSize(1);
 			ExpPlanificador.setMinimum(0);
 			spnExperienciaPlaneador.setModel(ExpPlanificador);
-			spnExperienciaPlaneador.setBounds(140, 21, 136, 20);
+			spnExperienciaPlaneador.setBounds(140, 21, 136, 22);
 			planeador.add(spnExperienciaPlaneador);
 		}
 		{
@@ -526,7 +527,7 @@ public class RegistrarTrabajador extends JDialog {
 			
 			cbxLenguajeDiseno = new JComboBox();
 			cbxLenguajeDiseno.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
-			cbxLenguajeDiseno.setBounds(135, 21, 159, 20);
+			cbxLenguajeDiseno.setBounds(135, 21, 159, 22);
 			Disenador.add(cbxLenguajeDiseno);
 			
 			
@@ -538,6 +539,7 @@ public class RegistrarTrabajador extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
+				okButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/add.trab.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -620,6 +622,7 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/cancelar.trabajador.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

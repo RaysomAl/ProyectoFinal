@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextPane;
+import javax.swing.ImageIcon;
 
 public class RegistarCliente extends JDialog {
 
@@ -75,7 +76,7 @@ public class RegistarCliente extends JDialog {
 		empresaRps=emp;
 		modiCliente=modifica;
 		setTitle(titulo);
-		setBounds(100, 100, 500, 328);
+		setBounds(100, 100, 505, 341);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -232,6 +233,7 @@ public class RegistarCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistrar = new JButton("Registrar");
+				btnRegistrar.setIcon(new ImageIcon(RegistarCliente.class.getResource("/img/add.cliente.png")));
 				if(modiCliente==null) {
 					btnRegistrar.setText("Registrar");
 				} else {
@@ -353,6 +355,7 @@ public class RegistarCliente extends JDialog {
 			}
 			{
 				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.setIcon(new ImageIcon(RegistarCliente.class.getResource("/img/cancelar.cliente.png")));
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();

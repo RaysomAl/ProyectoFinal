@@ -15,27 +15,36 @@ import logica.Contrato;
 import logica.Empresa;
 import logica.EmpresaRps;
 import logica.Indepediente;
+import logica.JefeDeProyecto;
 import logica.Proyecto;
 import logica.Trabajador;
 
 import java.awt.Color;
+
 import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpinnerDateModel;
+
 import java.util.Date;
 import java.util.Calendar;
+
 import javax.swing.JComboBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JRadioButton;
+
 import com.toedter.calendar.JDateChooser;
+
+import javax.swing.ImageIcon;
 
 public class CrearContrato extends JDialog {
 
@@ -76,7 +85,7 @@ public class CrearContrato extends JDialog {
 	 */
 	public CrearContrato(Proyecto proyect) {
 		setTitle("Creacion de Contrato");
-		setBounds(100, 100, 552, 430);
+		setBounds(100, 100, 546, 440);
 		/*Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "");
 		EmpresaRps.getInstance().getMisclientes().add(c);*/
 		getContentPane().setLayout(new BorderLayout());
@@ -288,6 +297,7 @@ public class CrearContrato extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Salvar Contrato");
+				okButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/add.contrato.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), (float) spnTasa.getValue(), Float.valueOf(txtUS.getText()));
@@ -305,6 +315,7 @@ public class CrearContrato extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/cancelar.contrato.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int opcion = JOptionPane.showConfirmDialog(null, "Desea cerra??  No sé salvará ningún Dato y se borrara el Proyecto","Advertencia",JOptionPane.WARNING_MESSAGE);
