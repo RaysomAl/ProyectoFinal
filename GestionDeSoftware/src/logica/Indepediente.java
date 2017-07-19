@@ -36,7 +36,7 @@ public class Indepediente extends Cliente implements Serializable {
 		return ampellido;
 	}
 
-	public void setApellido(String apellido) {
+	public void setAmpellido(String apellido) {
 		this.ampellido = apellido;
 	}
 

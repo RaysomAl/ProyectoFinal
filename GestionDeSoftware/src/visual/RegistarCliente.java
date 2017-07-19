@@ -302,8 +302,19 @@ public class RegistarCliente extends JDialog {
 								String provincia=cbxProvincia.getSelectedItem().toString();
 								String ciudad=txtCiudad.getText();
 								String sector=txtSector.getText();
+								modiCliente.setNombre(nombre);
+								((Indepediente)modiCliente).setAmpellido(ampellido);
+								modiCliente.setTelefono(telefono);
+								modiCliente.setEmail(email);
+								modiCliente.setPais(pais);
+								((Indepediente)modiCliente).setProvincia(provincia);
+								((Indepediente)modiCliente).setCiudad(ciudad);
+								((Indepediente)modiCliente).setSector(sector);
+								
 								
 								EmpresaRps.getInstance().modificarCliente(modiCliente);
+								
+								
 
 								
 							}
@@ -315,6 +326,11 @@ public class RegistarCliente extends JDialog {
 								String telefono=txtTelefono.getText();
 								String ciudad=txtCiudad.getText();
 								String pais=txtPais.getText();
+								modiCliente.setNombre(nombre);
+								modiCliente.setEmail(email);
+								modiCliente.setTelefono(telefono);
+								modiCliente.setCiudad(ciudad);
+								modiCliente.setPais(pais);
 								
 								EmpresaRps.getInstance().modificarCliente(modiCliente);
 														
@@ -324,6 +340,8 @@ public class RegistarCliente extends JDialog {
 							ListarClientes.getBtnModificar().setEnabled(false);
 							ListarClientes.cargaTablaClientes();
 							ListarClientes.cargaTablaContractos(null);
+							ListarClientes.getBtnBuscar().setEnabled(false);
+
 							dispose();
 						}
 						 

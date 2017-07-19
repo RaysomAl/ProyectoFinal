@@ -35,7 +35,7 @@ public class ListarClientes extends JDialog {
 	private JTextField txtIndetificador;
 	private static JTable tbClientes;
 	private static JTable tbContractos;
-	private JButton btnBuscar;
+	private static JButton btnBuscar;
 	private static JButton btnModificar;
 	private static JButton btnEliminar;
 	private static DefaultTableModel modeloClientes;
@@ -92,8 +92,10 @@ public class ListarClientes extends JDialog {
 			txtIndetificador.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					if(EmpresaRps.getInstance().getMisclientes().size()>0) {
+					if(EmpresaRps.getInstance().getMisclientes().size()>0 && cliente!=null) {
 						btnBuscar.setEnabled(true);
+					} else {
+						btnBuscar.setEnabled(false);
 					}
 				}
 			});
@@ -104,6 +106,8 @@ public class ListarClientes extends JDialog {
 			btnBuscar = new JButton("Buscar");
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					
+					cargaTablaBuscaClientes(cliente);
 					
 				}
 			});
@@ -235,8 +239,18 @@ public class ListarClientes extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
-						
+						String indentificador="";
+						if(cliente instanceof Indepediente) {
+							indentificador=((Indepediente) cliente).getCedula();
+						}
+						if(cliente instanceof Empresa) {
+							indentificador=((Empresa) cliente).getRnc();
+							
+						}
+						EmpresaRps.getInstance().eliminarCliente(indentificador);
+						btnEliminar.setEnabled(false);
+						btnModificar.setEnabled(false);
+						btnBuscar.setEnabled(false); 
 					}
 				});
 				btnEliminar.setEnabled(false);
@@ -311,6 +325,55 @@ public class ListarClientes extends JDialog {
 		
 	}
 	
+	public static void cargaTablaBuscaClientes(Cliente cliente) {
+
+		modeloClientes.setRowCount(0);
+		if(cliente instanceof Indepediente) {
+			String[] columnas={"CEDULA","NOMBRE"};
+			modeloClientes.setColumnIdentifiers(columnas);
+			filaClientes=new Object[modeloClientes.getColumnCount()];
+
+
+					filaClientes[0]=((Indepediente) cliente).getCedula();
+					filaClientes[1]=((Indepediente) cliente).getNombre()+" "+((Indepediente) cliente).getAmpellido();
+				
+				modeloClientes.addRow(filaClientes);
+			
+			
+			tbClientes.setModel(modeloClientes);
+			tbClientes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			tbClientes.getTableHeader().setResizingAllowed(false);
+			TableColumnModel columnas1 = tbClientes.getColumnModel();
+			columnas1.getColumn(0).setPreferredWidth(80);
+			columnas1.getColumn(1).setPreferredWidth(153);
+
+
+			
+		}
+		if(cliente instanceof Empresa) {
+			String[] columnas={"RNC","NOMBRE"};
+			modeloClientes.setColumnIdentifiers(columnas);
+			filaClientes=new Object[modeloClientes.getColumnCount()];
+
+					filaClientes[0]=((Empresa) cliente).getRnc();
+					filaClientes[1]=((Empresa) cliente).getNombre();
+					
+					
+				
+				modeloClientes.addRow(filaClientes);
+				
+			
+			tbClientes.setModel(modeloClientes);
+			tbClientes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			tbClientes.getTableHeader().setResizingAllowed(false);
+			TableColumnModel columnas1 = tbClientes.getColumnModel();
+			columnas1.getColumn(0).setPreferredWidth(80);
+			columnas1.getColumn(1).setPreferredWidth(153);
+		}
+		
+		
+	}
+	
 	public static void cargaTablaContractos(Cliente cliente) {
 		modeloContratos.setRowCount(0);
 		String[] columnas={"CODIGO","PROYECTO"};
@@ -353,6 +416,16 @@ public class ListarClientes extends JDialog {
 	public static void setBtnEliminar(JButton btnEliminar) {
 		ListarClientes.btnEliminar = btnEliminar;
 	}
+
+	public static JButton getBtnBuscar() {
+		return btnBuscar;
+	}
+
+	public static void setBtnBuscar(JButton btnBuscar) {
+		ListarClientes.btnBuscar = btnBuscar;
+	}
+	
+	
 	
 	
 }
