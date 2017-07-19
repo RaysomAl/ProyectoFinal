@@ -229,7 +229,7 @@ public class ListarClientes extends JDialog {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+					  
 					
 				}
 			});

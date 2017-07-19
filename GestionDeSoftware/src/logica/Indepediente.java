@@ -19,7 +19,7 @@ public class Indepediente extends Cliente implements Serializable {
 		this.cedula=cedula;
 		this.ampellido=ampellido;
 		this.sector=sector;
-		this.provincia=provincia;
+		this.provincia=provincia;  
 		
 		
 	}
