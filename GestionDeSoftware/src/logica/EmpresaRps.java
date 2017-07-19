@@ -78,15 +78,9 @@ public class EmpresaRps implements Serializable {
 		/*contains  devuelve true si el arraylist mistrabajadores contiene al menos un 
 		 * elemento de trabajador*/
 	}
-	 public Trabajador buscarTrabajador(String cedula){
-	    	Trabajador aux = null;
-	    	for (Trabajador trab : mistrabajadores) {
-				if(trab.getCedula().equalsIgnoreCase(cedula)){
-					aux = trab;
-				}
-			}
-	    	return aux;
-	    }
+	
+	 
+	 
 	//********************************************************************************
 	
 	
