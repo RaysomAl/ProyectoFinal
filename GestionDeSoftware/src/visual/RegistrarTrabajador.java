@@ -64,6 +64,10 @@ public class RegistrarTrabajador extends JDialog {
 	private JComboBox cbxSexo ;
 	private JFormattedTextField ftTelefono;
 	private JComboBox cbxProvincia;
+	private JPanel jefeProyecto;
+	private JPanel programador;
+	private JPanel planeador;
+	private JPanel Disenador;
 
 	/**
 	 * Launch the application.
@@ -325,6 +329,11 @@ public class RegistrarTrabajador extends JDialog {
 					rbdPlanificador.setSelected(false);
 					rbdProgramador.setSelected(false);
 					rbdDisenador.setSelected(false);
+					//paneles activos
+					jefeProyecto.setVisible(true);
+					programador.setVisible(false);
+					planeador.setVisible(false);
+					Disenador.setVisible(false);
 					//campos referentes a jefe de proyecto
 					lbExperienciaJefe.setVisible(true);
 					SpnExperienciaJefe.setVisible(true);
@@ -348,11 +357,16 @@ public class RegistrarTrabajador extends JDialog {
 			rbdProgramador = new JRadioButton("Programador");
 			rbdProgramador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//tipos de trabajadores
+					//tipos de trabajadores y paneles
 					rbdProgramador.setSelected(true);
 					rbdJefeProyecto.setSelected(false);
 					rbdPlanificador.setSelected(false);
 					rbdDisenador.setSelected(false);
+					//paneles activos
+					jefeProyecto.setVisible(false);
+					programador.setVisible(true);
+					planeador.setVisible(false);
+					Disenador.setVisible(false);
 					//campos referentes a programador
 					lbLenguajeProgramador.setVisible(true);
 					cbxLenguajeProgramador.setVisible(true);
@@ -378,6 +392,11 @@ public class RegistrarTrabajador extends JDialog {
 					rbdProgramador.setSelected(false);
 					rbdJefeProyecto.setSelected(false);
 					rbdDisenador.setSelected(false);
+					//paneles activos
+					jefeProyecto.setVisible(false);
+					programador.setVisible(false);
+					planeador.setVisible(true);
+					Disenador.setVisible(false);
 					//campos referentes a planificador
 					lbExperienciaPlanificador.setVisible(true);
 					spnExperienciaPlaneador.setVisible(true);
@@ -403,6 +422,11 @@ public class RegistrarTrabajador extends JDialog {
 					rbdPlanificador.setSelected(false);
 					rbdProgramador.setSelected(false);
 					rbdJefeProyecto.setSelected(false);
+					//paneles activos
+					jefeProyecto.setVisible(false);
+					programador.setVisible(false);
+					planeador.setVisible(false);
+					Disenador.setVisible(true);
 					//campos referentes a disenador
 					lbLenguajeDiseno.setVisible(true);
 					cbxLenguajeDiseno.setVisible(true);
@@ -421,14 +445,14 @@ public class RegistrarTrabajador extends JDialog {
 			tipoTrabajador.add(rbdDisenador);
 		}
 		
-		JPanel jefeProyecto = new JPanel();
+		jefeProyecto = new JPanel();
 		jefeProyecto.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		jefeProyecto.setBounds(10, 354, 578, 66);
 		contentPanel.add(jefeProyecto);
 		jefeProyecto.setLayout(null);
 		
 		lbExperienciaJefe = new JLabel("A\u00F1os de Experiencia:");
-		lbExperienciaJefe.setBounds(13, 24, 113, 14);
+		lbExperienciaJefe.setBounds(13, 24, 144, 14);
 		jefeProyecto.add(lbExperienciaJefe);
 		
 		SpnExperienciaJefe = new JSpinner();
@@ -437,10 +461,10 @@ public class RegistrarTrabajador extends JDialog {
 		ExpJefe.setStepSize(1);
 		ExpJefe.setMinimum(0);
 		SpnExperienciaJefe.setModel(ExpJefe);
-		SpnExperienciaJefe.setBounds(129, 21, 136, 20);
+		SpnExperienciaJefe.setBounds(140, 21, 136, 20);
 		jefeProyecto.add(SpnExperienciaJefe);
 		
-		JPanel programador = new JPanel();
+		programador = new JPanel();
 		programador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		programador.setBounds(10, 354, 578, 66);
 		contentPanel.add(programador);
@@ -454,27 +478,30 @@ public class RegistrarTrabajador extends JDialog {
 		}
 		{
 			cbxLenguajeProgramador = new JComboBox();
-			cbxLenguajeProgramador.setBounds(107, 21, 159, 20);
+			cbxLenguajeProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
+			cbxLenguajeProgramador.setBounds(80, 21, 159, 20);
 			programador.add(cbxLenguajeProgramador);
 		}
 		{
 			lbTipoProgramador = new JLabel("Tipo de programador:");
-			lbTipoProgramador.setBounds(300, 24, 121, 14);
+			lbTipoProgramador.setBounds(300, 24, 140, 14);
 			programador.add(lbTipoProgramador);
 		}
 		{
 			cbxTipoProgramador = new JComboBox();
-			cbxTipoProgramador.setBounds(440, 24, 128, 20);
+			cbxTipoProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Escritorio", "Web"}));
+			cbxTipoProgramador.setBounds(435, 24, 128, 20);
 			programador.add(cbxTipoProgramador);
 		}
 		{
-			JPanel planeador = new JPanel();
+			planeador = new JPanel();
+			planeador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			planeador.setBounds(10, 354, 578, 66);
 			contentPanel.add(planeador);
 			planeador.setLayout(null);
 			
 			lbExperienciaPlanificador = new JLabel("A\u00F1os de experiencia:");
-			lbExperienciaPlanificador.setBounds(13, 24, 113, 14);
+			lbExperienciaPlanificador.setBounds(13, 24, 144, 14);
 			planeador.add(lbExperienciaPlanificador);
 			
 			spnExperienciaPlaneador = new JSpinner();
@@ -483,11 +510,12 @@ public class RegistrarTrabajador extends JDialog {
 			ExpPlanificador.setStepSize(1);
 			ExpPlanificador.setMinimum(0);
 			spnExperienciaPlaneador.setModel(ExpPlanificador);
-			spnExperienciaPlaneador.setBounds(129, 21, 136, 20);
+			spnExperienciaPlaneador.setBounds(140, 21, 136, 20);
 			planeador.add(spnExperienciaPlaneador);
 		}
 		{
-			JPanel Disenador = new JPanel();
+			Disenador = new JPanel();
+			Disenador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			Disenador.setBounds(10, 354, 578, 66);
 			contentPanel.add(Disenador);
 			Disenador.setLayout(null);
@@ -497,7 +525,8 @@ public class RegistrarTrabajador extends JDialog {
 			Disenador.add(lbLenguajeDiseno);
 			
 			cbxLenguajeDiseno = new JComboBox();
-			cbxLenguajeDiseno.setBounds(107, 21, 159, 20);
+			cbxLenguajeDiseno.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
+			cbxLenguajeDiseno.setBounds(135, 21, 159, 20);
 			Disenador.add(cbxLenguajeDiseno);
 			
 			
@@ -627,6 +656,11 @@ public class RegistrarTrabajador extends JDialog {
 			rbdPlanificador.setSelected(false);
 			rbdProgramador.setSelected(false);
 			rbdDisenador.setSelected(false);
+			//paneles activos
+			jefeProyecto.setVisible(true);
+			programador.setVisible(false);
+			planeador.setVisible(false);
+			Disenador.setVisible(false);
 			//campos referentes a jefe de proyecto
 			lbExperienciaJefe.setVisible(true);
 			SpnExperienciaJefe.setVisible(true);
