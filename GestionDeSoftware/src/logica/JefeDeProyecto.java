@@ -11,6 +11,10 @@ public class JefeDeProyecto extends Trabajador implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Trabajador> misTrabajadores;
 	private int anosExperiencia;
+	
+	public JefeDeProyecto(){
+		
+	}
 
 	public JefeDeProyecto(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
