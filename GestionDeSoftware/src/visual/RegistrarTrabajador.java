@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -20,6 +21,8 @@ import javax.swing.UIManager;
 
 import java.awt.Color;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JRadioButton;
 
@@ -28,10 +31,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import logica.Diseñador;
-import logica.JefeDeProyecto;
-import logica.Planificador;
-import logica.Programador;
+import logica.*;
+
 
 public class RegistrarTrabajador extends JDialog {
 
@@ -515,9 +516,70 @@ public class RegistrarTrabajador extends JDialog {
 						Programador programador =null;
 						Planificador planificador= null;
 						Diseñador disenador = null;
+						//datos generales 
+						String cedula = ftCedula.getText();
+						String nom = txtNombres.getText();
+						String apellido = txtApellidos.getText();
+						String telef = ftTelefono.getText();
+						String pago = txtPago.getText();
+						int edad = new Integer(spnEdad.getValue().toString());
+						String sex = cbxSexo.getSelectedItem().toString();
+						int horasTrab = new Integer(spnHorasTrab.getValue().toString());
+						//datos de ubicacion
+						String provincia = cbxProvincia.getSelectedItem().toString();
+						String ciudad = txtCiudad.getText();
+						String sector = txtSector.getText();
+						String calle = txtCalle.getText();
+						int numCalle = new Integer(spnNo.getValue().toString());
+						
+						//
+						if (ftCedula.getText().equals("___-_______-_")||txtApellidos.getText().equals("")||cbxProvincia.getSelectedIndex()==0||txtNombres.getText().equals("")||cbxSexo.getSelectedIndex()==0||ftTelefono.getText().equals("___-___-____")||txtPago.getText().equals("")||txtSector.getText().equals("")||txtCalle.getText().equals(""))
+							JOptionPane.showMessageDialog(null, "Por favor llene todos los campos para continuar","Hay campos obligatorios vacios", JOptionPane.WARNING_MESSAGE, null);
+					    else if ((rbdProgramador.isSelected()&&(cbxLenguajeProgramador.getSelectedIndex()==0||cbxTipoProgramador.getSelectedIndex()==0))||rbdDisenador.isSelected()&&(cbxLenguajeDiseno.getSelectedIndex()==0)) {
+					    	JOptionPane.showMessageDialog(null, "Hay campos obligatorios vacios","Por favor llene todos los campos para continuar", JOptionPane.WARNING_MESSAGE, null);
+					    }
+					    else if(buscarTrabajador(ftCedula.getText())){
+					    	JOptionPane.showMessageDialog(null,"El trabajador ya existe");
+					    }
+					    else if(rbdJefeProyecto.isSelected()){
+					    	
+					    	jefeDeProyecto = new JefeDeProyecto();
+					    	jefeDeProyecto.setAnosExperiencia((int) SpnExperienciaJefe.getValue());	
+					    	EmpresaRps.getInstance().getMistrabajadores().add(jefeDeProyecto);
+					    	jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	resetearCampo();
+					    }
+					    else if (rbdProgramador.isSelected()) {
+					    	programador = new Programador();
+					    	programador.setTipoProgamador(cbxTipoProgramador.getSelectedItem().toString());
+					    	programador.setLenguajeProgramacion(cbxLenguajeProgramador.getSelectedItem().toString());
+					    	EmpresaRps.getInstance().getMistrabajadores().add(programador);
+					    	programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	resetearCampo();
+						}
+					    else if (rbdPlanificador.isSelected()) {
+					    	planificador = new Planificador();
+					    	planificador.setAnosExp((int) spnExperienciaPlaneador.getValue());
+					    	EmpresaRps.getInstance().getMistrabajadores().add(planificador);
+					    	planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	resetearCampo();
+						}
+					    else if(rbdDisenador.isSelected()){
+					    	disenador = new Diseñador();
+					    	disenador.setLenguajeDiseno(cbxLenguajeDiseno.getSelectedItem().toString());
+					    	EmpresaRps.getInstance().getMistrabajadores().add(disenador);
+					    	disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	resetearCampo();
+					    	
+					    }
 						
 						
+					    
+					    
+					    
 					}
+
+					
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -535,4 +597,48 @@ public class RegistrarTrabajador extends JDialog {
 			}
 		}
 	}
+	 public boolean buscarTrabajador(String cedula){
+	    	boolean aux = false;
+	    	for (Trabajador trab : EmpresaRps.getInstance().getMistrabajadores()) {
+				if(trab.getCedula().equalsIgnoreCase(cedula)){
+					aux = true;
+				}
+			}
+	    	return aux;
+	    	
+	    }
+	 
+	 private void resetearCampo() {
+		 ftCedula.setValue(null);
+		   txtApellidos.setText("");
+		   txtNombres.setText("");
+		   cbxSexo.setSelectedIndex(0);
+		   txtPago.setText("");
+		   spnHorasTrab.setValue(8);
+		   spnEdad.setValue(20);
+		   ftTelefono.setValue(null);
+		   cbxProvincia.setSelectedIndex(0);
+		   txtCiudad.setText("");
+		   txtSector.setText("");
+		   txtCalle.setText("");
+		   spnNo.setValue(0);
+		 //tipos de trabajadores
+			rbdJefeProyecto.setSelected(true);
+			rbdPlanificador.setSelected(false);
+			rbdProgramador.setSelected(false);
+			rbdDisenador.setSelected(false);
+			//campos referentes a jefe de proyecto
+			lbExperienciaJefe.setVisible(true);
+			SpnExperienciaJefe.setVisible(true);
+			//campos referentes a los demas trabajadores
+			lbExperienciaPlanificador.setVisible(false);
+			spnExperienciaPlaneador.setVisible(false);
+			lbLenguajeDiseno.setVisible(false);
+			cbxLenguajeDiseno.setVisible(false);
+			lbLenguajeProgramador.setVisible(false);
+			cbxLenguajeProgramador.setVisible(false);
+			lbTipoProgramador.setVisible(false);
+			cbxTipoProgramador.setVisible(false);
+			
+		}
 }
