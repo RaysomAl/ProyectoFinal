@@ -33,6 +33,7 @@ import java.awt.event.KeyEvent;
 
 import logica.*;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 
 public class RegistrarTrabajador extends JDialog {
@@ -87,6 +88,7 @@ public class RegistrarTrabajador extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegistrarTrabajador() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarTrabajador.class.getResource("/img/trabajador.png")));
 		setTitle("Registrar Trabajador");
 		setBounds(100, 100, 616, 503);
 		getContentPane().setLayout(new BorderLayout());
@@ -466,6 +468,7 @@ public class RegistrarTrabajador extends JDialog {
 		jefeProyecto.add(SpnExperienciaJefe);
 		
 		programador = new JPanel();
+		programador.setVisible(false);
 		programador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		programador.setBounds(10, 354, 578, 66);
 		contentPanel.add(programador);
@@ -481,7 +484,7 @@ public class RegistrarTrabajador extends JDialog {
 			cbxLenguajeProgramador = new JComboBox();
 			cbxLenguajeProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
 			cbxLenguajeProgramador.setBounds(80, 21, 159, 22);
-			lbLenguajeProgramador.setVisible(false);
+			cbxLenguajeProgramador.setVisible(false);
 			programador.add(cbxLenguajeProgramador);
 		}
 		{
@@ -497,6 +500,7 @@ public class RegistrarTrabajador extends JDialog {
 		}
 		{
 			planeador = new JPanel();
+			planeador.setVisible(false);
 			planeador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			planeador.setBounds(10, 354, 578, 66);
 			contentPanel.add(planeador);
@@ -517,6 +521,7 @@ public class RegistrarTrabajador extends JDialog {
 		}
 		{
 			Disenador = new JPanel();
+			Disenador.setVisible(false);
 			Disenador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			Disenador.setBounds(10, 354, 578, 66);
 			contentPanel.add(Disenador);
