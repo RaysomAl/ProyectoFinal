@@ -47,7 +47,6 @@ public class RegistrarTrabajador extends JDialog {
 	private JTextField txtCalle;
 	private JSpinner spnEdad;
 	private JSpinner spnHorasTrab;
-	private JSpinner spnNo;
 	private JRadioButton rbdJefeProyecto;
 	private JRadioButton rbdProgramador;
 	private JRadioButton rbdPlanificador;
@@ -70,6 +69,7 @@ public class RegistrarTrabajador extends JDialog {
 	private JPanel programador;
 	private JPanel planeador;
 	private JPanel Disenador;
+	private JTextField txtCasa;
 
 	/**
 	 * Launch the application.
@@ -267,6 +267,15 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				txtCiudad = new JTextField();
+				txtCiudad.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char casa = e.getKeyChar();
+						if((casa < 'a' || casa > 'z') && (casa < 'A' || casa > 'Z') && (casa != ' ' && casa != 'á' && casa != 'é' && casa != 'í' && casa != 'ó' && casa != 'ú'))
+							e.consume();
+				
+					}
+				});
 				txtCiudad.setBounds(78, 55, 165, 22);
 				datosUbicacion.add(txtCiudad);
 				txtCiudad.setColumns(10);
@@ -302,19 +311,17 @@ public class RegistrarTrabajador extends JDialog {
 				txtCalle.setColumns(10);
 			}
 			{
-				JLabel lblNo = new JLabel("No:");
-				lblNo.setBounds(459, 58, 27, 14);
+				JLabel lblNo = new JLabel("Casa:");
+				lblNo.setBounds(459, 58, 38, 14);
 				datosUbicacion.add(lblNo);
 			}
+			
+			txtCasa = new JTextField();
+			txtCasa.setBounds(498, 55, 70, 20);
+			datosUbicacion.add(txtCasa);
+			txtCasa.setColumns(10);
 			{
-				spnNo = new JSpinner();
-				SpinnerNumberModel num = new SpinnerNumberModel();
-				num.setValue(0);
-				num.setStepSize(1);
-				num.setMinimum(0);
-				spnNo.setModel(num);
-				spnNo.setBounds(488, 55, 80, 22);
-				datosUbicacion.add(spnNo);
+			
 			}
 		}
 		{
@@ -567,7 +574,7 @@ public class RegistrarTrabajador extends JDialog {
 						String ciudad = txtCiudad.getText();
 						String sector = txtSector.getText();
 						String calle = txtCalle.getText();
-						int numCalle = new Integer(spnNo.getValue().toString());
+						String casa = txtCasa.getText();
 						
 						//
 						if (ftCedula.getText().equals("___-_______-_")||txtApellidos.getText().equals("")||cbxProvincia.getSelectedIndex()==0||txtNombres.getText().equals("")||cbxSexo.getSelectedIndex()==0||ftTelefono.getText().equals("___-___-____")||txtPago.getText().equals("")||txtSector.getText().equals("")||txtCalle.getText().equals(""))
@@ -583,7 +590,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	jefeDeProyecto = new JefeDeProyecto();
 					    	jefeDeProyecto.setAnosExperiencia((int) SpnExperienciaJefe.getValue());	
 					    	EmpresaRps.getInstance().getMistrabajadores().add(jefeDeProyecto);
-					    	jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 					    }
@@ -592,7 +599,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	programador.setTipoProgamador(cbxTipoProgramador.getSelectedItem().toString());
 					    	programador.setLenguajeProgramacion(cbxLenguajeProgramador.getSelectedItem().toString());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(programador);
-					    	programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 						}
@@ -600,7 +607,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	planificador = new Planificador();
 					    	planificador.setAnosExp((int) spnExperienciaPlaneador.getValue());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(planificador);
-					    	planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 						}
@@ -608,7 +615,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	disenador = new Diseñador();
 					    	disenador.setLenguajeDiseno(cbxLenguajeDiseno.getSelectedItem().toString());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(disenador);
-					    	disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 					    	
@@ -663,7 +670,7 @@ public class RegistrarTrabajador extends JDialog {
 		   txtCiudad.setText("");
 		   txtSector.setText("");
 		   txtCalle.setText("");
-		   spnNo.setValue(0);
+		   txtCasa.setText("");
 		 //tipos de trabajadores
 			rbdJefeProyecto.setSelected(true);
 			rbdPlanificador.setSelected(false);
