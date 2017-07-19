@@ -66,8 +66,8 @@ public class CrearContrato extends JDialog {
 	private JSpinner spnTasa;
 	private static Cliente cliente;
 	private JTextField txtObs;
-	/**
-	 * Launch the application.
+	
+	/** * Launch the application.
 	 
 	public static void main(String[] args) {
 		try {

@@ -481,6 +481,7 @@ public class RegistrarTrabajador extends JDialog {
 			cbxLenguajeProgramador = new JComboBox();
 			cbxLenguajeProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
 			cbxLenguajeProgramador.setBounds(80, 21, 159, 22);
+			lbLenguajeProgramador.setVisible(false);
 			programador.add(cbxLenguajeProgramador);
 		}
 		{
