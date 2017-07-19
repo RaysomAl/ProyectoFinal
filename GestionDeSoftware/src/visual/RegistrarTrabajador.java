@@ -576,6 +576,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	jefeDeProyecto.setAnosExperiencia((int) SpnExperienciaJefe.getValue());	
 					    	EmpresaRps.getInstance().getMistrabajadores().add(jefeDeProyecto);
 					    	jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 					    }
 					    else if (rbdProgramador.isSelected()) {
@@ -584,6 +585,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	programador.setLenguajeProgramacion(cbxLenguajeProgramador.getSelectedItem().toString());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(programador);
 					    	programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 						}
 					    else if (rbdPlanificador.isSelected()) {
@@ -591,6 +593,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	planificador.setAnosExp((int) spnExperienciaPlaneador.getValue());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(planificador);
 					    	planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 						}
 					    else if(rbdDisenador.isSelected()){
@@ -598,6 +601,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	disenador.setLenguajeDiseno(cbxLenguajeDiseno.getSelectedItem().toString());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(disenador);
 					    	disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+spnNo.getValue());
+					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	resetearCampo();
 					    	
 					    }
