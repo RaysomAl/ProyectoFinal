@@ -8,25 +8,61 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
+
 import java.awt.Color;
+import java.text.ParseException;
+
 import javax.swing.JRadioButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import logica.Diseñador;
+import logica.JefeDeProyecto;
+import logica.Planificador;
+import logica.Programador;
 
 public class RegistrarTrabajador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtNombres;
+	private JTextField txtApellidos;
+	private JTextField txtPago;
+	private JTextField txtCiudad;
+	private JTextField txtSector;
+	private JTextField txtCalle;
+	private JSpinner spnEdad;
+	private JSpinner spnHorasTrab;
+	private JSpinner spnNo;
+	private JRadioButton rbdJefeProyecto;
+	private JRadioButton rbdProgramador;
+	private JRadioButton rbdPlanificador;
+	private JRadioButton rbdDisenador;
+	private JLabel lbExperienciaJefe;
+	private JLabel lbLenguajeProgramador;
+	private JLabel lbTipoProgramador;
+	private JLabel lbExperienciaPlanificador;
+	private JLabel lbLenguajeDiseno;
+	private JSpinner SpnExperienciaJefe;
+	private JComboBox cbxLenguajeProgramador;
+	private JComboBox cbxTipoProgramador;
+	private JSpinner spnExperienciaPlaneador;
+	private JComboBox cbxLenguajeDiseno;
+	private JFormattedTextField ftCedula;
+	private JComboBox cbxSexo ;
+	private JFormattedTextField ftTelefono;
+	private JComboBox cbxProvincia;
 
 	/**
 	 * Launch the application.
@@ -62,14 +98,30 @@ public class RegistrarTrabajador extends JDialog {
 				lblNewLabel.setBounds(10, 22, 46, 14);
 				datosGenerales.add(lblNewLabel);
 			}
+			MaskFormatter cedula = null;
+			MaskFormatter telefono = null;
+			try {
+				cedula = new MaskFormatter("###-#######-#");
+				cedula.setPlaceholderCharacter('_');
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				telefono = new MaskFormatter("###-###-####");
+				telefono.setPlaceholderCharacter('_');
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			{
 				JLabel lblNewLabel_1 = new JLabel("Nombres:");
-				lblNewLabel_1.setBounds(10, 59, 46, 14);
+				lblNewLabel_1.setBounds(10, 59, 103, 14);
 				datosGenerales.add(lblNewLabel_1);
 			}
 			{
 				JLabel lblNewLabel_2 = new JLabel("Apellidos:");
-				lblNewLabel_2.setBounds(10, 96, 46, 14);
+				lblNewLabel_2.setBounds(10, 96, 103, 14);
 				datosGenerales.add(lblNewLabel_2);
 			}
 			{
@@ -78,27 +130,45 @@ public class RegistrarTrabajador extends JDialog {
 				datosGenerales.add(lblNewLabel_3);
 			}
 			{
-				JFormattedTextField formattedTextField = new JFormattedTextField();
-				formattedTextField.setBounds(77, 19, 154, 20);
-				datosGenerales.add(formattedTextField);
+				ftCedula = new JFormattedTextField(cedula);
+				ftCedula.setBounds(77, 19, 154, 20);
+				datosGenerales.add(ftCedula);
+				
 			}
 			{
-				textField = new JTextField();
-				textField.setBounds(77, 56, 154, 20);
-				datosGenerales.add(textField);
-				textField.setColumns(10);
+				txtNombres = new JTextField();
+				txtNombres.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char nom = e.getKeyChar();
+						if((nom < 'a' || nom > 'z') && (nom < 'A' || nom > 'Z') && (nom != ' ' && nom != 'á' && nom != 'é' && nom != 'í' && nom != 'ó' && nom != 'ú'))
+							e.consume();
+					}
+					
+				});
+				txtNombres.setBounds(77, 56, 154, 20);
+				datosGenerales.add(txtNombres);
+				txtNombres.setColumns(10);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setBounds(77, 93, 154, 20);
-				datosGenerales.add(textField_1);
-				textField_1.setColumns(10);
+				txtApellidos = new JTextField();
+				txtApellidos.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char apelli = e.getKeyChar();
+						if((apelli < 'a' || apelli > 'z') && (apelli < 'A' || apelli > 'Z') && (apelli != ' ' && apelli != 'á' && apelli != 'é' && apelli != 'í' && apelli != 'ó' && apelli != 'ú'))
+							e.consume();
+					}
+				});
+				txtApellidos.setBounds(77, 93, 154, 20);
+				datosGenerales.add(txtApellidos);
+				txtApellidos.setColumns(10);
 			}
 			{
-				JComboBox comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Masculino", "Femenino"}));
-				comboBox.setBounds(77, 130, 154, 20);
-				datosGenerales.add(comboBox);
+				cbxSexo = new JComboBox();
+				cbxSexo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Masculino", "Femenino"}));
+				cbxSexo.setBounds(77, 130, 154, 20);
+				datosGenerales.add(cbxSexo);
 			}
 			{
 				JLabel lblNewLabel_4 = new JLabel("Edad:");
@@ -117,34 +187,57 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				JLabel lblNewLabel_7 = new JLabel("Pago por hora:   RD$");
-				lblNewLabel_7.setBounds(269, 133, 110, 14);
+				lblNewLabel_7.setBounds(269, 133, 160, 14);
 				datosGenerales.add(lblNewLabel_7);
 			}
 			{
-				JSpinner spinner = new JSpinner();
-				spinner.setBounds(390, 93, 178, 20);
-				datosGenerales.add(spinner);
+				spnHorasTrab = new JSpinner();
+				spnHorasTrab.setEnabled(false);
+				SpinnerNumberModel horasTrab = new SpinnerNumberModel();
+				horasTrab.setValue(8);
+				horasTrab.setStepSize(1);
+				horasTrab.setMaximum(8);
+				horasTrab.setMinimum(8);
+				spnHorasTrab.setModel(horasTrab);
+				spnHorasTrab.setBounds(390, 93, 178, 20);
+				datosGenerales.add(spnHorasTrab);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setBounds(389, 130, 179, 20);
-				datosGenerales.add(textField_2);
-				textField_2.setColumns(10);
+				txtPago = new JTextField();
+				txtPago.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c =  e.getKeyChar();
+						if((c < '0' || c > '9') && c != '.')
+							e.consume();
+						
+					}
+				});
+				txtPago.setBounds(389, 130, 179, 20);
+				datosGenerales.add(txtPago);
+				txtPago.setColumns(10);
 			}
 			{
-				JFormattedTextField formattedTextField = new JFormattedTextField();
-				formattedTextField.setBounds(390, 56, 178, 20);
-				datosGenerales.add(formattedTextField);
+				ftTelefono = new JFormattedTextField(telefono);
+				ftTelefono.setBounds(390, 56, 178, 20);
+				datosGenerales.add(ftTelefono);
+				
 			}
 			{
-				JSpinner spinner = new JSpinner();
-				spinner.setBounds(390, 19, 178, 20);
-				datosGenerales.add(spinner);
+				spnEdad = new JSpinner();
+				SpinnerNumberModel edad = new SpinnerNumberModel();
+				edad.setValue(20);
+				edad.setStepSize(1);
+				edad.setMaximum(30);
+				edad.setMinimum(20);
+		        spnEdad.setModel(edad);
+				spnEdad.setBounds(390, 19, 178, 20);
+				datosGenerales.add(spnEdad);
 			}
 		}
 		{
 			JPanel datosUbicacion = new JPanel();
-			datosUbicacion.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de Ubucaci\u00F3n", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			datosUbicacion.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de Ubicaci\u00F3n", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			datosUbicacion.setBounds(10, 192, 578, 89);
 			contentPanel.add(datosUbicacion);
 			datosUbicacion.setLayout(null);
@@ -154,10 +247,10 @@ public class RegistrarTrabajador extends JDialog {
 				datosUbicacion.add(lblProvincia);
 			}
 			{
-				JComboBox comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Azua", "Bahoruco", "Barahona", "Dajab\u00F3n", "Distrito Nacional", "Duarte", "El\u00EDas Pi\u00F1a", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal", "Independencia", "La Altagracia", "La Romana", "La Vega", "Mar\u00EDa Trinidad S\u00E1nchez", "Monse\u00F1or Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Saman\u00E1", "San Crist\u00F3bal", "San Jos\u00E9 De Ocoa", "San Juan", "San Pedro de Macor\u00EDs", "S\u00E1nchez Ramirez", "Santiago", "Santiago Rodr\u00EDguez", "Santo Domingo", "Valverde"}));
-				comboBox.setBounds(78, 20, 165, 20);
-				datosUbicacion.add(comboBox);
+				cbxProvincia = new JComboBox();
+				cbxProvincia.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Azua", "Bahoruco", "Barahona", "Dajab\u00F3n", "Distrito Nacional", "Duarte", "El\u00EDas Pi\u00F1a", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal", "Independencia", "La Altagracia", "La Romana", "La Vega", "Mar\u00EDa Trinidad S\u00E1nchez", "Monse\u00F1or Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Saman\u00E1", "San Crist\u00F3bal", "San Jos\u00E9 De Ocoa", "San Juan", "San Pedro de Macor\u00EDs", "S\u00E1nchez Ramirez", "Santiago", "Santiago Rodr\u00EDguez", "Santo Domingo", "Valverde"}));
+				cbxProvincia.setBounds(78, 20, 165, 20);
+				datosUbicacion.add(cbxProvincia);
 			}
 			{
 				JLabel lblCiudad = new JLabel("Ciudad:");
@@ -165,10 +258,10 @@ public class RegistrarTrabajador extends JDialog {
 				datosUbicacion.add(lblCiudad);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setBounds(78, 55, 165, 20);
-				datosUbicacion.add(textField_3);
-				textField_3.setColumns(10);
+				txtCiudad = new JTextField();
+				txtCiudad.setBounds(78, 55, 165, 20);
+				datosUbicacion.add(txtCiudad);
+				txtCiudad.setColumns(10);
 			}
 			{
 				JLabel lblSector = new JLabel("Sector:");
@@ -176,10 +269,18 @@ public class RegistrarTrabajador extends JDialog {
 				datosUbicacion.add(lblSector);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setBounds(316, 20, 252, 20);
-				datosUbicacion.add(textField_4);
-				textField_4.setColumns(10);
+				txtSector = new JTextField();
+				txtSector.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char sect = e.getKeyChar();
+						if((sect < 'a' || sect > 'z') && (sect < 'A' || sect > 'Z') && (sect != ' ' && sect != 'á' && sect != 'é' && sect != 'í' && sect != 'ó' && sect != 'ú'))
+							e.consume();
+					}
+				});
+				txtSector.setBounds(327, 20, 241, 20);
+				datosUbicacion.add(txtSector);
+				txtSector.setColumns(10);
 			}
 			{
 				JLabel lblCalle = new JLabel("Calle:");
@@ -187,10 +288,10 @@ public class RegistrarTrabajador extends JDialog {
 				datosUbicacion.add(lblCalle);
 			}
 			{
-				textField_5 = new JTextField();
-				textField_5.setBounds(316, 55, 134, 20);
-				datosUbicacion.add(textField_5);
-				textField_5.setColumns(10);
+				txtCalle = new JTextField();
+				txtCalle.setBounds(327, 55, 122, 20);
+				datosUbicacion.add(txtCalle);
+				txtCalle.setColumns(10);
 			}
 			{
 				JLabel lblNo = new JLabel("No:");
@@ -198,9 +299,14 @@ public class RegistrarTrabajador extends JDialog {
 				datosUbicacion.add(lblNo);
 			}
 			{
-				JSpinner spinner = new JSpinner();
-				spinner.setBounds(488, 55, 80, 20);
-				datosUbicacion.add(spinner);
+				spnNo = new JSpinner();
+				SpinnerNumberModel num = new SpinnerNumberModel();
+				num.setValue(0);
+				num.setStepSize(1);
+				num.setMinimum(0);
+				spnNo.setModel(num);
+				spnNo.setBounds(488, 55, 80, 20);
+				datosUbicacion.add(spnNo);
 			}
 		}
 		{
@@ -210,22 +316,108 @@ public class RegistrarTrabajador extends JDialog {
 			contentPanel.add(tipoTrabajador);
 			tipoTrabajador.setLayout(null);
 			
-			JRadioButton rdbtnJefeDeProyecto = new JRadioButton("Jefe de Proyecto");
-			rdbtnJefeDeProyecto.setSelected(true);
-			rdbtnJefeDeProyecto.setBounds(10, 16, 109, 23);
-			tipoTrabajador.add(rdbtnJefeDeProyecto);
+			rbdJefeProyecto = new JRadioButton("Jefe de Proyecto");
+			rbdJefeProyecto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//tipos de trabajadores
+					rbdJefeProyecto.setSelected(true);
+					rbdPlanificador.setSelected(false);
+					rbdProgramador.setSelected(false);
+					rbdDisenador.setSelected(false);
+					//campos referentes a jefe de proyecto
+					lbExperienciaJefe.setVisible(true);
+					SpnExperienciaJefe.setVisible(true);
+					//campos referentes a los demas trabajadores
+					lbExperienciaPlanificador.setVisible(false);
+					spnExperienciaPlaneador.setVisible(false);
+					lbLenguajeDiseno.setVisible(false);
+					cbxLenguajeDiseno.setVisible(false);
+					lbLenguajeProgramador.setVisible(false);
+					cbxLenguajeProgramador.setVisible(false);
+					lbTipoProgramador.setVisible(false);
+					cbxTipoProgramador.setVisible(false);
+					
+					
+				}
+			});
+			rbdJefeProyecto.setSelected(true);
+			rbdJefeProyecto.setBounds(10, 16, 146, 23);
+			tipoTrabajador.add(rbdJefeProyecto);
 			
-			JRadioButton rdbtnProgramador = new JRadioButton("Programador");
-			rdbtnProgramador.setBounds(162, 16, 109, 23);
-			tipoTrabajador.add(rdbtnProgramador);
+			rbdProgramador = new JRadioButton("Programador");
+			rbdProgramador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//tipos de trabajadores
+					rbdProgramador.setSelected(true);
+					rbdJefeProyecto.setSelected(false);
+					rbdPlanificador.setSelected(false);
+					rbdDisenador.setSelected(false);
+					//campos referentes a programador
+					lbLenguajeProgramador.setVisible(true);
+					cbxLenguajeProgramador.setVisible(true);
+					lbTipoProgramador.setVisible(true);
+					cbxTipoProgramador.setVisible(true);
+					//campos referentes a los demas trabajadores
+					lbExperienciaPlanificador.setVisible(false);
+					spnExperienciaPlaneador.setVisible(false);
+					lbLenguajeDiseno.setVisible(false);
+					cbxLenguajeDiseno.setVisible(false);
+					lbExperienciaJefe.setVisible(false);
+					SpnExperienciaJefe.setVisible(false);
+				}
+			});
+			rbdProgramador.setBounds(162, 16, 109, 23);
+			tipoTrabajador.add(rbdProgramador);
 			
-			JRadioButton rdbtnPlaneador = new JRadioButton("Planificador");
-			rdbtnPlaneador.setBounds(314, 16, 109, 23);
-			tipoTrabajador.add(rdbtnPlaneador);
+			rbdPlanificador = new JRadioButton("Planificador");
+			rbdPlanificador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//tipos de trabajadores
+					rbdPlanificador.setSelected(true);
+					rbdProgramador.setSelected(false);
+					rbdJefeProyecto.setSelected(false);
+					rbdDisenador.setSelected(false);
+					//campos referentes a planificador
+					lbExperienciaPlanificador.setVisible(true);
+					spnExperienciaPlaneador.setVisible(true);
+					//campos referentes a los demas trabajadores
+					lbLenguajeDiseno.setVisible(false);
+					cbxLenguajeDiseno.setVisible(false);
+					lbExperienciaJefe.setVisible(false);
+					SpnExperienciaJefe.setVisible(false);
+					lbLenguajeProgramador.setVisible(false);
+					cbxLenguajeProgramador.setVisible(false);
+					lbTipoProgramador.setVisible(false);
+					cbxTipoProgramador.setVisible(false);
+				}
+			});
+			rbdPlanificador.setBounds(314, 16, 109, 23);
+			tipoTrabajador.add(rbdPlanificador);
 			
-			JRadioButton rdbtnDiseador = new JRadioButton("Dise\u00F1ador");
-			rdbtnDiseador.setBounds(466, 16, 109, 23);
-			tipoTrabajador.add(rdbtnDiseador);
+			rbdDisenador = new JRadioButton("Dise\u00F1ador");
+			rbdDisenador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//tipos de trabajadores
+					rbdDisenador.setSelected(true);
+					rbdPlanificador.setSelected(false);
+					rbdProgramador.setSelected(false);
+					rbdJefeProyecto.setSelected(false);
+					//campos referentes a disenador
+					lbLenguajeDiseno.setVisible(true);
+					cbxLenguajeDiseno.setVisible(true);
+					//campos referentes a los demas trabajadores
+					lbExperienciaJefe.setVisible(false);
+					SpnExperienciaJefe.setVisible(false);
+					lbLenguajeProgramador.setVisible(false);
+					cbxLenguajeProgramador.setVisible(false);
+					lbTipoProgramador.setVisible(false);
+					cbxTipoProgramador.setVisible(false);
+					lbExperienciaPlanificador.setVisible(false);
+					spnExperienciaPlaneador.setVisible(false);
+				}
+			});
+			rbdDisenador.setBounds(466, 16, 109, 23);
+			tipoTrabajador.add(rbdDisenador);
 		}
 		
 		JPanel jefeProyecto = new JPanel();
@@ -234,13 +426,18 @@ public class RegistrarTrabajador extends JDialog {
 		contentPanel.add(jefeProyecto);
 		jefeProyecto.setLayout(null);
 		
-		JLabel lblAosDeExperiencia = new JLabel("A\u00F1os de Experiencia:");
-		lblAosDeExperiencia.setBounds(13, 24, 113, 14);
-		jefeProyecto.add(lblAosDeExperiencia);
+		lbExperienciaJefe = new JLabel("A\u00F1os de Experiencia:");
+		lbExperienciaJefe.setBounds(13, 24, 113, 14);
+		jefeProyecto.add(lbExperienciaJefe);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(129, 21, 136, 20);
-		jefeProyecto.add(spinner);
+		SpnExperienciaJefe = new JSpinner();
+		SpinnerNumberModel ExpJefe = new SpinnerNumberModel();
+		ExpJefe.setValue(0);
+		ExpJefe.setStepSize(1);
+		ExpJefe.setMinimum(0);
+		SpnExperienciaJefe.setModel(ExpJefe);
+		SpnExperienciaJefe.setBounds(129, 21, 136, 20);
+		jefeProyecto.add(SpnExperienciaJefe);
 		
 		JPanel programador = new JPanel();
 		programador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -248,47 +445,91 @@ public class RegistrarTrabajador extends JDialog {
 		contentPanel.add(programador);
 		programador.setLayout(null);
 		{
-			JLabel lblNewLabel_8 = new JLabel("Lenguaje:");
-			lblNewLabel_8.setBounds(13, 24, 72, 14);
-			programador.add(lblNewLabel_8);
+			lbLenguajeProgramador = new JLabel("Lenguaje:");
+			lbLenguajeProgramador.setBounds(13, 24, 72, 14);
+			programador.add(lbLenguajeProgramador);
+			
+			
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			comboBox.setBounds(107, 21, 159, 20);
-			programador.add(comboBox);
+			cbxLenguajeProgramador = new JComboBox();
+			cbxLenguajeProgramador.setBounds(107, 21, 159, 20);
+			programador.add(cbxLenguajeProgramador);
 		}
 		{
-			JLabel lblNewLabel_9 = new JLabel("Tipo de programador:");
-			lblNewLabel_9.setBounds(300, 24, 121, 14);
-			programador.add(lblNewLabel_9);
+			lbTipoProgramador = new JLabel("Tipo de programador:");
+			lbTipoProgramador.setBounds(300, 24, 121, 14);
+			programador.add(lbTipoProgramador);
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			comboBox.setBounds(440, 24, 128, 20);
-			programador.add(comboBox);
+			cbxTipoProgramador = new JComboBox();
+			cbxTipoProgramador.setBounds(440, 24, 128, 20);
+			programador.add(cbxTipoProgramador);
 		}
 		{
 			JPanel planeador = new JPanel();
 			planeador.setBounds(10, 354, 578, 66);
 			contentPanel.add(planeador);
+			planeador.setLayout(null);
+			
+			lbExperienciaPlanificador = new JLabel("A\u00F1os de experiencia:");
+			lbExperienciaPlanificador.setBounds(13, 24, 113, 14);
+			planeador.add(lbExperienciaPlanificador);
+			
+			spnExperienciaPlaneador = new JSpinner();
+			SpinnerNumberModel ExpPlanificador = new SpinnerNumberModel();
+			ExpPlanificador.setValue(0);
+			ExpPlanificador.setStepSize(1);
+			ExpPlanificador.setMinimum(0);
+			spnExperienciaPlaneador.setModel(ExpPlanificador);
+			spnExperienciaPlaneador.setBounds(129, 21, 136, 20);
+			planeador.add(spnExperienciaPlaneador);
 		}
 		{
 			JPanel Disenador = new JPanel();
 			Disenador.setBounds(10, 354, 578, 66);
 			contentPanel.add(Disenador);
+			Disenador.setLayout(null);
+			
+			lbLenguajeDiseno = new JLabel("Lenguaje de dise\u00F1o:");
+			lbLenguajeDiseno.setBounds(13, 24, 113, 14);
+			Disenador.add(lbLenguajeDiseno);
+			
+			cbxLenguajeDiseno = new JComboBox();
+			cbxLenguajeDiseno.setBounds(107, 21, 159, 20);
+			Disenador.add(cbxLenguajeDiseno);
+			
+			
+			
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Registrar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						JefeDeProyecto jefeDeProyecto = null;
+						Programador programador =null;
+						Planificador planificador= null;
+						Diseñador disenador = null;
+						
+						
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
