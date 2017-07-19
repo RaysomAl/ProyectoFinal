@@ -14,8 +14,8 @@ public class Indepediente extends Cliente implements Serializable {
 	private String provincia; 
 	
 
-	public Indepediente(String cedula,String nombre,String ampellido, String telefono,  String ciudad,String sector, String provincia,String pais) {
-		super(nombre, telefono,  ciudad, pais);
+	public Indepediente(String cedula,String nombre,String ampellido, String telefono,String email,  String ciudad,String sector, String provincia,String pais) {
+		super(nombre, telefono,  ciudad, pais,email);
 		this.cedula=cedula;
 		this.ampellido=ampellido;
 		this.sector=sector;

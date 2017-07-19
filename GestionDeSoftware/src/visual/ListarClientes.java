@@ -23,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -34,16 +36,17 @@ public class ListarClientes extends JDialog {
 	private static JTable tbClientes;
 	private static JTable tbContractos;
 	private JButton btnBuscar;
-	private JButton btnModificar;
-	private JButton btnEliminar;
+	private static JButton btnModificar;
+	private static JButton btnEliminar;
 	private static DefaultTableModel modeloClientes;
 	private static Object[] filaClientes;
-	private int indiceCliente=-1;
+	private static int indiceCliente=-1;
 	private static DefaultTableModel modeloContratos;
 	private static Object[] filaContratos;
-	private int indinceContracto=-1;
-	private JRadioButton rdbtnIndepediente;
-	private JRadioButton rdbtnEmpresa;
+	private static JRadioButton rdbtnIndepediente;
+	private static JRadioButton rdbtnEmpresa;
+	private static EmpresaRps empresaRps;
+	private Cliente cliente=null;
 
 	/**
 	 * Launch the application.
@@ -99,6 +102,11 @@ public class ListarClientes extends JDialog {
 			txtIndetificador.setColumns(10);
 			
 			btnBuscar = new JButton("Buscar");
+			btnBuscar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+				}
+			});
 			btnBuscar.setEnabled(false);
 			btnBuscar.setBounds(162, 18, 89, 23);
 			panel.add(btnBuscar);
@@ -127,10 +135,12 @@ public class ListarClientes extends JDialog {
 				public void mouseClicked(MouseEvent arg0) {
 					
 					indiceCliente=tbClientes.getSelectedRow();
+					String indentificador = (String) tbClientes.getModel().getValueAt(indiceCliente, 0);
+					cliente=EmpresaRps.getInstance().buscarCliente(indentificador);
 					if(indiceCliente>-1) {
 						btnModificar.setEnabled(true);
 						btnEliminar.setEnabled(true);
-						cargaTablaContractos();
+						cargaTablaContractos(cliente);
 					} else {
 						btnModificar.setEnabled(false);
 						btnEliminar.setEnabled(false);
@@ -166,7 +176,7 @@ public class ListarClientes extends JDialog {
 					return false;
 				}
 			};
-			cargaTablaContractos();
+			cargaTablaContractos(cliente);
 			
 			scrollPaneContractos.setViewportView(tbContractos);
 			
@@ -204,10 +214,31 @@ public class ListarClientes extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
 			btnModificar = new JButton("Modificar");
+			btnModificar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					try {
+						RegistarCliente modificarCliente=new RegistarCliente( empresaRps,"Modificar Cliente",cliente);
+						modificarCliente.setModal(true);
+						modificarCliente.setVisible(true);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+				}
+			});
 			btnModificar.setEnabled(false);
 			buttonPane.add(btnModificar);
 			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						
+					}
+				});
 				btnEliminar.setEnabled(false);
 				btnEliminar.setActionCommand("OK");
 				buttonPane.add(btnEliminar);
@@ -231,7 +262,7 @@ public class ListarClientes extends JDialog {
 		rdbtnEmpresa.setSelected(false);
 	}
 	
-	public void cargaTablaClientes() {
+	public static void cargaTablaClientes() {
 		modeloClientes.setRowCount(0);
 		if(rdbtnIndepediente.isSelected()) {
 			String[] columnas={"CEDULA","NOMBRE"};
@@ -280,15 +311,15 @@ public class ListarClientes extends JDialog {
 		
 	}
 	
-	public void cargaTablaContractos() {
+	public static void cargaTablaContractos(Cliente cliente) {
 		modeloContratos.setRowCount(0);
 		String[] columnas={"CODIGO","PROYECTO"};
 		modeloContratos.setColumnIdentifiers(columnas);
 		filaContratos=new Object[modeloContratos.getColumnCount()];
-		if(indiceCliente>-1) {
+		if(indiceCliente>-1 && cliente!=null) {
 			
 			
-			for (Contrato contrato : EmpresaRps.getInstance().getMisclientes().get(indiceCliente).getMisContratos()) {
+			for (Contrato contrato : cliente.getMisContratos()) {
 				if(contrato.getProyecto().isActivo()) {
 					filaContratos[0]=contrato.getCodigoContrato();
 					filaContratos[1]=contrato.getProyecto().getNombreproyecto();
@@ -306,4 +337,22 @@ public class ListarClientes extends JDialog {
 		columnas1.getColumn(0).setPreferredWidth(80);
 		columnas1.getColumn(1).setPreferredWidth(153);
 	}
+
+	public static JButton getBtnModificar() {
+		return btnModificar;
+	}
+
+	public static void setBtnModificar(JButton btnModificar) {
+		ListarClientes.btnModificar = btnModificar;
+	}
+
+	public static JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+
+	public static void setBtnEliminar(JButton btnEliminar) {
+		ListarClientes.btnEliminar = btnEliminar;
+	}
+	
+	
 }

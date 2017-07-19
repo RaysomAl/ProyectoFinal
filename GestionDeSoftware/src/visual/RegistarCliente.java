@@ -41,11 +41,16 @@ public class RegistarCliente extends JDialog {
 	private JFormattedTextField txtTelefono;
 	private JFormattedTextField txtPais;
 	private JFormattedTextField txtAmpellido;
-	private JFormattedTextField txtEmail;
 	private JFormattedTextField txtCiudad;
 	private JFormattedTextField txtSector;
 	private JFormattedTextField txtCedula;
 	private JFormattedTextField txtRnc;
+	private JTextField txtEmail;
+	private JButton btnRegistrar;
+	private JLabel lblSector;
+	private JLabel lblProvincia ;
+	private static EmpresaRps empresaRps=null;
+	private Cliente modiCliente=null;
 	
 
 	/**
@@ -53,7 +58,7 @@ public class RegistarCliente extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegistarCliente dialog = new RegistarCliente();
+			RegistarCliente dialog = new RegistarCliente(null, "Registrar Cliente", null);//Ralddy- mantener el null de la derecha para la principal
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -65,8 +70,11 @@ public class RegistarCliente extends JDialog {
 	 * Create the dialog.
 	 * @throws ParseException 
 	 */
-	public RegistarCliente() throws ParseException {
-		setTitle("Registrar Cliente");
+	public RegistarCliente(EmpresaRps emp,String titulo,Cliente modifica) throws ParseException {
+		cargaCliente();
+		empresaRps=emp;
+		modiCliente=modifica;
+		setTitle(titulo);
 		setBounds(100, 100, 500, 328);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -112,18 +120,19 @@ public class RegistarCliente extends JDialog {
 			txtAmpellido.setBounds(282, 49, 127, 20);
 			panelCliente.add(txtAmpellido);
 			
-			txtEmail = new JFormattedTextField(createDirr("******************************"));
-			txtEmail.setBounds(282, 74, 127, 20);
-			panelCliente.add(txtEmail);
-			
-			txtCedula = new JFormattedTextField(createDirr("###-########-#"));
+			txtCedula = new JFormattedTextField(createDirr("###-#######-#"));
 			txtCedula.setBounds(66, 24, 127, 20);
 			panelCliente.add(txtCedula);
 			
-			txtRnc = new JFormattedTextField(createDirr("###-######-#"));
+			txtRnc = new JFormattedTextField(createDirr("###-#####-#"));
 			txtRnc.setBounds(66, 24, 127, 20);
 			txtRnc.setVisible(false);
 			panelCliente.add(txtRnc);  
+			
+			txtEmail = new JTextField();
+			txtEmail.setBounds(282, 74, 127, 20);
+			panelCliente.add(txtEmail);
+			txtEmail.setColumns(10);
 		}
 		
 		JPanel panelUbicacion = new JPanel();
@@ -132,7 +141,7 @@ public class RegistarCliente extends JDialog {
 		contentPanel.add(panelUbicacion);
 		panelUbicacion.setLayout(null);
 		
-		JLabel lblProvincia = new JLabel("Provincia :");
+		lblProvincia = new JLabel("Provincia :");
 		lblProvincia.setBounds(10, 59, 84, 14);
 		panelUbicacion.add(lblProvincia);
 		
@@ -140,7 +149,7 @@ public class RegistarCliente extends JDialog {
 		lblCiudad.setBounds(219, 28, 46, 14);
 		panelUbicacion.add(lblCiudad);
 		
-		JLabel lblSector = new JLabel("Sector :");
+		lblSector = new JLabel("Sector :");
 		lblSector.setBounds(219, 56, 71, 14);
 		panelUbicacion.add(lblSector);
 		
@@ -222,58 +231,102 @@ public class RegistarCliente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				btnRegistrar = new JButton("Registrar");
+				if(modiCliente==null) {
+					btnRegistrar.setText("Registrar");
+				} else {
+					btnRegistrar.setText("Modificar");
+				}
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						if(rdbtnClienteIndepediente.isSelected()) {
+						if(modiCliente==null) {
+							if(rdbtnClienteIndepediente.isSelected()) {
+								
+								String cedula=txtCedula.getText();
+								String nombre=txtNombre.getText();
+								String ampellido=txtAmpellido.getText();
+								String telefono=txtTelefono.getText();
+								String email=txtEmail.getText();
+								String pais=txtPais.getText();
+								String provincia=cbxProvincia.getSelectedItem().toString();
+								String ciudad=txtCiudad.getText();
+								String sector=txtSector.getText();
+								
+								
+								Cliente cliente=new Indepediente(cedula, nombre, ampellido, telefono, email, ciudad, sector, provincia, pais);
+								EmpresaRps.getInstance().agregarCliente(cliente);
+								
+								txtCedula.setText("");
+								txtNombre.setText("");
+								txtAmpellido.setText("");
+								txtTelefono.setText("");
+								txtEmail.setText("");
+								txtPais.setText("");
+								cbxProvincia.setSelectedIndex(0);
+								txtCiudad.setText("");
+								txtSector.setText("");
+								
+							}
 							
-							String cedula=txtCedula.getText();
-							String nombre=txtNombre.getText();
-							String ampellido=txtAmpellido.getText();
-							String telefono=txtTelefono.getText();
-							String email=txtEmail.getText();
-							String pais=txtPais.getText();
-							String provincia=cbxProvincia.getSelectedItem().toString();
-							String ciudad=txtCiudad.getText();
-							String sector=txtSector.getText();
+							if(rdbtnEmpresa.isSelected()) {
+								String rnc=txtRnc.getText();
+								String nombre=txtNombre.getText();
+								String email=txtEmail.getText();
+								String telefono=txtTelefono.getText();
+								String ciudad=txtCiudad.getText();
+								String pais=txtPais.getText();
+								
+								Cliente cliente=new Empresa(rnc, nombre, email, telefono, ciudad, pais);
+								EmpresaRps.getInstance().agregarCliente(cliente);
+								
+								txtRnc.setText("");
+								txtNombre.setText("");
+								txtEmail.setText("");
+								txtTelefono.setText("");
+								txtCiudad.setText("");
+								txtPais.setText("");
+								
+								
+							} 
+						} else {
 							
+							if(rdbtnClienteIndepediente.isSelected()) {
+								
+
+								String nombre=txtNombre.getText();
+								String ampellido=txtAmpellido.getText();
+								String telefono=txtTelefono.getText();
+								String email=txtEmail.getText();
+								String pais=txtPais.getText();
+								String provincia=cbxProvincia.getSelectedItem().toString();
+								String ciudad=txtCiudad.getText();
+								String sector=txtSector.getText();
+								
+								EmpresaRps.getInstance().modificarCliente(modiCliente);
+
+								
+							}
 							
-							Cliente cliente=new Indepediente(cedula, nombre, ampellido, telefono, ciudad, sector, provincia, pais);
-							EmpresaRps.getInstance().agregarCliente(cliente);
-							
-							txtCedula.setText("");
-							txtNombre.setText("");
-							txtAmpellido.setText("");
-							txtTelefono.setText("");
-							txtEmail.setText("");
-							txtPais.setText("");
-							cbxProvincia.setSelectedIndex(0);
-							txtCiudad.setText("");
-							txtSector.setText("");
-							
+							if(rdbtnEmpresa.isSelected()) {
+
+								String nombre=txtNombre.getText();
+								String email=txtEmail.getText();
+								String telefono=txtTelefono.getText();
+								String ciudad=txtCiudad.getText();
+								String pais=txtPais.getText();
+								
+								EmpresaRps.getInstance().modificarCliente(modiCliente);
+														
+								
+							} 
+							ListarClientes.getBtnEliminar().setEnabled(false);
+							ListarClientes.getBtnModificar().setEnabled(false);
+							ListarClientes.cargaTablaClientes();
+							ListarClientes.cargaTablaContractos(null);
+							dispose();
 						}
-						
-						if(rdbtnEmpresa.isSelected()) {
-							String rnc=txtCedula.getText();
-							String nombre=txtNombre.getText();
-							String email=txtEmail.getText();
-							String telefono=txtTelefono.getText();
-							String ciudad=txtCiudad.getText();
-							String pais=txtPais.getText();
-							
-							Cliente cliente=new Empresa(rnc, nombre, email, telefono, ciudad, pais);
-							EmpresaRps.getInstance().agregarCliente(cliente);
-							
-							txtCedula.setText("");
-							txtNombre.setText("");
-							txtEmail.setText("");
-							txtTelefono.setText("");
-							txtCiudad.setText("");
-							txtPais.setText("");
-							
-							
-						}
+						 
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
@@ -292,6 +345,69 @@ public class RegistarCliente extends JDialog {
 			}
 		}	
 		
+	}
+	
+	public void cargaCliente() {//ralddy-metodo para obtener los datos de un cliente y llenan los campos cuando se modifique
+		if(modiCliente!=null) {
+			rdbtnClienteIndepediente.setEnabled(false);
+			rdbtnEmpresa.setEnabled(false);
+			
+			if (modiCliente instanceof Indepediente) {
+				
+				rdbtnClienteIndepediente.setSelected(true);
+				rdbtnEmpresa.setSelected(false);
+				lblIndetificacion.setText("Cedula :");
+				lblAmpellido.setVisible(true);
+				txtAmpellido.setVisible(true);
+				txtNombre.setBounds(66, 49, 127, 20);
+				lblEmail.setVisible(false);
+				txtEmail.setVisible(false);
+				lblProvincia.setVisible(true);
+				cbxProvincia.setVisible(true);
+				lblSector.setVisible(true);
+				txtSector.setVisible(true);
+				txtCedula.setVisible(true);
+				txtRnc.setVisible(false);
+				
+				txtCedula.setText(((Indepediente) modiCliente).getCedula());
+				txtNombre.setText(modiCliente.getNombre());
+				txtAmpellido.setText(((Indepediente) modiCliente).getAmpellido());
+				txtTelefono.setText(modiCliente.getTelefono());
+				txtEmail.setText(modiCliente.getEmail());
+				txtPais.setText(modiCliente.getPais());
+				txtSector.setText(((Indepediente) modiCliente).getSector());
+				txtCiudad.setText(modiCliente.getCiudad());
+				cbxProvincia.setSelectedItem(((Indepediente) modiCliente).getProvincia());
+				
+				
+			} else if (modiCliente instanceof Empresa) {
+				
+				rdbtnClienteIndepediente.setSelected(false);
+				rdbtnEmpresa.setSelected(true);
+				lblIndetificacion.setText("RNC :");
+				lblAmpellido.setVisible(false);
+				txtAmpellido.setVisible(false);
+				txtNombre.setBounds(66, 49, 343, 20);
+				lblEmail.setVisible(true);
+				txtEmail.setVisible(true);
+				lblProvincia.setVisible(false);
+				cbxProvincia.setVisible(false);
+				lblSector.setVisible(false);
+				txtSector.setVisible(false);
+				txtCedula.setVisible(false);
+				txtRnc.setVisible(true);
+				
+				txtRnc.setText(((Empresa) modiCliente).getRnc());
+				txtNombre.setText(modiCliente.getNombre());
+				txtTelefono.setText(modiCliente.getTelefono());
+				txtEmail.setText(modiCliente.getEmail());
+				txtPais.setText(modiCliente.getPais());
+				txtCiudad.setText(modiCliente.getCiudad());
+
+
+			}
+			
+		}
 	}
 	
 	static MaskFormatter createDirr(String format) {/*hace que un string de X tamaño permita solo lo 

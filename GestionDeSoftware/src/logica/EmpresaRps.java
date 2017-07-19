@@ -142,6 +142,18 @@ public class EmpresaRps implements Serializable {
 		
 		return cliente;
 	}
+	
+	public void modificarCliente(Cliente modi) {
+		String ind="";
+		if(modi instanceof Indepediente) {
+			ind=((Indepediente) modi).getCedula();
+		} else {
+			ind=((Empresa) modi).getRnc();
+		}
+		Cliente c=buscarCliente(ind);
+		int index=misclientes.indexOf(c);
+		misclientes.set(index, modi);
+	}
 
 	//********************************************************************************
 	
