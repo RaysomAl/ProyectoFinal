@@ -32,7 +32,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import logica.*;
+
 import javax.swing.ImageIcon;
+
 import java.awt.Toolkit;
 
 
@@ -53,14 +55,12 @@ public class RegistrarTrabajador extends JDialog {
 	private JRadioButton rbdDisenador;
 	private JLabel lbExperienciaJefe;
 	private JLabel lbLenguajeProgramador;
-	private JLabel lbTipoProgramador;
 	private JLabel lbExperienciaPlanificador;
-	private JLabel lbLenguajeDiseno;
+	private JLabel lbHerramienta;
 	private JSpinner SpnExperienciaJefe;
 	private JComboBox cbxLenguajeProgramador;
-	private JComboBox cbxTipoProgramador;
 	private JSpinner spnExperienciaPlaneador;
-	private JComboBox cbxLenguajeDiseno;
+	private JComboBox cbxHerramienta;
 	private JFormattedTextField ftCedula;
 	private JComboBox cbxSexo ;
 	private JFormattedTextField ftTelefono;
@@ -70,6 +70,8 @@ public class RegistrarTrabajador extends JDialog {
 	private JPanel planeador;
 	private JPanel Disenador;
 	private JTextField txtCasa;
+	private JTextField txtCantProyecto;
+
 
 	/**
 	 * Launch the application.
@@ -215,8 +217,8 @@ public class RegistrarTrabajador extends JDialog {
 				txtPago.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyTyped(KeyEvent e) {
-						char c =  e.getKeyChar();
-						if((c < '0' || c > '9') && c != '.')
+						char pago =  e.getKeyChar();
+						if((pago < '0' || pago > '9') && pago != '.')
 							e.consume();
 						
 					}
@@ -350,12 +352,11 @@ public class RegistrarTrabajador extends JDialog {
 					//campos referentes a los demas trabajadores
 					lbExperienciaPlanificador.setVisible(false);
 					spnExperienciaPlaneador.setVisible(false);
-					lbLenguajeDiseno.setVisible(false);
-					cbxLenguajeDiseno.setVisible(false);
+					lbHerramienta.setVisible(false);
+					cbxHerramienta.setVisible(false);
 					lbLenguajeProgramador.setVisible(false);
 					cbxLenguajeProgramador.setVisible(false);
-					lbTipoProgramador.setVisible(false);
-					cbxTipoProgramador.setVisible(false);
+					
 					
 					
 				}
@@ -380,13 +381,11 @@ public class RegistrarTrabajador extends JDialog {
 					//campos referentes a programador
 					lbLenguajeProgramador.setVisible(true);
 					cbxLenguajeProgramador.setVisible(true);
-					lbTipoProgramador.setVisible(true);
-					cbxTipoProgramador.setVisible(true);
 					//campos referentes a los demas trabajadores
 					lbExperienciaPlanificador.setVisible(false);
 					spnExperienciaPlaneador.setVisible(false);
-					lbLenguajeDiseno.setVisible(false);
-					cbxLenguajeDiseno.setVisible(false);
+					lbHerramienta.setVisible(false);
+					cbxHerramienta.setVisible(false);
 					lbExperienciaJefe.setVisible(false);
 					SpnExperienciaJefe.setVisible(false);
 				}
@@ -411,14 +410,13 @@ public class RegistrarTrabajador extends JDialog {
 					lbExperienciaPlanificador.setVisible(true);
 					spnExperienciaPlaneador.setVisible(true);
 					//campos referentes a los demas trabajadores
-					lbLenguajeDiseno.setVisible(false);
-					cbxLenguajeDiseno.setVisible(false);
+					lbHerramienta.setVisible(false);
+					cbxHerramienta.setVisible(false);
 					lbExperienciaJefe.setVisible(false);
 					SpnExperienciaJefe.setVisible(false);
 					lbLenguajeProgramador.setVisible(false);
 					cbxLenguajeProgramador.setVisible(false);
-					lbTipoProgramador.setVisible(false);
-					cbxTipoProgramador.setVisible(false);
+					
 				}
 			});
 			rbdPlanificador.setBounds(314, 16, 109, 23);
@@ -438,15 +436,13 @@ public class RegistrarTrabajador extends JDialog {
 					planeador.setVisible(false);
 					Disenador.setVisible(true);
 					//campos referentes a disenador
-					lbLenguajeDiseno.setVisible(true);
-					cbxLenguajeDiseno.setVisible(true);
+					lbHerramienta.setVisible(true);
+					cbxHerramienta.setVisible(true);
 					//campos referentes a los demas trabajadores
 					lbExperienciaJefe.setVisible(false);
 					SpnExperienciaJefe.setVisible(false);
 					lbLenguajeProgramador.setVisible(false);
 					cbxLenguajeProgramador.setVisible(false);
-					lbTipoProgramador.setVisible(false);
-					cbxTipoProgramador.setVisible(false);
 					lbExperienciaPlanificador.setVisible(false);
 					spnExperienciaPlaneador.setVisible(false);
 				}
@@ -495,17 +491,6 @@ public class RegistrarTrabajador extends JDialog {
 			programador.add(cbxLenguajeProgramador);
 		}
 		{
-			lbTipoProgramador = new JLabel("Tipo de programador:");
-			lbTipoProgramador.setBounds(300, 24, 140, 14);
-			programador.add(lbTipoProgramador);
-		}
-		{
-			cbxTipoProgramador = new JComboBox();
-			cbxTipoProgramador.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Escritorio", "Web"}));
-			cbxTipoProgramador.setBounds(435, 24, 128, 22);
-			programador.add(cbxTipoProgramador);
-		}
-		{
 			planeador = new JPanel();
 			planeador.setVisible(false);
 			planeador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -525,6 +510,24 @@ public class RegistrarTrabajador extends JDialog {
 			spnExperienciaPlaneador.setModel(ExpPlanificador);
 			spnExperienciaPlaneador.setBounds(140, 21, 136, 22);
 			planeador.add(spnExperienciaPlaneador);
+			
+			JLabel lblCantidadDeProyectos = new JLabel("Cantidad de proyectos:");
+			lblCantidadDeProyectos.setBounds(300, 24, 150, 14);
+			planeador.add(lblCantidadDeProyectos);
+			{
+				txtCantProyecto = new JTextField();
+				txtCantProyecto.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char cantproyect =  e.getKeyChar();
+						if((cantproyect < '0' || cantproyect > '9') && cantproyect != '.')
+							e.consume();
+					}
+				});
+				txtCantProyecto.setBounds(440, 24, 86, 22);
+				planeador.add(txtCantProyecto);
+				txtCantProyecto.setColumns(10);
+			}
 		}
 		{
 			Disenador = new JPanel();
@@ -534,14 +537,14 @@ public class RegistrarTrabajador extends JDialog {
 			contentPanel.add(Disenador);
 			Disenador.setLayout(null);
 			
-			lbLenguajeDiseno = new JLabel("Lenguaje de dise\u00F1o:");
-			lbLenguajeDiseno.setBounds(13, 24, 113, 14);
-			Disenador.add(lbLenguajeDiseno);
+			lbHerramienta = new JLabel("Herramienta:");
+			lbHerramienta.setBounds(13, 24, 113, 14);
+			Disenador.add(lbHerramienta);
 			
-			cbxLenguajeDiseno = new JComboBox();
-			cbxLenguajeDiseno.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
-			cbxLenguajeDiseno.setBounds(135, 21, 159, 22);
-			Disenador.add(cbxLenguajeDiseno);
+			cbxHerramienta = new JComboBox();
+			cbxHerramienta.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
+			cbxHerramienta.setBounds(100, 21, 159, 22);
+			Disenador.add(cbxHerramienta);
 			
 			
 			
@@ -579,7 +582,7 @@ public class RegistrarTrabajador extends JDialog {
 						//
 						if (ftCedula.getText().equals("___-_______-_")||txtApellidos.getText().equals("")||cbxProvincia.getSelectedIndex()==0||txtNombres.getText().equals("")||cbxSexo.getSelectedIndex()==0||ftTelefono.getText().equals("___-___-____")||txtPago.getText().equals("")||txtSector.getText().equals("")||txtCalle.getText().equals(""))
 							JOptionPane.showMessageDialog(null, "Por favor llene todos los campos para continuar","Hay campos obligatorios vacios", JOptionPane.WARNING_MESSAGE, null);
-					    else if ((rbdProgramador.isSelected()&&(cbxLenguajeProgramador.getSelectedIndex()==0||cbxTipoProgramador.getSelectedIndex()==0))||rbdDisenador.isSelected()&&(cbxLenguajeDiseno.getSelectedIndex()==0)) {
+					    else if ((rbdProgramador.isSelected()&&(cbxLenguajeProgramador.getSelectedIndex()==0||rbdDisenador.isSelected()&&(cbxHerramienta.getSelectedIndex()==0)))) {
 					    	JOptionPane.showMessageDialog(null, "Hay campos obligatorios vacios","Por favor llene todos los campos para continuar", JOptionPane.WARNING_MESSAGE, null);
 					    }
 					    else if(buscarTrabajador(ftCedula.getText())){
@@ -592,39 +595,40 @@ public class RegistrarTrabajador extends JDialog {
 					    	EmpresaRps.getInstance().getMistrabajadores().add(jefeDeProyecto);
 					    	jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
 					    	resetearCampo();
 					    }
 					    else if (rbdProgramador.isSelected()) {
 					    	programador = new Programador();
-					    	programador.setTipoProgamador(cbxTipoProgramador.getSelectedItem().toString());
+					    	
 					    	programador.setLenguajeProgramacion(cbxLenguajeProgramador.getSelectedItem().toString());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(programador);
 					    	programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
 					    	resetearCampo();
 						}
 					    else if (rbdPlanificador.isSelected()) {
 					    	planificador = new Planificador();
+					    	planificador.setCantProyectos(new Integer(txtCantProyecto.getText()));
 					    	planificador.setAnosExp((int) spnExperienciaPlaneador.getValue());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(planificador);
 					    	planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
 					    	resetearCampo();
 						}
 					    else if(rbdDisenador.isSelected()){
 					    	disenador = new Diseñador();
-					    	disenador.setLenguajeDiseno(cbxLenguajeDiseno.getSelectedItem().toString());
+					    	disenador.setHerramienta(cbxHerramienta.getSelectedItem().toString());
 					    	EmpresaRps.getInstance().getMistrabajadores().add(disenador);
 					    	disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
 					    	resetearCampo();
 					    	
 					    }
 						
-						
-					    
-					    
-					    
 					}
 
 					
@@ -687,12 +691,11 @@ public class RegistrarTrabajador extends JDialog {
 			//campos referentes a los demas trabajadores
 			lbExperienciaPlanificador.setVisible(false);
 			spnExperienciaPlaneador.setVisible(false);
-			lbLenguajeDiseno.setVisible(false);
-			cbxLenguajeDiseno.setVisible(false);
+			lbHerramienta.setVisible(false);
+			cbxHerramienta.setVisible(false);
 			lbLenguajeProgramador.setVisible(false);
 			cbxLenguajeProgramador.setVisible(false);
-			lbTipoProgramador.setVisible(false);
-			cbxTipoProgramador.setVisible(false);
+			
 			
 		}
 }
