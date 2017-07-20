@@ -191,12 +191,13 @@ public class CrearContrato extends JDialog {
 				panel_1.add(ftxCedula);
 			}
 			
-			JButton btnNewButton = new JButton("New button");
-			btnNewButton.setBounds(226, 80, 32, 23);
+			JButton btnNewButton = new JButton("");
+			btnNewButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/buscar.cliente.png")));
+			btnNewButton.setBounds(226, 80, 35, 22);
 			panel_1.add(btnNewButton);
 			
 			txtNombre = new JTextField();
-			txtNombre.setBounds(268, 80, 197, 23);
+			txtNombre.setBounds(282, 80, 197, 23);
 			panel_1.add(txtNombre);
 			txtNombre.setEditable(false);
 			txtNombre.setColumns(10);
