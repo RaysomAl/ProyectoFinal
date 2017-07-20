@@ -8,7 +8,7 @@ public class Diseñador extends Trabajador implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String lenguajeDiseno;
+	private String herramienta;
 	
 	
 	public Diseñador() {
@@ -19,23 +19,24 @@ public class Diseñador extends Trabajador implements Serializable {
 	public Diseñador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, int disponible,
-			String telefono, float eficiencia,String lenguajeDiseno) {
+			String telefono, float eficiencia,String herramienta) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
 				pagoHoras, horastrabajadas, disponible, telefono, eficiencia);
-		this.lenguajeDiseno=lenguajeDiseno;
+		this.herramienta=herramienta;
 		
 		// TODO Auto-generated constructor stub
 	}
 	//setters y gettes
 
-	public String getLenguajeDiseno() {
-		return lenguajeDiseno;
+	public String getHerramienta() {
+		return herramienta;
 	}
 
-	public void setLenguajeDiseno(String lenguajeDiseno) {
-		this.lenguajeDiseno = lenguajeDiseno;
+	public void setHerramienta(String herramienta) {
+		this.herramienta = herramienta;
 	}
 
+	
 	
 	
 	

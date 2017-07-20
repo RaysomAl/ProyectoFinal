@@ -33,19 +33,6 @@ public class Planificador extends Trabajador implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-
-
-	public int getCantDias() {
-		return cantProyectos;
-	}
-
-
-	public void setCantDias(int cantProyectos) {
-		this.cantProyectos = cantProyectos;
-	}
-
-
-
 	public int getAnosExp() {
 		return anosExp;
 	}
@@ -54,6 +41,18 @@ public class Planificador extends Trabajador implements Serializable{
 
 	public void setAnosExp(int anosExp) {
 		this.anosExp = anosExp;
+	}
+
+
+
+	public int getCantProyectos() {
+		return cantProyectos;
+	}
+
+
+
+	public void setCantProyectos(int cantProyectos) {
+		this.cantProyectos = cantProyectos;
 	}
 	
 	
