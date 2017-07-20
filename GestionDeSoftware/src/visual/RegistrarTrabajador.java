@@ -90,7 +90,7 @@ public class RegistrarTrabajador extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegistrarTrabajador() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarTrabajador.class.getResource("/img/trabajador.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarTrabajador.class.getResource("/img/trabajador32.png")));
 		setTitle("Registrar Trabajador");
 		setBounds(100, 100, 616, 503);
 		getContentPane().setLayout(new BorderLayout());

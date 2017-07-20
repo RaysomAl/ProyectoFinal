@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextPane;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class RegistarCliente extends JDialog {
 
@@ -72,6 +73,7 @@ public class RegistarCliente extends JDialog {
 	 * @throws ParseException 
 	 */
 	public RegistarCliente(EmpresaRps emp,String titulo,Cliente modifica) throws ParseException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistarCliente.class.getResource("/img/add.cliente48.png")));
 		cargaCliente();
 		empresaRps=emp;
 		modiCliente=modifica;
