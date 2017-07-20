@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.font.NumericShaper.Range;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -30,6 +31,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import logica.Contrato;
 import logica.EmpresaRps;
@@ -103,12 +105,31 @@ public class Principal extends JFrame {
 		XYDataset dataset = dataset();
 		JFreeChart grafica = ChartFactory.createXYLineChart("Ganancias vs Pedidas", "Meses", "RD$", dataset
 				,PlotOrientation.VERTICAL,true,true,false);
+		graficaGananciaVsPerdidas(grafica);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 304, 572, 293);
+		panel.add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(582, 304, 572, 293);
+		panel.add(panel_2);
+	}
+
+	private void graficaGananciaVsPerdidas(JFreeChart grafica) {
 		XYPlot personalizacion = grafica.getXYPlot();
 		personalizacion.setBackgroundPaint(Color.gray);
 		personalizacion.setDomainGridlinePaint(Color.YELLOW);
 		personalizacion.setRangeGridlinePaint(Color.WHITE);
 		NumberAxis xAxis = (NumberAxis) personalizacion.getDomainAxis();//continuacion, mejorar el rango
-		personalizacion.setDomainAxis(xAxis);
+		xAxis.setRange(0,11);
+		//xAxis.setTickUnit(new NumberTickUnit(0.1));
+		//xAxis.setVerticalTickLabels(true);
+		NumberAxis rango = (NumberAxis) personalizacion.getRangeAxis();
+		rango.setRange(0.0,100000);
+		//rango.setTickUnit(new NumberTickUnit(0.1));
+		//personalizacion.setDomainAxis(xAxis);
+		//personalizacion.setRangeAxis(rango);
 		XYLineAndShapeRenderer lineas = (XYLineAndShapeRenderer) personalizacion.getRenderer();
 		lineas.setBaseShapesVisible(true);
 		XYItemLabelGenerator label = new StandardXYItemLabelGenerator();
@@ -119,14 +140,6 @@ public class Principal extends JFrame {
 		ChartPanel panelgrafica = new ChartPanel(grafica);
 		panelgrafica.setDomainZoomable(true);
 		Grafica1.add(panelgrafica,BorderLayout.CENTER);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 304, 572, 293);
-		panel.add(panel_1);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(582, 304, 572, 293);
-		panel.add(panel_2);
 	}
 
 	private XYDataset dataset() {
@@ -139,26 +152,43 @@ public class Principal extends JFrame {
 		ArrayList<Float> Perdidas = new ArrayList<Float>();
 		cargarArray(Perdidas, 0, 10);
 		Calendar ejemplo = Calendar.getInstance();
-		ejemplo.add(Calendar.MONTH, -2);
-		Contrato e = new Contrato("", null, ejemplo, Calendar.getInstance(), null, (float)15000, (float)0, (float)48.7);
+		ejemplo.add(Calendar.MONTH, 0);
+		Contrato e = new Contrato("", null, ejemplo, Calendar.getInstance(), null, (float)5000, (float)0, (float)48.7);
+		e.setTerminado(true);
+		e.setFechaSaldada(ejemplo);
+		Calendar klk = Calendar.getInstance();
+		klk.add(Calendar.MONTH, -5);
+		Contrato a = new Contrato("", null, klk, Calendar.getInstance(), null, (float)60000, (float)0, (float)48.7);
+		a.setTerminado(true);
+		a.setFechaSaldada(klk);
 		EmpresaRps.getInstance().getMiscontratos().add(e);
+		EmpresaRps.getInstance().getMiscontratos().add(a);
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
-			if(aux.isTerminado())//si el contrato termino
-				if(-(Period.between(NOW, aux.getFechaFinal().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
-					for (int i = 10; i > 0; i--){
-						if(-(Period.between(NOW, aux.getFechaFinal().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()==i)
+			if(aux.isTerminado()) {//si el contrato termino
+				if(-(Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
+					for (int i = 10; i >= 0; i--){
+						System.out.println(i + " diferencia de:"+String.valueOf(Period.between(aux.getFechaInicio().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), aux.getFechaFinal().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getMonths()));
+						if((Period.between(aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),LocalDate.now()).getMonths())==i) {
 							//se ingresara el saldo del contrato gano y perdido a sus respectivos arrays
 							saldoArray = total.get(i);
 							total.add(i, saldoArray + aux.montoPagar(true));
+							saldoArray = (float) 0;
 							saldoArray = Perdidas.get(i);
 							Perdidas.add(i, saldoArray+aux.montoPagar(false));
+							saldoArray = (float) 0;
+						}
 					}
 				}
+			}
 		}
-		for (int i = 0; i > 10; i++) {
-			saldoIngresos.add(10-i,total.get(i));
-			saldoPerdidas.add(10-1,total.get(i));
+		for (int i = 0; i < 10; i++) {
+			saldoIngresos.add(9-i,total.get(i));
+			saldoPerdidas.add(9-i,Perdidas.get(i));
 		}
+		/*saldoIngresos.add(5,5000);
+		saldoIngresos.add(1,50000);
+		saldoPerdidas.add(4, 10000);
+		saldoPerdidas.add(2, 40000);*/
 		XYSeriesCollection data = new XYSeriesCollection();
 		data.addSeries(saldoIngresos);
 		data.addSeries(saldoPerdidas);

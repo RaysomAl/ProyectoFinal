@@ -19,6 +19,7 @@ public class Contrato implements Serializable {
 	private Cliente cliente;
 	private Calendar fechaInicio;
 	private Calendar fechaFinal;
+	private Calendar fechaSaldada;
 	private Proyecto proyecto;  
 	private float preciofinal;
 	private float tasaDolar;
@@ -120,11 +121,10 @@ public class Contrato implements Serializable {
 	public float montoPagar(boolean ingreso) {
 		float pago = this.preciofinal;
 		float perdida = 0;
-		LocalDate now = LocalDate.now();
-		Period resta = Period.between(now , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-		if(resta.getDays()>0)
+		Period resta = Period.between(fechaSaldada.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		if(resta.getDays()<0)
 			for (int i = 0; i < -resta.getDays(); i++) {
-				perdida += pago*0.01;
+				perdida += 0;
 				pago -= pago*0.01;
 			}
 		if(ingreso)
@@ -132,6 +132,14 @@ public class Contrato implements Serializable {
 		if(!ingreso)
 			return perdida;
 		return  0;
+	}
+
+	public Calendar getFechaSaldada() {
+		return fechaSaldada;
+	}
+
+	public void setFechaSaldada(Calendar fechaSaldada) {
+		this.fechaSaldada = fechaSaldada;
 	}
 	
 	
