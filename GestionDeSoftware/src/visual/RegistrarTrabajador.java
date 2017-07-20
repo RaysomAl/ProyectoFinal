@@ -542,7 +542,7 @@ public class RegistrarTrabajador extends JDialog {
 			Disenador.add(lbHerramienta);
 			
 			cbxHerramienta = new JComboBox();
-			cbxHerramienta.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"}));
+			cbxHerramienta.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Photoshop", "Picasa", "Corel Draw", "Gimp", "ACDsee Pro", "Google Sketshup", "Illustrator"}));
 			cbxHerramienta.setBounds(100, 21, 159, 22);
 			Disenador.add(cbxHerramienta);
 			
