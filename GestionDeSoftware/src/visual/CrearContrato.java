@@ -45,6 +45,7 @@ import javax.swing.JRadioButton;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class CrearContrato extends JDialog {
 
@@ -84,6 +85,7 @@ public class CrearContrato extends JDialog {
 	 * @param nuevo 
 	 */
 	public CrearContrato(Proyecto proyect) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearContrato.class.getResource("/img/contrato32.png")));
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
 		/*Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "");
