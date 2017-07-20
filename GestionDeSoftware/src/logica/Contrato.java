@@ -3,6 +3,8 @@ package logica;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,8 +23,8 @@ public class Contrato implements Serializable {
 	private float preciofinal;
 	private float tasaDolar;
 	private float precioDolar; 
+	private boolean terminado = false;
 	
-
 	public Contrato(String codigoContrato, Cliente cliente, Calendar fechaInicio,
 			Calendar fechaFinal, Proyecto proyecto, float preciofinal,
 			float tasaDolar, float precioDolar) {
@@ -106,8 +108,31 @@ public class Contrato implements Serializable {
 	public static String getCode() {
 		return String.valueOf(code) + "-" + String.valueOf(LocalDate.now().getYear());
 	}
+
+	public boolean isTerminado() {
+		return terminado;
+	}
+
+	public void setTerminado(boolean terminado) {
+		this.terminado = terminado;
+	}
 	
-	
+	public float montoPagar(boolean ingreso) {
+		float pago = this.preciofinal;
+		float perdida = 0;
+		LocalDate now = LocalDate.now();
+		Period resta = Period.between(now , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		if(resta.getDays()>0)
+			for (int i = 0; i < -resta.getDays(); i++) {
+				perdida += pago*0.01;
+				pago -= pago*0.01;
+			}
+		if(ingreso)
+			return pago;
+		if(!ingreso)
+			return perdida;
+		return  0;
+	}
 	
 	
 	
