@@ -3,6 +3,8 @@ package logica;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class EmpresaRps implements Serializable {
 	
 	
@@ -87,30 +89,40 @@ public class EmpresaRps implements Serializable {
 	
 	//*****************************METODO CLIENTE***********************************
 	
-	public void agregarCliente(Cliente cliente) {
+	public boolean agregarCliente(Cliente cliente) {
+		boolean p=true;
 		for(Cliente c: misclientes) {
 			
-			if(c instanceof Indepediente && ((Indepediente) c).getCedula().equalsIgnoreCase( ((Indepediente) cliente).getCedula())) {
-				System.out.println("La cedula :"+((Indepediente) c).getCedula()+" ya existe en el registro, verifique de nuevo");
+			if(c instanceof Indepediente && cliente instanceof Indepediente) {
+				if(((Indepediente) c).getCedula().equalsIgnoreCase(((Indepediente) cliente).getCedula())) {
+				p=false;
+				}
 			} 
 			
-			else if(c instanceof Empresa && ((Empresa) c).getRnc().equalsIgnoreCase( ((Empresa) cliente).getRnc())) {
-				System.out.println("El RNC :"+((Empresa) c).getRnc()+" ya existe en el registro, verifique de nuevo");
+			
+			if(c instanceof Empresa && cliente instanceof Empresa ) {
+				if(((Empresa) c).getRnc().equalsIgnoreCase(((Empresa) cliente).getRnc())) {
+				p=false;
+				}
 			} 
 			
-			else {
-				misclientes.add(cliente);
-				System.out.println("Cliente Agregado");
-			}
+
 		}
+		if(p) {
+			misclientes.add(cliente);
+			
+		} 
+		return p;
+		
+		
 		
 
 	}
 	
-	public void eliminarCliente(String indentificador) {
-		Cliente c=buscarCliente(indentificador);
-		if(c!=null) {
-			misclientes.remove(c);
+	public void eliminarCliente(Cliente cliente) {
+		
+		if(cliente!=null) {
+			misclientes.remove(cliente);
 		}
 	
 

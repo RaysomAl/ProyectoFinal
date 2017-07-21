@@ -47,13 +47,16 @@ public class ListarClientes extends JDialog {
 	private static JRadioButton rdbtnEmpresa;
 	private static EmpresaRps empresaRps;
 	private Cliente cliente=null;
+	private Cliente c1=new Indepediente("1234", "raul", "gonzales", "809", "r12", "dn", "salado", "santiago", "RD");
+	private Cliente c2=new Empresa("4321", "baldon", "b21", "829", "santiago", "RD");
+	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ListarClientes dialog = new ListarClientes();
+			ListarClientes dialog = new ListarClientes(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -64,7 +67,10 @@ public class ListarClientes extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarClientes() {
+	public ListarClientes(EmpresaRps emp) {
+		empresaRps=emp;
+		EmpresaRps.getInstance().agregarCliente(c1);
+		EmpresaRps.getInstance().agregarCliente(c2);
 		setTitle("Lista de Clientes");
 		setBounds(100, 100, 546, 400);
 		getContentPane().setLayout(new BorderLayout());
@@ -92,7 +98,7 @@ public class ListarClientes extends JDialog {
 			txtIndetificador.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					if(EmpresaRps.getInstance().getMisclientes().size()>0 && cliente!=null) {
+					if(EmpresaRps.getInstance().getMisclientes().size()>0) {
 						btnBuscar.setEnabled(true);
 					} else {
 						btnBuscar.setEnabled(false);
@@ -106,8 +112,21 @@ public class ListarClientes extends JDialog {
 			btnBuscar = new JButton("Buscar");
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
-					cargaTablaBuscaClientes(cliente);
+					Cliente cl=EmpresaRps.getInstance().buscarCliente(txtIndetificador.getText());
+					cargaTablaBuscaClientes(cl);
+					btnBuscar.setEnabled(false);
+					btnModificar.setEnabled(false);
+					btnEliminar.setEnabled(false);
+					if(cl instanceof Empresa) {
+						rdbtnEmpresa.setSelected(true);
+						rdbtnIndepediente.setSelected(false);
+					} else if(cl instanceof Indepediente) {
+						rdbtnEmpresa.setSelected(false);
+						rdbtnIndepediente.setSelected(true);
+					} else {
+						rdbtnEmpresa.setSelected(false);
+						rdbtnIndepediente.setSelected(false);
+					}
 					
 				}
 			});
@@ -126,8 +145,11 @@ public class ListarClientes extends JDialog {
 			scrollPaneClientes.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
+					indiceCliente=-1;
+					cliente=null;
 					btnModificar.setEnabled(false);
 					btnEliminar.setEnabled(false);
+					btnBuscar.setEnabled(false);
 				}
 			});
 			scrollPaneClientes.setBounds(10, 67, 236, 241);
@@ -139,15 +161,20 @@ public class ListarClientes extends JDialog {
 				public void mouseClicked(MouseEvent arg0) {
 					
 					indiceCliente=tbClientes.getSelectedRow();
-					String indentificador = (String) tbClientes.getModel().getValueAt(indiceCliente, 0);
-					cliente=EmpresaRps.getInstance().buscarCliente(indentificador);
+
 					if(indiceCliente>-1) {
+						
+						String indentificador = (String) tbClientes.getModel().getValueAt(indiceCliente, 0);
+						cliente=EmpresaRps.getInstance().buscarCliente(indentificador);
 						btnModificar.setEnabled(true);
 						btnEliminar.setEnabled(true);
 						cargaTablaContractos(cliente);
+						
 					} else {
+						
 						btnModificar.setEnabled(false);
 						btnEliminar.setEnabled(false);
+						cliente=null;
 					}
 
 				}
@@ -166,8 +193,11 @@ public class ListarClientes extends JDialog {
 			scrollPaneContractos.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					indiceCliente=-1;
+					cliente=null;
 					btnModificar.setEnabled(false);
 					btnEliminar.setEnabled(false);
+					btnBuscar.setEnabled(false);
 				}
 			});
 			scrollPaneContractos.setBounds(274, 67, 236, 241);
@@ -193,6 +223,9 @@ public class ListarClientes extends JDialog {
 					rdbtnIndepediente.setSelected(true);
 					rdbtnEmpresa.setSelected(false);
 					lblIndetificador.setText("Cedula :");
+					btnBuscar.setEnabled(false);
+					btnModificar.setEnabled(false);
+					btnEliminar.setEnabled(false);
 					cargaTablaClientes();
 				}
 			});
@@ -206,6 +239,9 @@ public class ListarClientes extends JDialog {
 					rdbtnIndepediente.setSelected(false);
 					rdbtnEmpresa.setSelected(true);
 					lblIndetificador.setText("RNC :");
+					btnBuscar.setEnabled(false);
+					btnModificar.setEnabled(false);
+					btnEliminar.setEnabled(false);
 					cargaTablaClientes();
 				}
 			});
@@ -239,18 +275,13 @@ public class ListarClientes extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						String indentificador="";
-						if(cliente instanceof Indepediente) {
-							indentificador=((Indepediente) cliente).getCedula();
-						}
-						if(cliente instanceof Empresa) {
-							indentificador=((Empresa) cliente).getRnc();
-							
-						}
-						EmpresaRps.getInstance().eliminarCliente(indentificador);
+
+						EmpresaRps.getInstance().eliminarCliente(cliente);
 						btnEliminar.setEnabled(false);
 						btnModificar.setEnabled(false);
 						btnBuscar.setEnabled(false); 
+						cargaTablaClientes();
+						cargaTablaContractos(null);
 					}
 				});
 				btnEliminar.setEnabled(false);
@@ -286,8 +317,9 @@ public class ListarClientes extends JDialog {
 				if(cliente instanceof Indepediente) {
 					filaClientes[0]=((Indepediente) cliente).getCedula();
 					filaClientes[1]=((Indepediente) cliente).getNombre()+" "+((Indepediente) cliente).getAmpellido();
+					modeloClientes.addRow(filaClientes);
 				}
-				modeloClientes.addRow(filaClientes);
+				
 			} 
 			
 			tbClientes.setModel(modeloClientes);
@@ -309,9 +341,9 @@ public class ListarClientes extends JDialog {
 					filaClientes[0]=((Empresa) cliente).getRnc();
 					filaClientes[1]=((Empresa) cliente).getNombre();
 					
-					
+					modeloClientes.addRow(filaClientes);
 				}
-				modeloClientes.addRow(filaClientes);
+				
 				
 			}
 			tbClientes.setModel(modeloClientes);
@@ -370,7 +402,7 @@ public class ListarClientes extends JDialog {
 			columnas1.getColumn(0).setPreferredWidth(80);
 			columnas1.getColumn(1).setPreferredWidth(153);
 		}
-		
+		cargaTablaContractos(cliente);
 		
 	}
 	
