@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import java.awt.Color;
 import javax.swing.JFormattedTextField;
+import javax.swing.JScrollPane;
 
 public class ListarTrabajadores extends JDialog {
 
@@ -49,12 +50,21 @@ public class ListarTrabajadores extends JDialog {
 		ListaTrabajadores.setBorder(new TitledBorder(null, "Lista de trabajadores", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		ListaTrabajadores.setBounds(12, 82, 691, 452);
 		contentPanel.add(ListaTrabajadores);
+		ListaTrabajadores.setLayout(null);
+		
+		JScrollPane scrollPaneLista = new JScrollPane();
+		scrollPaneLista.setBounds(10, 21, 671, 420);
+		ListaTrabajadores.add(scrollPaneLista);
 		
 		JPanel proyectosActivos = new JPanel();
 		proyectosActivos.setBorder(new TitledBorder(null, "Proyectos activos", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		proyectosActivos.setBounds(715, 11, 319, 523);
 		contentPanel.add(proyectosActivos);
 		proyectosActivos.setLayout(null);
+		
+		JScrollPane scrollPaneProyectos = new JScrollPane();
+		scrollPaneProyectos.setBounds(10, 21, 299, 491);
+		proyectosActivos.add(scrollPaneProyectos);
 		
 		JPanel FiltroTipo = new JPanel();
 		FiltroTipo.setBorder(new TitledBorder(null, "Filtro por Tipo", TitledBorder.CENTER, TitledBorder.TOP, null, null));
