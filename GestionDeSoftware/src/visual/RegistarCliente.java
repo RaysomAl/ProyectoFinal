@@ -30,6 +30,8 @@ import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegistarCliente extends JDialog {
 
@@ -147,18 +149,36 @@ public class RegistarCliente extends JDialog {
 			txtApellido.setColumns(10);
 			
 			txtTelefono = new JFormattedTextField(new MaskFormatter("###-###-####"));
+			txtTelefono.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					txtTelefono.setText("");
+				}
+			});
 			txtTelefono.setBounds(75, 74, 127, 20);
 			txtTelefono.setText("");
 			txtTelefono.setSelectionStart(0);
 			panelCliente.add(txtTelefono);
 			
 			txtCedula = new JFormattedTextField(new MaskFormatter("###-#######-#"));
+			txtCedula.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					txtCedula.setText("");
+				}
+			});
 			txtCedula.setBounds(75, 24, 127, 20);
 			txtCedula.setText("");
 			txtCedula.setSelectionStart(0);
 			panelCliente.add(txtCedula);
 			
 			txtRnc = new JFormattedTextField(new MaskFormatter("###-#####-#"));
+			txtRnc.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					txtRnc.setText("");
+				}
+			});
 			txtRnc.setBounds(75, 24, 127, 20);
 			txtRnc.setText("");
 			txtRnc.setSelectionStart(0);
@@ -409,7 +429,7 @@ public class RegistarCliente extends JDialog {
 									
 									
 									EmpresaRps.getInstance().modificarCliente(modiCliente);
-									
+									JOptionPane.showMessageDialog(null, "operacion exitosa", "informacion",JOptionPane.INFORMATION_MESSAGE);
 									
 
 									
@@ -429,7 +449,7 @@ public class RegistarCliente extends JDialog {
 									modiCliente.setPais(pais);
 									
 									EmpresaRps.getInstance().modificarCliente(modiCliente);
-															
+									JOptionPane.showMessageDialog(null, "operacion exitosa", "informacion",JOptionPane.INFORMATION_MESSAGE);
 									
 								} 
 								ListarClientes.getBtnEliminar().setEnabled(false);

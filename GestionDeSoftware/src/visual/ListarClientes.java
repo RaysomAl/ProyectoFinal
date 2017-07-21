@@ -8,9 +8,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 
 import logica.Cliente;
 import logica.Contrato;
@@ -28,11 +30,15 @@ import java.text.ParseException;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ListarClientes extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtIndetificador;
 	private static JTable tbClientes;
 	private static JTable tbContractos;
 	private static JButton btnBuscar;
@@ -47,8 +53,10 @@ public class ListarClientes extends JDialog {
 	private static JRadioButton rdbtnEmpresa;
 	private static EmpresaRps empresaRps;
 	private Cliente cliente=null;
-	private Cliente c1=new Indepediente("1234", "raul", "gonzales", "809", "r12", "dn", "salado", "santiago", "RD");
-	private Cliente c2=new Empresa("4321", "baldon", "b21", "829", "santiago", "RD");
+	private Cliente c1=new Indepediente("123-1234567-1", "raul", "gonzales", "809", "r12", "dn", "salado", "santiago", "RD");
+	private Cliente c2=new Empresa("123-12345-1", "baldon", "b21", "829", "santiago", "RD");
+	private JFormattedTextField txtCedula;
+	private JFormattedTextField txtRnc;
 	
 
 	/**
@@ -66,9 +74,14 @@ public class ListarClientes extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public ListarClientes(EmpresaRps emp) {
+	public ListarClientes(EmpresaRps emp) throws ParseException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarClientes.class.getResource("/img/listar32.png")));
 		empresaRps=emp;
+		
+		rdbtnEmpresa = new JRadioButton("Empresa");
+		rdbtnIndepediente = new JRadioButton("Indepediente");
 		EmpresaRps.getInstance().agregarCliente(c1);
 		EmpresaRps.getInstance().agregarCliente(c2);
 		setTitle("Lista de Clientes");
@@ -94,25 +107,19 @@ public class ListarClientes extends JDialog {
 			lblIndetificador.setBounds(10, 22, 46, 14);
 			panel.add(lblIndetificador);
 			
-			txtIndetificador = new JTextField();
-			txtIndetificador.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					if(EmpresaRps.getInstance().getMisclientes().size()>0) {
-						btnBuscar.setEnabled(true);
-					} else {
-						btnBuscar.setEnabled(false);
-					}
-				}
-			});
-			txtIndetificador.setBounds(66, 19, 86, 20);
-			panel.add(txtIndetificador);
-			txtIndetificador.setColumns(10);
+
 			
 			btnBuscar = new JButton("Buscar");
+			btnBuscar.setIcon(new ImageIcon(ListarClientes.class.getResource("/img/buscar.cliente.png")));
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Cliente cl=EmpresaRps.getInstance().buscarCliente(txtIndetificador.getText());
+					String inde="";
+					if(rdbtnEmpresa.isSelected()) {
+						inde=txtRnc.getText();
+					} else {
+						inde=txtCedula.getText();
+					}
+					Cliente cl=EmpresaRps.getInstance().buscarCliente(inde);
 					cargaTablaBuscaClientes(cl);
 					btnBuscar.setEnabled(false);
 					btnModificar.setEnabled(false);
@@ -124,20 +131,29 @@ public class ListarClientes extends JDialog {
 						rdbtnEmpresa.setSelected(false);
 						rdbtnIndepediente.setSelected(true);
 					} else {
-						rdbtnEmpresa.setSelected(false);
-						rdbtnIndepediente.setSelected(false);
+						cargaTablaClientes();
+						cargaTablaContractos(null);
+
+					}
+					
+					if(cl==null) {
+						JOptionPane.showMessageDialog(null, "El cliente : "+inde+" no existe", "Advertencia",JOptionPane.WARNING_MESSAGE);
 					}
 					
 				}
 			});
 			btnBuscar.setEnabled(false);
-			btnBuscar.setBounds(162, 18, 89, 23);
+			if(EmpresaRps.getInstance().getMisclientes().size()>0) {
+				btnBuscar.setEnabled(true);
+			} else {
+				btnBuscar.setEnabled(false);
+			}
+			btnBuscar.setBounds(174, 18, 109, 23);
 			panel.add(btnBuscar);
 			
 			
 			
-			rdbtnEmpresa = new JRadioButton("Empresa");
-			rdbtnIndepediente = new JRadioButton("Indepediente");
+
 			selecionPorDefecto();
 			
 			
@@ -226,7 +242,13 @@ public class ListarClientes extends JDialog {
 					btnBuscar.setEnabled(false);
 					btnModificar.setEnabled(false);
 					btnEliminar.setEnabled(false);
+					txtCedula.setText("");
+					txtCedula.setVisible(true);
+					txtCedula.setSelectionStart(0);
+					txtRnc.setText("");
+					txtRnc.setVisible(false);
 					cargaTablaClientes();
+					cargaTablaContractos(null);
 				}
 			});
 			rdbtnIndepediente.setBounds(10, 43, 109, 23);
@@ -242,11 +264,79 @@ public class ListarClientes extends JDialog {
 					btnBuscar.setEnabled(false);
 					btnModificar.setEnabled(false);
 					btnEliminar.setEnabled(false);
+					txtCedula.setText("");
+					txtCedula.setVisible(false);
+					txtRnc.setText("");
+					txtRnc.setVisible(true);
+					txtRnc.setSelectionStart(0);
 					cargaTablaClientes();
+					cargaTablaContractos(null);
 				}
 			});
 			rdbtnEmpresa.setBounds(121, 43, 109, 23);
 			panel.add(rdbtnEmpresa);
+			
+			txtCedula = new JFormattedTextField(new MaskFormatter("###-#######-#"));
+			txtCedula.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					if(EmpresaRps.getInstance().getMisclientes().size()>0 && rdbtnIndepediente.isSelected()) {
+						btnBuscar.setEnabled(true);
+					} else {
+						btnBuscar.setEnabled(false);
+					}
+				}
+			});
+			txtCedula.setText("");
+			txtCedula.setSelectionStart(0);
+			txtCedula.setVisible(true);
+			txtCedula.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					if(EmpresaRps.getInstance().getMisclientes().size()>0 && rdbtnIndepediente.isSelected()) {
+						btnBuscar.setEnabled(true);
+					} else {
+						btnBuscar.setEnabled(false);
+					}
+
+					txtCedula.setText("");
+					txtCedula.setSelectionStart(0);
+					
+				}
+			});
+			txtCedula.setBounds(66, 19, 98, 20);
+			panel.add(txtCedula);
+			
+			txtRnc = new JFormattedTextField(new MaskFormatter("###-#####-#"));
+			txtRnc.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					if(EmpresaRps.getInstance().getMisclientes().size()>0 && rdbtnEmpresa.isSelected()) {
+						btnBuscar.setEnabled(true);
+					} else {
+						btnBuscar.setEnabled(false);
+					}
+				}
+			});
+			txtRnc.setText("");
+			txtRnc.setSelectionStart(0);
+			txtRnc.setVisible(false);
+			txtRnc.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(EmpresaRps.getInstance().getMisclientes().size()>0 && rdbtnEmpresa.isSelected()) {
+						btnBuscar.setEnabled(true);
+					} else {
+						btnBuscar.setEnabled(false);
+					}
+
+					txtRnc.setText("");
+					txtRnc.setSelectionStart(0);
+					
+				}
+			});
+			txtRnc.setBounds(66, 19, 98, 20);
+			panel.add(txtRnc);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -275,13 +365,24 @@ public class ListarClientes extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-
-						EmpresaRps.getInstance().eliminarCliente(cliente);
+						String ind="";
+						if(cliente instanceof Indepediente) {
+							ind=((Indepediente) cliente).getCedula();
+						} else if(cliente instanceof Empresa){
+							ind=((Empresa) cliente).getRnc();
+						}
+						int opcion = JOptionPane.showConfirmDialog(null, "Desea eliminar a "+ind+" ??","Advertencia",JOptionPane.WARNING_MESSAGE);
+						if(opcion == JOptionPane.OK_OPTION){
+							
+							EmpresaRps.getInstance().eliminarCliente(cliente);
+							cargaTablaClientes();
+							cargaTablaContractos(null);
+						}
+						
 						btnEliminar.setEnabled(false);
 						btnModificar.setEnabled(false);
 						btnBuscar.setEnabled(false); 
-						cargaTablaClientes();
-						cargaTablaContractos(null);
+
 					}
 				});
 				btnEliminar.setEnabled(false);
@@ -293,7 +394,10 @@ public class ListarClientes extends JDialog {
 				JButton btnCancelar = new JButton("Cancelar");
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						dispose();
+						int opcion = JOptionPane.showConfirmDialog(null, "Desea cerra??","Advertencia",JOptionPane.WARNING_MESSAGE);
+						if(opcion == JOptionPane.OK_OPTION){
+							dispose();
+						}
 					}
 				});
 				btnCancelar.setActionCommand("Cancel");
@@ -326,8 +430,8 @@ public class ListarClientes extends JDialog {
 			tbClientes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			tbClientes.getTableHeader().setResizingAllowed(false);
 			TableColumnModel columnas1 = tbClientes.getColumnModel();
-			columnas1.getColumn(0).setPreferredWidth(80);
-			columnas1.getColumn(1).setPreferredWidth(153);
+			columnas1.getColumn(0).setPreferredWidth(98);
+			columnas1.getColumn(1).setPreferredWidth(135);
 
 
 			
@@ -376,8 +480,8 @@ public class ListarClientes extends JDialog {
 			tbClientes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			tbClientes.getTableHeader().setResizingAllowed(false);
 			TableColumnModel columnas1 = tbClientes.getColumnModel();
-			columnas1.getColumn(0).setPreferredWidth(80);
-			columnas1.getColumn(1).setPreferredWidth(153);
+			columnas1.getColumn(0).setPreferredWidth(98);
+			columnas1.getColumn(1).setPreferredWidth(135);
 
 
 			
@@ -429,8 +533,8 @@ public class ListarClientes extends JDialog {
 		tbContractos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tbContractos.getTableHeader().setResizingAllowed(false);
 		TableColumnModel columnas1 = tbContractos.getColumnModel();
-		columnas1.getColumn(0).setPreferredWidth(80);
-		columnas1.getColumn(1).setPreferredWidth(153);
+		columnas1.getColumn(0).setPreferredWidth(98);
+		columnas1.getColumn(1).setPreferredWidth(135);
 	}
 
 	public static JButton getBtnModificar() {
