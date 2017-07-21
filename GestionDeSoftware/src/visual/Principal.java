@@ -42,6 +42,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame {
 
@@ -89,11 +94,84 @@ public class Principal extends JFrame {
 		
 		JMenu mnClientes = new JMenu("Clientes");
 		menuBar.add(mnClientes);
+		
+		JMenuItem mntmCrearCliente = new JMenuItem("Crear");
+		mnClientes.add(mntmCrearCliente);
+		
+		JMenuItem mntmListarClientes = new JMenuItem("Listar");
+		mnClientes.add(mntmListarClientes);
+		
+		JMenuItem mntmModificar = new JMenuItem("MOdificar");
+		mnClientes.add(mntmModificar);
 		JMenu mnTrabajadores = new JMenu("Trabajadores");
 		menuBar.add(mnTrabajadores);
 		
+		JMenuItem mntmCrearTrabajador = new JMenuItem("Crear");
+		mnTrabajadores.add(mntmCrearTrabajador);
+		
+		JMenuItem mntmListarTrabajadores = new JMenuItem("Listar");
+		mnTrabajadores.add(mntmListarTrabajadores);
+		
 		JMenu mnContratos = new JMenu("Contratos");
 		menuBar.add(mnContratos);
+		
+		JMenuItem mntmCrearContratos = new JMenuItem("Crear");
+		mntmCrearContratos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CrearProyecto nuevoP = new CrearProyecto();
+				nuevoP.setModal(true);
+				nuevoP.setVisible(true);
+			}
+		});
+		mnContratos.add(mntmCrearContratos);
+		
+		JMenuItem mntmListarContratos = new JMenuItem("Listar");
+		mnContratos.add(mntmListarContratos);
+		
+		JMenuItem mntmSaldarContraro = new JMenuItem("Saldar");
+		mnContratos.add(mntmSaldarContraro);
+		
+		JMenuItem mntmConsolidarExistente = new JMenuItem("Consolidar Existente");
+		mnContratos.add(mntmConsolidarExistente);
+		
+		JMenu mnAdministracion = new JMenu("Administracion");
+		menuBar.add(mnAdministracion);
+		
+		JMenuItem mntmControlDeTasa = new JMenuItem("Control de Tasa");
+		mntmControlDeTasa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(EmpresaRps.getIntento()!=0) {
+					CambioDeTasa nuevaTasa = new CambioDeTasa();
+					nuevaTasa.setModal(true);
+					nuevaTasa.setVisible(true);
+				}else {
+					int opcion = JOptionPane.showConfirmDialog(null, "Para cambiar la tasa necesita primero una contraseña, ¿¿desea crearla??","Advertencia",JOptionPane.WARNING_MESSAGE);
+					if(opcion == JOptionPane.OK_OPTION){
+						NuevaPass nuevacontra = new NuevaPass();
+						nuevacontra.setModal(true);
+						nuevacontra.setVisible(true);
+					}
+				}
+			}
+		});
+		mnAdministracion.add(mntmControlDeTasa);
+		
+		JMenuItem mntmCambiarcontrasea = new JMenuItem("Cambiar Contrase\u00F1a");
+		mntmCambiarcontrasea.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(EmpresaRps.getIntento()==0) {
+					NuevaPass nuevacontra = new NuevaPass();
+					nuevacontra.setModal(true);
+					nuevacontra.setVisible(true);
+				}else {
+					Contraseña nuevacontra = new Contraseña();
+					nuevacontra.setModal(true);
+					nuevacontra.setVisible(true);
+				}
+				
+			}
+		});
+		mnAdministracion.add(mntmCambiarcontrasea);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -18,6 +18,9 @@ public class EmpresaRps implements Serializable {
 	private ArrayList<Trabajador> mistrabajadores = new ArrayList<>();
 	private ArrayList<Proyecto> misproyectos = new ArrayList<>();
 	private static EmpresaRps instance = null;//patron singleton
+	public static float tasaDolar=(float)45.50;
+	private static char[] contraseña;
+	private static int intento=0;
 	  
 	private EmpresaRps() {
 		 this.misclientes=new ArrayList<>();
@@ -34,7 +37,59 @@ public class EmpresaRps implements Serializable {
     }
 	
 	//setters y getters
+	
+	public static char[] getContraseña() {
+		return contraseña;
+	}
+	
+	public static int getIntento() {
+		return intento;
+	}
 
+	public static void setIntento(int intento) {
+		EmpresaRps.intento = intento;
+	}
+
+
+	
+	public static boolean setContraseña(char[] contraseñavieja, char[] ContraseñaNueva) {
+		if(intento==0) {
+			EmpresaRps.contraseña = ContraseñaNueva;
+			intento++;
+			return true;
+		}else {
+			if(compararPassFields(contraseñavieja, EmpresaRps.contraseña)) {
+				EmpresaRps.contraseña = ContraseñaNueva;
+				return true;
+			}else {
+				return false;	
+			}
+		}
+	}
+
+	private static boolean compararPassFields(char[] nueva, char[] confirmar) {
+		if(nueva.length==confirmar.length) {
+			for (int i = 0; i < confirmar.length; i++) 
+				if(confirmar[i]!=nueva[i])
+					return false;
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public static float getTasaDolar() {
+		return tasaDolar;
+	}
+
+	public static boolean setTasaDolar(float tasaDolar, char[] pass) {
+		if(compararPassFields(EmpresaRps.contraseña, pass)) {
+			EmpresaRps.tasaDolar = tasaDolar;
+			return true;
+		}
+		return false;
+	}
+	
 	public ArrayList<Cliente> getMisclientes() {
 		return misclientes;
 	}
@@ -160,6 +215,7 @@ public class EmpresaRps implements Serializable {
 		int index=misclientes.indexOf(c);
 		misclientes.set(index, modi);
 	}
+
 
 	//********************************************************************************
 	
