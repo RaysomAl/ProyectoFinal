@@ -7,6 +7,9 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import sun.awt.SunHints.LCDContrastKey;
 
 public class Contrato implements Serializable {
 
@@ -122,15 +125,26 @@ public class Contrato implements Serializable {
 		float pago = this.preciofinal;
 		float perdida = 0;
 		Period resta = Period.between(fechaSaldada.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-		if(resta.getDays()<0)
-			for (int i = 0; i < -resta.getDays(); i++) {
-				perdida += 0;
+		if(resta.getMonths()!=0) {//calcular los dias basados en milisegundos
+			Date now = fechaSaldada.getTime();
+			Date later = fechaFinal.getTime();
+			long duracion  = now.getTime()-later.getTime();
+			long diffdedias = TimeUnit.MILLISECONDS.toDays(duracion);
+			long diff = duracion - TimeUnit.DAYS.toMillis(diffdedias);
+			double diffdeHoras = TimeUnit.MILLISECONDS.toHours(diff);
+			float horasAdias = (float) (diffdeHoras/24.0);
+			float a = horasAdias + diffdedias;
+			a=(float) Math.floor(a);
+			int b = (int) a;
+			for (int i = 0; i < b; i++) {//reduce 1% por cada dia
+				perdida += pago*0.01;
 				pago -= pago*0.01;
 			}
+		}
 		if(ingreso)
-			return pago;
+			return (float)Math.floor(pago);
 		if(!ingreso)
-			return perdida;
+			return (float)Math.floor(perdida);
 		return  0;
 	}
 
