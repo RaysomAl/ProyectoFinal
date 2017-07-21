@@ -25,9 +25,9 @@ public class Planificador extends Trabajador implements Serializable{
 	public Planificador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, int disponible,
-			String telefono, float eficiencia,int cantProyectos, int anosExp) {
+			String telefono, int eficiencia,int cantProyectos, int anosExp) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
-				pagoHoras, horastrabajadas, disponible, telefono, eficiencia);
+				pagoHoras, horastrabajadas, telefono, eficiencia);
 		this.cantProyectos = cantProyectos;
 		this.anosExp = anosExp;
 		// TODO Auto-generated constructor stub

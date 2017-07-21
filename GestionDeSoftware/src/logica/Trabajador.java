@@ -21,10 +21,9 @@ public abstract class Trabajador implements Serializable{
 	protected String evaluacion;
 	protected float pagoHoras;
 	protected int horastrabajadas;
-	protected int disponible = 0;
 	protected String telefono;
 	protected ArrayList<Contrato> misContratos = new ArrayList<>();
-	protected float eficiencia;
+	protected int eficiencia;
 	protected boolean Disponible = true;
 	
 	public Trabajador() {
@@ -35,8 +34,8 @@ public abstract class Trabajador implements Serializable{
 	//constructor
 	public Trabajador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
-			float pagoHoras, int horastrabajadas, int disponible,
-			String telefono, float eficiencia) {
+			float pagoHoras, int horastrabajadas, 
+			String telefono, int eficiencia) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -47,7 +46,6 @@ public abstract class Trabajador implements Serializable{
 		this.evaluacion = evaluacion;
 		this.pagoHoras = pagoHoras;
 		this.horastrabajadas = horastrabajadas;
-		this.disponible = disponible;
 		this.telefono = telefono;
 		this.eficiencia = eficiencia;
 	}
@@ -145,16 +143,6 @@ public abstract class Trabajador implements Serializable{
 	}
 
 
-	public int getDisponible() {
-		return disponible;
-	}
-
-
-	public void setDisponible(int disponible) {
-		this.disponible = disponible;
-	}
-
-
 	public String getTelefono() {
 		return telefono;
 	}
@@ -175,12 +163,12 @@ public abstract class Trabajador implements Serializable{
 	}
 
 
-	public float getEficiencia() {
+	public int getEficiencia() {
 		return eficiencia;
 	}
 
 
-	public void setEficiencia(float eficiencia) {
+	public void setEficiencia(int eficiencia) {
 		this.eficiencia = eficiencia;
 	}
 

@@ -20,9 +20,9 @@ public class Programador extends Trabajador implements Serializable {
 	public Programador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, int disponible,
-			String telefono, float eficiencia) {
+			String telefono, int eficiencia) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
-				pagoHoras, horastrabajadas, disponible, telefono, eficiencia);
+				pagoHoras, horastrabajadas, telefono, eficiencia);
 		this.lenguajeProgramacion = lenguajeProgramacion;
 		this.tipoProgamador = tipoProgamador;
 		// TODO Auto-generated constructor stub

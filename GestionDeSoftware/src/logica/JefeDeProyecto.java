@@ -19,9 +19,9 @@ public class JefeDeProyecto extends Trabajador implements Serializable {
 	public JefeDeProyecto(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, int disponible,
-			String telefono, float eficiencia) {
+			String telefono, int eficiencia) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
-				pagoHoras, horastrabajadas, disponible, telefono, eficiencia);
+				pagoHoras, horastrabajadas, telefono, eficiencia);
 		this.misTrabajadores = new ArrayList<Trabajador>();
 		this.anosExperiencia = anosExperiencia;
 		// TODO Auto-generated constructor stub

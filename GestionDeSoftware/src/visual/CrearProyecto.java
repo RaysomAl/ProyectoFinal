@@ -334,10 +334,10 @@ public class CrearProyecto extends JDialog {
 			ftxObservacion = new JFormattedTextField(createDirr("********************"));
 			ftxObservacion.setBounds(100, 281, 123, 23);
 			registrarProyecto.add(ftxObservacion);
-			Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", (float) 1.1);
-			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", (float) 1.1);
-			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", (float) 1.1);
-			JefeDeProyecto alpha = new JefeDeProyecto("", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", (float)1.1);
+			Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
+			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
+			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
+			JefeDeProyecto alpha = new JefeDeProyecto("", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
 			EmpresaRps.getInstance().getMistrabajadores().add(e);
 			EmpresaRps.getInstance().getMistrabajadores().add(a);
 			EmpresaRps.getInstance().getMistrabajadores().add(z);

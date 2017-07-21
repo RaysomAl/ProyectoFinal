@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,6 +34,10 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import logica.Contrato;
 import logica.EmpresaRps;
+import logica.JefeDeProyecto;
+import logica.Programador;
+import logica.Trabajador;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
@@ -127,7 +132,17 @@ public class Principal extends JFrame {
 		Grafica3.add(scrollPane);
 		
 		empleados = new JList<String>();
+		Programador e = new Programador("031-0200031-4","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
+		Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 3);
+		Programador a = new Programador("031-0200031-2","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 2);
+		JefeDeProyecto alpha = new JefeDeProyecto("031-02000031-3", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 4);
+		EmpresaRps.getInstance().getMistrabajadores().add(e);
+		EmpresaRps.getInstance().getMistrabajadores().add(a);
+		EmpresaRps.getInstance().getMistrabajadores().add(z);
+		EmpresaRps.getInstance().getMistrabajadores().add(alpha);
 		scrollPane.setViewportView(empleados);
+		empleados.setSelectionInterval(-1, -1);
+		limitarSeleccionLista(empleados, -1, -1);
 		empleados.setListData(CargarLista());
 		
 		Grafica4 = new JPanel();
@@ -136,8 +151,26 @@ public class Principal extends JFrame {
 	}
 
 	private String[] CargarLista() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Trabajador> malosTrabajadores = new ArrayList<Trabajador>();
+		CargarMalosTrabajadores(malosTrabajadores);	
+		String malosTrabajadore[]= new String[malosTrabajadores.size()];
+		if(malosTrabajadores.size()==0)
+			malosTrabajadore = new String[1];
+		cargarAarray(malosTrabajadores,malosTrabajadore);
+		if(malosTrabajadores.size()==0)
+			malosTrabajadore[0]= "No hay trabajadores Ineficientes recientemente";
+		return malosTrabajadore;
+	}
+
+	private void CargarMalosTrabajadores(ArrayList<Trabajador> malosTrabajadores) {
+		for (Trabajador trabajador : EmpresaRps.getInstance().getMistrabajadores()) 
+			if(trabajador.getEficiencia()<=3)
+				malosTrabajadores.add(trabajador);
+	}
+	
+	private void cargarAarray(ArrayList<Trabajador> malosTrabajadores, String[] malosTrabajadore) {
+		for (int i = 0; i < malosTrabajadores.size(); i++) 
+			malosTrabajadore[i] = malosTrabajadores.get(i).getCedula()+"("+malosTrabajadores.get(i).getNombre()+")";
 	}
 
 	private void graficaGananciaVsPerdidas(JFreeChart grafica) {
@@ -272,5 +305,50 @@ public class Principal extends JFrame {
 		for (int i = 0; i < limite; i++) {
 			total.add((float) unidad);
 		}
+	}
+	private void limitarSeleccionLista(final JList lista,final int maxCounte,final int minCounte) {
+		class MySelectionModel extends DefaultListSelectionModel
+		{
+		    private JList list;
+		    private int minCount;
+		    private int maxCount;
+
+		    private MySelectionModel()
+		    {
+		        this.list = lista;
+		        this.maxCount = maxCounte;
+		        this.minCount = minCounte;
+		    }
+
+		    @Override
+		    public void setSelectionInterval(int index0, int index1)
+		    {
+		    	if(index0!= minCount)
+		        	index0 = minCount;
+		        if (index1 - index0 >= maxCount)
+		        {
+		            index1 = index0 + maxCount - 1;
+		        }
+		        
+		        super.setSelectionInterval(index0, index1);
+		    }
+
+		    @Override
+		    public void addSelectionInterval(int index0, int index1)
+		    {
+		        int selectionLength = list.getSelectedIndices().length;
+		        if (selectionLength >= maxCount)
+		            return;
+
+		        if (index1 - index0 >= maxCount - selectionLength)
+		        {
+		            index1 = index0 + maxCount - 1 - selectionLength;
+		        }
+		        if (index1 < index0)
+		            return;
+		        super.addSelectionInterval(index0, index1);
+		    }
+		}
+		lista.setSelectionModel(new MySelectionModel());
 	}
 }
