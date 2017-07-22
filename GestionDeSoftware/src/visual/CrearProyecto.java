@@ -519,7 +519,7 @@ public class CrearProyecto extends JDialog {
 			}
 		}
 	}
-
+	//necesito trabajo
 	private void cargarcbxAux() {//le da un enable o disable a los cbx auxiliares usando el spinner
 		int index = (int) spnTrabajadores.getValue();
 		activar(true,index,aux);
