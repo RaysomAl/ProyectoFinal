@@ -6,19 +6,56 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Toolkit;
+
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
+
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.util.ArrayList;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+
+import logica.Contrato;
+import logica.EmpresaRps;
+import logica.JefeDeProyecto;
+import logica.Planificador;
+import logica.Programador;
+import logica.Trabajador;
+
+
 
 public class ListarTrabajadores extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	private JTable tableTrab;
+	private JTable tableProyectos;
+	private static DefaultTableModel tableModelT;
+    private static Object[] rowT;
+    private static DefaultTableModel tableModelP;
+    private static Object[] rowP;
+    private JFormattedTextField ftBuscarCedula;
+    private ArrayList<Trabajador> B = new ArrayList<>();
+    private JScrollPane scrollPaneLista;
+    
+    
 
 	/**
 	 * Launch the application.
@@ -35,8 +72,9 @@ public class ListarTrabajadores extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public ListarTrabajadores() {
+	public ListarTrabajadores() throws ParseException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarTrabajadores.class.getResource("/img/listar32.png")));
 		setTitle("Lista de Trabajadores");
 		setResizable(false);
@@ -56,6 +94,36 @@ public class ListarTrabajadores extends JDialog {
 		scrollPaneLista.setBounds(10, 21, 671, 420);
 		ListaTrabajadores.add(scrollPaneLista);
 		
+		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido",  "Cantidad de contratos", "Teléfono", "Tipo de trabajador"};
+		tableModelT = new DefaultTableModel(){
+		    /**
+		     * 
+		     */
+		    private static final long serialVersionUID = 1L;
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+			
+			return false;
+		    }
+		};
+		tableModelT.setColumnIdentifiers(columnsHeadersT);
+		tableTrab= new JTable();
+		tableTrab.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			    if(tableTrab.getSelectedRow()>=0){
+				      int index = tableTrab.getSelectedRow();
+				      CargarProyectos(EmpresaRps.getInstance().getMistrabajadores().get(index).getMisContratos());
+			    }
+			}
+		});
+		scrollPaneLista.setColumnHeaderView(tableTrab);
+		tableTrab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableTrab.setModel(tableModelT);
+		scrollPaneLista.setViewportView(tableTrab);
+		
+		
 		JPanel proyectosActivos = new JPanel();
 		proyectosActivos.setBorder(new TitledBorder(null, "Proyectos activos", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		proyectosActivos.setBounds(715, 11, 319, 523);
@@ -65,6 +133,28 @@ public class ListarTrabajadores extends JDialog {
 		JScrollPane scrollPaneProyectos = new JScrollPane();
 		scrollPaneProyectos.setBounds(10, 21, 299, 491);
 		proyectosActivos.add(scrollPaneProyectos);
+		
+		String[] columnsHeadersP = {"Nombre", "Tipo de Proyecto", "Lenguaje"};
+		tableModelP = new DefaultTableModel(){
+		    /**
+		     * 
+		     */
+		    private static final long serialVersionUID = 1L;
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+			
+			return false;
+		    }
+		 
+		};
+		tableModelP.setColumnIdentifiers(columnsHeadersP);
+		tableProyectos = new JTable();
+		scrollPaneProyectos.setViewportView(tableProyectos);
+		scrollPaneProyectos.setColumnHeaderView(tableProyectos);
+		tableProyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableProyectos.setModel(tableModelP);
+		scrollPaneProyectos.setViewportView(tableProyectos);
 		
 		JPanel FiltroTipo = new JPanel();
 		FiltroTipo.setBorder(new TitledBorder(null, "Filtro por Tipo", TitledBorder.CENTER, TitledBorder.TOP, null, null));
@@ -86,13 +176,26 @@ public class ListarTrabajadores extends JDialog {
 		contentPanel.add(Busquedad);
 		Busquedad.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("C\u00E9dula:");
-		lblNewLabel.setBounds(10, 23, 59, 14);
-		Busquedad.add(lblNewLabel);
+		JLabel lbcedula = new JLabel("C\u00E9dula:");
+		lbcedula.setBounds(10, 23, 59, 14);
+		Busquedad.add(lbcedula);
+        MaskFormatter fomato = new MaskFormatter("###-#######-#");
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setBounds(67, 20, 222, 20);
-		Busquedad.add(formattedTextField);
+        ftBuscarCedula = new JFormattedTextField(fomato);
+        ftBuscarCedula.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				buscarTrab();
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+		});
+		
+		JFormattedTextField ftBuscarCedula = new JFormattedTextField();
+		ftBuscarCedula.setBounds(67, 20, 222, 20);
+		Busquedad.add(ftBuscarCedula);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -110,4 +213,89 @@ public class ListarTrabajadores extends JDialog {
 			}
 		}
 	}
+	   private void CargarProyectos(ArrayList<Contrato> miscontratos) {
+	       	tableModelP.setRowCount(0);
+		   	DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		   	tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		   	tableProyectos.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		   	tableProyectos.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		   	tableProyectos.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		   	rowP = new Object[tableModelP.getColumnCount()];
+		   	for (Contrato p : miscontratos) {
+		   		if (p.getProyecto().getEstado().equals("En progreso")) {
+		   			rowP[0]=p.getProyecto().getNombreproyecto();
+		   			rowP[1]=p.getProyecto().getTipo();
+		   			rowP[2]=p.getProyecto().getLenguaje();
+		   			tableModelP.addRow(rowP);
+		   		}
+		   	}
+	    }
+	
+	private void loadWorkers(ArrayList<Trabajador> mistrabajadores) {
+	   	tableModelT.setRowCount(0);
+	   	DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+	   	tcr.setHorizontalAlignment(SwingConstants.CENTER);
+	   	tableTrab.getColumnModel().getColumn(0).setCellRenderer(tcr);
+	   	tableTrab.getColumnModel().getColumn(1).setCellRenderer(tcr);
+	   	tableTrab.getColumnModel().getColumn(2).setCellRenderer(tcr);
+	   	tableTrab.getColumnModel().getColumn(3).setCellRenderer(tcr);
+	   	tableTrab.getColumnModel().getColumn(4).setCellRenderer(tcr);
+	   	tableTrab.getColumnModel().getColumn(5).setCellRenderer(tcr);
+	   	rowT = new Object[tableModelT.getColumnCount()];
+	   	for (Trabajador ct : mistrabajadores) {
+	   		rowT[0]=ct.getCedula();
+	   		rowT[1]=ct.getNombre();
+	   		rowT[2]=ct.getApellido();
+	   		rowT[3]=ct.getDisp();
+	   		rowT[4]=ct.getTelefono();
+	   	    String aux = null;
+	   	    if (ct instanceof JefeDeProyecto)
+	   	    	aux = "Jefe de proyecto";
+	   	    else if (ct instanceof Planificador)
+	   	    	aux = "Planificador";
+	   	    else if (ct instanceof Programador)
+	   	    	aux = "Programador";
+	   	    else
+	   	    	aux = "Diseñador";
+	   	 rowT[5]=aux;
+	   	tableModelT.addRow(rowT);
+	   	}
+	    }
+	
+	private void buscarTrab() {
+		String cedu = ftBuscarCedula.getText().substring(0, ftBuscarCedula.getCaretPosition());
+		ArrayList<Trabajador> mistrabajadores = noBorrar();
+		ArrayList<Trabajador> selec = new ArrayList<>();
+		
+		for (Trabajador trab: mistrabajadores) {
+			String aux = getId(ftBuscarCedula.getCaretPosition(), trab);
+			if (cedu.equals(aux))
+				selec.add(trab);
+		   } 
+		
+		loadWorkers(selec);
+	}
+	
+	private ArrayList<Trabajador> noBorrar(){
+		ArrayList<Trabajador> Tnoeliminado = new ArrayList<>();
+		for (Trabajador tr: EmpresaRps.getInstance().getMistrabajadores()) {
+			if (!B.contains(tr))
+				Tnoeliminado.add(tr);
+		}
+		return Tnoeliminado;
+	}
+	private String getId(int num, Trabajador trabajador) {
+		String aux = null;
+		String aux1 = trabajador.getCedula();
+		aux = aux1.substring(0, num);
+		return aux;
+	}
+	 private boolean isWorking(Trabajador trabajador) {
+	    	boolean aux = false;
+	    	for (Contrato contr: EmpresaRps.getInstance().getMiscontratos()) {
+	    		if (contr.getProyecto().getEstado().equals("En progreso") && contr.getProyecto().getMistrabajadores().contains(trabajador))
+	    			aux = true;
+	    	}
+	    	return aux;
+	    }
 }

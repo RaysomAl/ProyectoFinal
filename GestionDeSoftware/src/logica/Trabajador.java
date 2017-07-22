@@ -19,6 +19,7 @@ public abstract class Trabajador implements Serializable{
 	protected String sexo;
 	protected float salario;
 	protected String evaluacion;
+	protected int disp=0;
 	protected float pagoHoras;
 	protected int horastrabajadas;
 	protected String telefono;
@@ -179,6 +180,16 @@ public abstract class Trabajador implements Serializable{
 	
 	public boolean isDisponible(){
 		return Disponible;
+	}
+
+
+	public int getDisp() {
+		return disp;
+	}
+
+
+	public void setDisp(int disp) {
+		this.disp = disp;
 	}
 	
 	
