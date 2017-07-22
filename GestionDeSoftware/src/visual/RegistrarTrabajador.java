@@ -599,7 +599,7 @@ public class RegistrarTrabajador extends JDialog {
 					    if(rbdJefeProyecto.isSelected()){
 					    	 int anoExp = new Integer(SpnExperienciaJefe.getValue().toString());
 					    	 trabajador = new JefeDeProyecto(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp);
-					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
+					    	 EmpresaRps.getInstance().agregarTrabajador(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
@@ -607,7 +607,7 @@ public class RegistrarTrabajador extends JDialog {
 					    else if (rbdProgramador.isSelected()) {
 					    	String lenguaje = cbxLenguajeProgramador.getSelectedItem().toString(); 
 					    	trabajador = new Programador( cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, lenguaje);
-					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
+					    	EmpresaRps.getInstance().agregarTrabajador(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
@@ -616,7 +616,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 int anoExp = new Integer(spnExperienciaPlaneador.getValue().toString());
 					    	 int cantProy = new Integer(txtCantProyecto.getText());
 					    	 trabajador = new Planificador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp,cantProy);
-					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
+					    	 EmpresaRps.getInstance().agregarTrabajador(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
@@ -626,7 +626,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 
 					    	 String herramienta = cbxHerramienta.getSelectedItem().toString();
 					    	 trabajador = new Diseñador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, herramienta);
-					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
+					    	 EmpresaRps.getInstance().agregarTrabajador(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();

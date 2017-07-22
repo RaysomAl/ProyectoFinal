@@ -1,5 +1,9 @@
 package logica;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -128,13 +132,13 @@ public class EmpresaRps implements Serializable {
 	
 	//*****************************METODO TRABAJADOR***********************************
 	public void agregarTrabajador(Trabajador trabajador){//metodo para agregar un trabajador
-		if (!mistrabajadores.contains(trabajador)) {
+		//if (!mistrabajadores.contains(trabajador)) {
 			mistrabajadores.add(trabajador);
 		System.out.println("Trabajador Agregado");	
 		}
 		/*contains  devuelve true si el arraylist mistrabajadores contiene al menos un 
 		 * elemento de trabajador*/
-	}
+	//}
 	
 	 
 	 
@@ -221,8 +225,29 @@ public class EmpresaRps implements Serializable {
 	
 	
 	
-	
-	
+	//*************************FICHERO BINARIO****************************************
+
+	/*public void guardarFicheroBinario() {
+		FileOutputStream auxFileOutputStream = null;
+		ObjectOutputStream empresaRpsObjectOutputStream = null;
+		try {
+			auxFileOutputStream = new FileOutputStream("empresaRps.dat");
+			empresaRpsObjectOutputStream = new ObjectOutputStream(auxFileOutputStream);
+			empresaRpsObjectOutputStream.writeObject(EmpresaRps.getInstance());
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		EL FICHERO ESTA COMENTADO PARA CUANDO LO QUIERAN COMENZAR A USAR, 
+		TAMBIEN ESTA COMENTADO EN LA PRINCIPAL
+		
+	}*/
+	//**********************************************************************************
 	
 
 }
