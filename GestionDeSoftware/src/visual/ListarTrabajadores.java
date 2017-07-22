@@ -206,7 +206,7 @@ public class ListarTrabajadores extends JDialog {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscarTrab();
-				
+				System.out.println("klk1");
 			}
 		});
 		btnBuscar.setBounds(314, 19, 35, 22);
@@ -278,18 +278,17 @@ public class ListarTrabajadores extends JDialog {
 	    }
 	
 	private void buscarTrab() {
-		
 		String cedu = ftBuscarCedula.getText().substring(0, ftBuscarCedula.getCaretPosition());
 		ArrayList<Trabajador> mistrabajadores = new ArrayList<>();
 		ArrayList<Trabajador> selec = new ArrayList<>();
-		
-		for (Trabajador trab: mistrabajadores) {
+		System.out.println("klk2");
+		for (Trabajador trab: EmpresaRps.getInstance().getMistrabajadores()) {
+			//System.out.println("klk3");
+			System.out.println(trab.getNombre());
 			String aux = getId(ftBuscarCedula.getCaretPosition(), trab);
 			if (cedu.equals(aux))
 				selec.add(trab);
 		   } 
-		
-		
 		cargarTrab(selec);
 	}
 	
