@@ -109,10 +109,10 @@ public class CrearContrato extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearContrato.class.getResource("/img/004-signature.png")));
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
-		//Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "","");
-		//Empresa a = new Empresa("000-00000-1", "Industria", "", "", "", "");
-		//EmpresaRps.getInstance().getMisclientes().add(c);
-		//EmpresaRps.getInstance().getMisclientes().add(a);
+		Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "","");
+		Empresa a = new Empresa("000-00000-1", "Industria", "", "", "", "");
+		EmpresaRps.getInstance().getMisclientes().add(c);
+		EmpresaRps.getInstance().getMisclientes().add(a);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -365,6 +365,7 @@ public class CrearContrato extends JDialog {
 				okButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/001-technology.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						proyec.setPrecioProyecto(Float.valueOf(txtRD.getText()));
 						Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), Float.valueOf(txtTasa.getText()), Float.valueOf(txtUS.getText()));
 						activarEmpleados(nuevoc);
 						EmpresaRps.getInstance().getMiscontratos().add(nuevoc);

@@ -46,6 +46,7 @@ import logica.Programador;
 import logica.Trabajador;
 
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -62,6 +63,7 @@ import java.io.ObjectInputStream;
 
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Paint;
 
 public class Principal extends JFrame {
 
@@ -181,6 +183,13 @@ public class Principal extends JFrame {
 		mnContratos.add(mntmCrearContratos);
 		
 		JMenuItem mntmListarContratos = new JMenuItem("Lista de Contratos");
+		mntmListarContratos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarContratos nuevoLis = new ListarContratos();
+				nuevoLis.setModal(true);
+				nuevoLis.setVisible(true);
+			}
+		});
 		mntmListarContratos.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnContratos.add(mntmListarContratos);
 		
@@ -243,43 +252,42 @@ public class Principal extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		Grafica1 = new JPanel();
-		Grafica1.setLayout(new BorderLayout());
-		Grafica1.setBounds(10, 0, 572, 304);
-		panel.add(Grafica1);
+		JPanel panelGrafica1 = new JPanel();
+		panelGrafica1.setBorder(new TitledBorder(null, "Grafica de Ganancias", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelGrafica1.setBounds(21, 11, 550, 282);
+		panel.add(panelGrafica1);
+		panelGrafica1.setLayout(null);
 		
+		Grafica1 = new JPanel();
+		Grafica1.setBounds(10, 21, 530, 250);
+		panelGrafica1.add(Grafica1);
+		Grafica1.setLayout(new BorderLayout());
+				
 		Grafica2 = new JPanel();
 		Grafica2.setBounds(582, 0, 572, 304);
 		panel.add(Grafica2);
 		
-		DefaultPieDataset data = new DefaultPieDataset();
-		data.setValue("C", 50);
-		data.setValue("c++", 150);
-		data.setValue("java", 125);
 		XYDataset dataset = dataset();
 		JFreeChart grafica = ChartFactory.createXYLineChart("Ganancias vs Pedidas", "Meses", "RD$", dataset
 				,PlotOrientation.VERTICAL,true,true,false);
 		graficaGananciaVsPerdidas(grafica);
+		grafica.setBackgroundPaint(Color.LIGHT_GRAY);
+		ChartPanel panelgrafica = new ChartPanel(grafica);//creamos un panel para la grafica
+		panelgrafica.setDomainZoomable(false);//no sera zoomeable por click izquierdo abriendo en eje x
+		panelgrafica.setRangeZoomable(false);//no sera zoomeable por click izquierdo abrindo en eje y
+		Grafica1.add(panelgrafica,BorderLayout.CENTER);//insertamos la grafica en el panel grafica 
 		
 		Grafica3 = new JPanel();
 		Grafica3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Empleados Ineficientes", TitledBorder.LEADING, TitledBorder.TOP, null, Color.LIGHT_GRAY));
-		Grafica3.setBounds(10, 304, 572, 293);
+		Grafica3.setBounds(10, 304, 561, 272);
 		panel.add(Grafica3);
 		Grafica3.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 20, 552, 261);
+		scrollPane.setBounds(10, 20, 552, 241);
 		Grafica3.add(scrollPane);
 		
 		empleados = new JList<String>();
-	//	Programador e = new Programador("031-0200031-4","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
-		//Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 3);
-		//Programador a = new Programador("031-0200031-2","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 2);
-		//JefeDeProyecto alpha = new JefeDeProyecto("031-02000031-3", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 4);
-		//EmpresaRps.getInstance().getMistrabajadores().add(e);
-		//EmpresaRps.getInstance().getMistrabajadores().add(a);
-		//EmpresaRps.getInstance().getMistrabajadores().add(z);
-		//EmpresaRps.getInstance().getMistrabajadores().add(alpha);
 		scrollPane.setViewportView(empleados);
 		empleados.setSelectionInterval(-1, -1);
 		limitarSeleccionLista(empleados, -1, -1);
@@ -315,9 +323,9 @@ public class Principal extends JFrame {
 
 	private void graficaGananciaVsPerdidas(JFreeChart grafica) {
 		XYPlot personalizacion = grafica.getXYPlot();//crear plot de una grafica, permite interactuar con fisico de grafica
-		personalizacion.setBackgroundPaint(Color.WHITE);//COLOR FONDO
-		personalizacion.setDomainGridlinePaint(Color.GRAY);//COLOR LINEAS VERTICALES
-		personalizacion.setRangeGridlinePaint(Color.BLACK);//COLOR LINEAS HORIZONTALES
+		personalizacion.setBackgroundPaint(Color.WHITE);//COLOR FONDO de grafica
+		personalizacion.setDomainGridlinePaint(Color.GRAY);//COLOR LINEAS VERTICALES grafica
+		personalizacion.setRangeGridlinePaint(Color.BLACK);//COLOR LINEAS HORIZONTALES grafica
 		String[] meses = new String[12];//String que tendra los 12 meses
 		cargarMeses(meses);//cargara los meses basado en cual estemos con relog de pc
 		SymbolAxis axis = new SymbolAxis("Meses", meses);// crea un axis para eje x con un nombre y string que formaran el eje x
@@ -333,10 +341,6 @@ public class Principal extends JFrame {
 		lineas.setBaseItemLabelsVisible(true);
 		lineas.setBaseLinesVisible(true);
 		lineas.setBaseItemLabelsVisible(true);
-		ChartPanel panelgrafica = new ChartPanel(grafica);//creamos un panel para la grafica
-		panelgrafica.setDomainZoomable(false);//no sera zoomeable por click izquierdo abriendo en eje x
-		panelgrafica.setRangeZoomable(false);//no sera zoomeable por click izquierdo abrindo en eje y
-		Grafica1.add(panelgrafica,BorderLayout.CENTER);//insertamos la grafica en el panel grafica 
 	}
 
 	private XYDataset dataset() {//creamos hoja de datos se inserta en linea 111 
@@ -365,9 +369,9 @@ public class Principal extends JFrame {
 		Contrato alpha = new Contrato("2", null, fecha, fecha, null, (float)60000, (float)0, (float)48.7);
 		alpha.setFechaSaldada(fecha2);
 		alpha.setTerminado(true);
-		EmpresaRps.getInstance().getMiscontratos().add(e);
+		/*EmpresaRps.getInstance().getMiscontratos().add(e);
 		EmpresaRps.getInstance().getMiscontratos().add(alpha);
-		EmpresaRps.getInstance().getMiscontratos().add(a);
+		EmpresaRps.getInstance().getMiscontratos().add(a);*/
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
 			if(aux.isTerminado()) {//si el contrato termino
 				if(-(Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
@@ -415,29 +419,29 @@ public class Principal extends JFrame {
 	
 	private String carString(int mes) {//retorna el mes basado en un int de 1 a 12
 			if(mes==1)
-				return "Enero";
+				return "Ene.";
 			if(mes==2)
-				return "Febrero";
+				return "Feb.";
 			if(mes==3)
-				return "Marzo";
+				return "Mar.";
 			if(mes==4)
-				return "Abril";
+				return "Abr.";
 			if(mes==5)
-				return "Mayo";
+				return "May.";
 			if(mes==6)
-				return "Junio";
+				return "Jun.";
 			if(mes==7)
-				return "Julio";
+				return "Jul.";
 			if(mes==8)
-				return "Agosto";
+				return "Ago.";
 			if(mes==9)
 				return "Sept.";
 			if(mes==10)
-				return "Octubre";
+				return "Oct.";
 			if(mes==11)
-				return "Noviem.";
+				return "Nov..";
 			if(mes==12)
-				return "Dici.";
+				return "Dic.";
 		return null;
 	}
 
@@ -446,10 +450,15 @@ public class Principal extends JFrame {
 			total.add((float) unidad);
 		}
 	}
-	private void limitarSeleccionLista(final JList lista,final int maxCounte,final int minCounte) {
+	
+	private void limitarSeleccionLista(final JList<String> lista,final int maxCounte,final int minCounte) {
 		class MySelectionModel extends DefaultListSelectionModel
 		{
-		    private JList list;
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			private JList<String> list;
 		    private int minCount;
 		    private int maxCount;
 
@@ -491,14 +500,13 @@ public class Principal extends JFrame {
 		}
 		lista.setSelectionModel(new MySelectionModel());
 		
-		
-		/*this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-          public void windowClosing( WindowEvent evt ) {
-             EmpresaRps.getInstance().guardarFicheroBinario();
-             System.exit(0); 
-          } //PARTE DEL FICHERO BINARIO
-          }); */
 	}
+	/*this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	addWindowListener(new WindowAdapter() {
+      public void windowClosing( WindowEvent evt ) {
+         EmpresaRps.getInstance().guardarFicheroBinario();
+         System.exit(0); 
+      } //PARTE DEL FICHERO BINARIO
+      }); */
 	
 }
