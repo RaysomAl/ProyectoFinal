@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -222,6 +223,63 @@ public class EmpresaRps implements Serializable {
 
 
 	//********************************************************************************
+	
+	//*************************METODOS PARA GRAFICA EL LEGUAJE MAS USADO*************************
+	
+	
+
+	private ArrayList<String> getlenguajes(){
+	    ArrayList<String> listaLen = new ArrayList<>();
+	    for (Contrato c : miscontratos) {
+		String prin= c.getProyecto().getLenguaje();
+		listaLen.add(prin);
+	    }
+	    return listaLen;
+	
+	}
+	
+	public Grafica getLenguajeMasUsado(ArrayList<String>lenguajeExist){
+	    ArrayList<String>todosLen=getlenguajes();
+	    int uso=0;
+	    int aux=0;
+	    int indexM=0;
+	    for(int i=0; i<lenguajeExist.size();i++){
+	    	uso=Collections.frequency(todosLen, lenguajeExist.get(i));
+		    if(uso>aux){
+			aux=uso;
+			indexM=i;
+		    }
+	    }
+	    String nom=lenguajeExist.get(indexM);
+	    int frecs=aux;
+	    Grafica lenguajeMasUsado=new Grafica(nom, frecs);
+	    return lenguajeMasUsado;
+	}
+	
+	public Grafica getLenguajeMenosUsado(ArrayList<String>lenguajeExist){
+	    ArrayList<String>todosLen=getlenguajes();
+	    int uso=0;
+	    int aux=50;
+	    int indexMenos=0;
+	    for(int i=0; i<lenguajeExist.size();i++){
+	    	uso=Collections.frequency(todosLen, lenguajeExist.get(i));
+		    if(uso<aux){
+			aux=uso;
+			indexMenos=i;
+		    }
+	    }
+	    String nom=lenguajeExist.get(indexMenos);
+	    int frecs=aux;
+	    Grafica lenguajemenosUsado=new Grafica(nom, frecs);
+	    return lenguajemenosUsado;
+	}
+	
+	//**********************************************************************************
+	
+	
+	
+	
+	
 	
 	
 	
