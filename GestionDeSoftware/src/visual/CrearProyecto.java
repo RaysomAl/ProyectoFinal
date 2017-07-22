@@ -112,7 +112,7 @@ public class CrearProyecto extends JDialog {
 	public CrearProyecto() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearProyecto.class.getResource("/img/projects.png")));
 		setTitle("Crear Proyecto");
-		setBounds(100, 100, 633, 453);
+		setBounds(100, 100, 650, 453);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -142,26 +142,26 @@ public class CrearProyecto extends JDialog {
 			txtCodigo = new JTextField();
 			txtCodigo.setEnabled(false);
 			txtCodigo.setText(String.valueOf(Proyecto.getCode()));
-			txtCodigo.setBounds(73, 40, 150, 23);
+			txtCodigo.setBounds(86, 40, 156, 23);
 			registrarProyecto.add(txtCodigo);
 			txtCodigo.setColumns(10);
 			
-			JLabel lblNombre_1 = new JLabel("Titulo:");
+			JLabel lblNombre_1 = new JLabel("Titulo:*");
 			lblNombre_1.setBounds(10, 100, 78, 22);
 			registrarProyecto.add(lblNombre_1);
 			
 			ftxTitulo = new JFormattedTextField(createDirr("********************"));
 			
-			ftxTitulo.setBounds(73, 100, 150, 23);
+			ftxTitulo.setBounds(86, 100, 156, 23);
 			registrarProyecto.add(ftxTitulo);
 			
-			JLabel lblLenguajeDeProgramcion = new JLabel("Lenguaje:");
+			JLabel lblLenguajeDeProgramcion = new JLabel("Lenguaje:*");
 			lblLenguajeDeProgramcion.setBounds(10, 160, 69, 22);
 			registrarProyecto.add(lblLenguajeDeProgramcion);
 			
 			cbxLeguaje = new JComboBox<String>();
 			cbxLeguaje.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>","Java","C","C++","Python","C#","Visual Basic. NET","JavaScript","PHP","Perl","Assembly language"}));
-			cbxLeguaje.setBounds(73, 160, 150, 23);
+			cbxLeguaje.setBounds(86, 160, 156, 23);
 			registrarProyecto.add(cbxLeguaje);
 			
 			JLabel lblCantidadDeTrabajadores = new JLabel("Trabajadores:");
@@ -179,18 +179,16 @@ public class CrearProyecto extends JDialog {
 			spnTrabajadores.setValue(new Integer(3));
 			((SpinnerNumberModel)spnTrabajadores.getModel()).setMaximum(6);
 			((SpinnerNumberModel)spnTrabajadores.getModel()).setMinimum(3);
-			spnTrabajadores.setBounds(100, 220, 123, 23);
-			registrarProyecto.add(spnTrabajadores);
-			spnTrabajadores.setBounds(100, 220, 123, 23);
+			spnTrabajadores.setBounds(123, 220, 119, 23);
 			registrarProyecto.add(spnTrabajadores);
 			
 			JPanel detallesTrabajadores = new JPanel();
 			detallesTrabajadores.setBorder(new TitledBorder(null, "Detalles de los trabajadores", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			detallesTrabajadores.setBounds(233, 23, 366, 326);
+			detallesTrabajadores.setBounds(252, 23, 366, 326);
 			registrarProyecto.add(detallesTrabajadores);
 			detallesTrabajadores.setLayout(null);
 			
-			JLabel lblJefeDelProyecto = new JLabel("Jefe de proyecto:");
+			JLabel lblJefeDelProyecto = new JLabel("Jefe de proyecto:*");
 			lblJefeDelProyecto.setBounds(20, 25, 128, 22);
 			detallesTrabajadores.add(lblJefeDelProyecto);
 			
@@ -214,15 +212,15 @@ public class CrearProyecto extends JDialog {
 			cbxJefe.addItem("<Seleccione>");
 			detallesTrabajadores.add(cbxJefe);
 			
-			JLabel lblProgramador = new JLabel("Programador:");
+			JLabel lblProgramador = new JLabel("Programador:*");
 			lblProgramador.setBounds(21, 65, 88, 22);
 			detallesTrabajadores.add(lblProgramador);
 			
-			JLabel lblProgramador_1 = new JLabel("Programador:");
+			JLabel lblProgramador_1 = new JLabel("Programador:*");
 			lblProgramador_1.setBounds(21, 105, 88, 22);
 			detallesTrabajadores.add(lblProgramador_1);
 			
-			JLabel lblProgramador_2 = new JLabel("Programador:");
+			JLabel lblProgramador_2 = new JLabel("Programador:*");
 			lblProgramador_2.setBounds(21, 145, 88, 22);
 			detallesTrabajadores.add(lblProgramador_2);
 			
@@ -379,16 +377,16 @@ public class CrearProyecto extends JDialog {
 			registrarProyecto.add(lblObservaciones);
 			
 			ftxObservacion = new JFormattedTextField(createDirr("********************"));
-			ftxObservacion.setBounds(100, 281, 123, 23);
+			ftxObservacion.setBounds(123, 281, 119, 23);
 			registrarProyecto.add(ftxObservacion);
-			/*Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
-			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
-			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
-			JefeDeProyecto alpha = new JefeDeProyecto("031-0000000-9", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
-			Diseñador beta = new Diseñador("031-0200031-2", "Maria", "", "", "", (float)1.1, "", (float)1.1, 1, 0, "",0, "");
-			Diseñador eclipse = new Diseñador("031-0200031-2", "Catherine", "", "", "", (float)1.1, "", (float)1.1, 1, 0, "",0, "");
-			Planificador esiplion = new Planificador("031-0200031-4", "Joule", "", "", "", (float)1.1, "", (float)1.1, 0, 0, "", 0, 0, 0);
-			Planificador ganma = new Planificador("031-0200031-4", "Alejandro", "", "", "", (float)1.1, "", (float)1.1, 0, 0, "", 0, 0, 0);
+			Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
+			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
+			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
+			JefeDeProyecto alpha = new JefeDeProyecto("031-0000000-9", "Estela", "","", "", (float)1.1, "",(float)1.1, 1,"",1,1, 1);
+			Diseñador beta = new Diseñador("031-0200031-2", "Maria", "", "", "", (float)1.1, "", (float)1.1, 1, "", 1,0, "");
+			Diseñador eclipse = new Diseñador("031-0200031-2", "Catherine", "", "", "", (float)1.1, "", (float)1.1, 1,"", 1,0, "");
+			Planificador esiplion = new Planificador("031-0200031-4", "Joule", "", "", "", (float)1.1, "", (float)1.1, 0, "", 1, 0, 0, 0);
+			Planificador ganma = new Planificador("031-0200031-4", "Alejandro", "", "", "", (float)1.1, "", (float)1.1, 0, "", 1, 0, 0, 0);
 			EmpresaRps.getInstance().getMistrabajadores().add(e);
 			EmpresaRps.getInstance().getMistrabajadores().add(a);
 			EmpresaRps.getInstance().getMistrabajadores().add(z);
@@ -396,7 +394,7 @@ public class CrearProyecto extends JDialog {
 			EmpresaRps.getInstance().getMistrabajadores().add(esiplion);
 			EmpresaRps.getInstance().getMistrabajadores().add(eclipse);
 			EmpresaRps.getInstance().getMistrabajadores().add(beta);
-			EmpresaRps.getInstance().getMistrabajadores().add(alpha);*/
+			EmpresaRps.getInstance().getMistrabajadores().add(alpha);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -420,7 +418,7 @@ public class CrearProyecto extends JDialog {
 								empleados.add(buscarTrabajador(cbxAux3,(String) cbxTipoAux3.getSelectedItem()));
 							JefeDeProyecto lider = (JefeDeProyecto) buscarTrabajador(cbxJefe, "JefeDeProyecto");
 							lider.setMisTrabajadores(empleados);
-							Proyecto nuevo = new Proyecto(ftxTitulo.getText(),(String)cbxLeguaje.getSelectedItem(),ftxObservacion.getText(),lider);
+							Proyecto nuevo = new Proyecto(limpiarEspacios(ftxTitulo.getText()),(String)cbxLeguaje.getSelectedItem(),limpiarEspacios(ftxObservacion.getText()),lider);
 							CrearContrato nuevoC = new CrearContrato(nuevo);
 							dispose();
 							nuevoC.setModal(true);
@@ -605,8 +603,23 @@ public class CrearProyecto extends JDialog {
 		if(cbxLeguaje.getSelectedIndex()==0||cbxJefe.getSelectedIndex()==0||cbxProgramador1.getSelectedIndex()==0
 				||cbxProgramador2.getSelectedIndex()==0||cbxProgramador3.getSelectedIndex()==0||
 				cbxTipoAux1.isEnabled()&&cbxAux1.getSelectedIndex()==0||cbxTipoAux2.isEnabled()&&cbxAux2.getSelectedIndex()==0
-				||cbxTipoAux3.isEnabled()&&cbxAux3.getSelectedIndex()==0)
+				||cbxTipoAux3.isEnabled()&&cbxAux3.getSelectedIndex()==0||limpiarEspacios(ftxTitulo.getText()).equalsIgnoreCase(""))
 			nitido = false;
 		return nitido;
+	}
+	
+	private String limpiarEspacios(String nombre) {//revision de espacios inecesarios, dado un string de carac alfabeticos
+		String limpio = "";
+		for (int x=0; x < nombre.length(); x++) {
+			if (nombre.charAt(x) != ' ')
+				limpio += nombre.charAt(x);
+			if(x!=0)
+				if(nombre.charAt(x) == ' ' &&nombre.charAt(x-1) != ' '&& nombre.charAt(x+1) != ' ')
+					limpio += ' ';
+			if(x==0)
+				if (nombre.charAt(x) != ' ')
+					limpio += nombre.charAt(x);
+			}
+		return limpio;
 	}
 }

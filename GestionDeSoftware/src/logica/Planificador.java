@@ -11,14 +11,6 @@ public class Planificador extends Trabajador implements Serializable{
 	private int cantProyectos;
 	private int anosExp;
 	
-	
-	
-	public Planificador() {
-		// TODO Auto-generated constructor stub
-	}
-
-
-
 	public Planificador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, String telefono,

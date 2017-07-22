@@ -10,10 +10,6 @@ public class Diseñador extends Trabajador implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String herramienta;
 	
-	
-	public Diseñador() {
-		// TODO Auto-generated constructor stub
-	}
 	//constructor
 	public Diseñador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,

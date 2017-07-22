@@ -110,7 +110,9 @@ public class CrearContrato extends JDialog {
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
 		Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "","");
+		//Empresa a = new Empresa("000-00000-1", "Industria", "", "", "", "");
 		EmpresaRps.getInstance().getMisclientes().add(c);
+		//EmpresaRps.getInstance().getMisclientes().add(a);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -195,7 +197,7 @@ public class CrearContrato extends JDialog {
 				ftxCodigo.setText(Contrato.getCode());
 			}
 			{
-				lblCliente = new JLabel("Empresa:");
+				lblCliente = new JLabel("Empresa:*");
 				lblCliente.setBounds(10, 80, 70, 22);
 				panel_1.add(lblCliente);
 			}
@@ -231,6 +233,8 @@ public class CrearContrato extends JDialog {
 					lblCedula.setVisible(false);
 					ftxCedula.setVisible(false);
 					rdbIndependiente.setSelected(false);
+					okButton.setEnabled(false);
+					txtNombre.setText("");
 				}
 			});
 			rdbEmpresa.setSelected(true);
@@ -245,6 +249,8 @@ public class CrearContrato extends JDialog {
 					lblCedula.setVisible(true);
 					ftxCedula.setVisible(true);
 					rdbEmpresa.setSelected(false);
+					okButton.setEnabled(false);
+					txtNombre.setText("");
 				}
 			});
 			rdbIndependiente.setBounds(100, 20, 119, 23);
@@ -255,9 +261,9 @@ public class CrearContrato extends JDialog {
 			panel_1.add(ftxEmpresa);
 			ftxEmpresa.setVisible(true);
 			
-			lblCedula = new JLabel("Cedula");
+			lblCedula = new JLabel("Cedula:*");
 			lblCedula.setVisible(false);
-			lblCedula.setBounds(10, 84, 46, 14);
+			lblCedula.setBounds(10, 84, 70, 14);
 			panel_1.add(lblCedula);
 			
 			txtTasa = new JTextField();
@@ -309,28 +315,42 @@ public class CrearContrato extends JDialog {
 			
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(rdbEmpresa.isSelected())
-						for (Cliente client : EmpresaRps.getInstance().getMisclientes())
-							if(client instanceof Empresa)
+					int cont = 0;
+					if(rdbEmpresa.isSelected()) {
+						for (Cliente client : EmpresaRps.getInstance().getMisclientes()) 
+							if(client instanceof Empresa) {
+								cont++;
 								if(((Empresa)client).getRnc().equalsIgnoreCase(ftxEmpresa.getText())){
 									cliente = client;
 									txtNombre.setText(cliente.getNombre());
 									okButton.setEnabled(true);
 									cargarPrecio();
 								}else{
-									JOptionPane.showMessageDialog(null, "Este empresa RNC: "+ftxEmpresa.getText()+", NO ESTA REGISTRADA", "Error",JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Este empresa RNC: "+ftxEmpresa.getText()+", NO ESTA REGISTRADA", "Error de Identicación",JOptionPane.ERROR_MESSAGE);
+									okButton.setEnabled(false);
 								}
-					if(rdbIndependiente.isSelected())
+							}
+						if(cont==0)
+						JOptionPane.showMessageDialog(null, "No hay empresas registradas", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
+					}
+					cont = 0;
+					if(rdbIndependiente.isSelected()) {
 						for (Cliente client1 : EmpresaRps.getInstance().getMisclientes())
-							if(client1 instanceof Indepediente)
+							if(client1 instanceof Indepediente) {
+								cont++;
 								if(((Indepediente)client1).getCedula().equalsIgnoreCase(ftxCedula.getText())){
 									cliente = client1;
 									txtNombre.setText(cliente.getNombre());
 									okButton.setEnabled(true);
 									cargarPrecio();
 								}else{
-									JOptionPane.showMessageDialog(null, "Este cliente ceduka: "+ftxCedula.getText()+", NO ESTA REGISTRADA", "Error",JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Este cliente cedula: "+ftxCedula.getText()+", NO ESTA REGISTRADA", "Error de Identificación",JOptionPane.ERROR_MESSAGE);
+									okButton.setEnabled(false);
 								}
+							}
+						if(cont==0)
+							JOptionPane.showMessageDialog(null, "No hay clientes registrados", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
+					}
 					
 				}
 			});

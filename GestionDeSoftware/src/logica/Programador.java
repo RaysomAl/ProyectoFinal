@@ -11,11 +11,9 @@ public class Programador extends Trabajador implements Serializable {
 	private String lenguajeProgramacion;
 	
 	
-	public Programador() {
+	/*public Programador() {
 		// TODO Auto-generated constructor stub
-	}
-	
-	// constructor
+	}*/
 
 	public Programador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
@@ -30,9 +28,6 @@ public class Programador extends Trabajador implements Serializable {
 	
 	//setters y getters
 	
-
-	
-
 	public String getLenguajeProgramacion() {
 		return lenguajeProgramacion;
 	}
@@ -40,10 +35,5 @@ public class Programador extends Trabajador implements Serializable {
 	public void setLenguajeProgramacion(String lenguajeProgramacion) {
 		this.lenguajeProgramacion = lenguajeProgramacion;
 	}
-
-
-	
-	
-	
 
 }
