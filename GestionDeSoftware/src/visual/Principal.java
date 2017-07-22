@@ -1,6 +1,8 @@
 package visual;
 
 import java.awt.BorderLayout;
+import javax.swing.UIManager;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
