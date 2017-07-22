@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="swt-datepicker-1.01.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="syntheticaSkyMetallic.jar"/>
+	<classpathentry kind="lib" path="synthetica.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

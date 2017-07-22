@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+
 import javax.swing.UIManager;
 
 import java.awt.Color;
@@ -34,6 +35,12 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+
+
+
+
+import de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel;
 import logica.Contrato;
 import logica.EmpresaRps;
 import logica.JefeDeProyecto;
@@ -47,8 +54,10 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
 
 public class Principal extends JFrame {
@@ -72,6 +81,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+				UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel");
 					Principal frame = new Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
