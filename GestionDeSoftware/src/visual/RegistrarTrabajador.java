@@ -596,7 +596,7 @@ public class RegistrarTrabajador extends JDialog {
 					    else if(buscarTrabajador(ftCedula.getText())){
 					    	JOptionPane.showMessageDialog(null,"El trabajador ya existe");
 					    }
-					     if(rbdJefeProyecto.isSelected()){
+					    else if(rbdJefeProyecto.isSelected()){
 					    	 int anoExp = new Integer(SpnExperienciaJefe.getValue().toString());
 					    	 trabajador = new JefeDeProyecto(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
@@ -604,7 +604,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
 					    }
-					    if (rbdProgramador.isSelected()) {
+					    else if (rbdProgramador.isSelected()) {
 					    	String lenguaje = cbxLenguajeProgramador.getSelectedItem().toString(); 
 					    	trabajador = new Programador( cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, lenguaje);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
@@ -612,7 +612,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
 						}
-					     if (rbdPlanificador.isSelected()) {
+					    else if (rbdPlanificador.isSelected()) {
 					    	 int anoExp = new Integer(spnExperienciaPlaneador.getValue().toString());
 					    	 int cantProy = new Integer(txtCantProyecto.getText());
 					    	 trabajador = new Planificador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp,cantProy);
@@ -622,7 +622,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 resetearCampo();
 						
 						}
-					     if(rbdDisenador.isSelected()){
+					    else {
 					    	 
 					    	 String herramienta = cbxHerramienta.getSelectedItem().toString();
 					    	 trabajador = new Diseñador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, herramienta);
