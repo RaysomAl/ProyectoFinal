@@ -601,6 +601,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 trabajador = new JefeDeProyecto(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
 					    }
 					    if (rbdProgramador.isSelected()) {
@@ -608,6 +609,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	trabajador = new Programador( cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, lenguaje);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
 						}
 					     if (rbdPlanificador.isSelected()) {
@@ -616,6 +618,7 @@ public class RegistrarTrabajador extends JDialog {
 					    	 trabajador = new Planificador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp,cantProy);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
 						
 						}
@@ -625,22 +628,11 @@ public class RegistrarTrabajador extends JDialog {
 					    	 trabajador = new Diseñador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, herramienta);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
+					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
 					    	 resetearCampo();
 						
 					    }
-					     trabajador.setCedula(ftCedula.getText());
-							/*trabajador.setNombre(txtNombres.getText());
-							trabajador.setApellido(txtApellidos.getText());
-							trabajador.setTelefono(ftTelefono.getText());
-							trabajador.setPagoHoras(Float.parseFloat(txtPago.getText()));
-							trabajador.setEdad((int) spnEdad.getValue());
-							trabajador.setSexo(cbxSexo.getSelectedItem().toString());
-							trabajador.setHorastrabajadas((int) spnHorasTrab.getValue());
-							trabajador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
-							 trabajador.setDisp(0);
-							 EmpresaRps.getInstance().agregarTrabajador(trabajador);
-							 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
-						    	resetearCampo();*/
+					     
 							 
 					}
 
