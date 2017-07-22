@@ -61,6 +61,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
 import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class Principal extends JFrame {
 
@@ -116,21 +117,28 @@ public class Principal extends JFrame {
 		setJMenuBar(menuBar);
 		
 		JMenu mnClientes = new JMenu("Clientes");
+		mnClientes.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		mnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/userClient1.png")));
 		menuBar.add(mnClientes);
 		
-		JMenuItem mntmCrearCliente = new JMenuItem("Crear");
+		JMenuItem mntmCrearCliente = new JMenuItem("Registrar Cliente");
+		mntmCrearCliente.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnClientes.add(mntmCrearCliente);
 		
-		JMenuItem mntmListarClientes = new JMenuItem("Listar");
+		JMenuItem mntmListarClientes = new JMenuItem("Lista de Clientes");
+		mntmListarClientes.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnClientes.add(mntmListarClientes);
 		
-		JMenuItem mntmModificar = new JMenuItem("MOdificar");
+		JMenuItem mntmModificar = new JMenuItem("Modificar");
+		mntmModificar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnClientes.add(mntmModificar);
 		JMenu mnTrabajadores = new JMenu("Trabajadores");
+		mnTrabajadores.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		mnTrabajadores.setIcon(new ImageIcon(Principal.class.getResource("/img/trabajador.png")));
 		menuBar.add(mnTrabajadores);
 		
 		JMenuItem mntmCrearTrabajador = new JMenuItem("Registrar trabajador");
+		mntmCrearTrabajador.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mntmCrearTrabajador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarTrabajador registrarTrabajador = new RegistrarTrabajador();
@@ -140,6 +148,7 @@ public class Principal extends JFrame {
 		mnTrabajadores.add(mntmCrearTrabajador);
 		
 		JMenuItem mntmListarTrabajadores = new JMenuItem("Lista de trabajadores");
+		mntmListarTrabajadores.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mntmListarTrabajadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarTrabajadores listarTraba;
@@ -156,9 +165,12 @@ public class Principal extends JFrame {
 		mnTrabajadores.add(mntmListarTrabajadores);
 		
 		JMenu mnContratos = new JMenu("Contratos");
+		mnContratos.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		mnContratos.setIcon(new ImageIcon(Principal.class.getResource("/img/contract.png")));
 		menuBar.add(mnContratos);
 		
-		JMenuItem mntmCrearContratos = new JMenuItem("Crear");
+		JMenuItem mntmCrearContratos = new JMenuItem("Realiza Contrato");
+		mntmCrearContratos.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mntmCrearContratos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CrearProyecto nuevoP = new CrearProyecto();
@@ -168,19 +180,25 @@ public class Principal extends JFrame {
 		});
 		mnContratos.add(mntmCrearContratos);
 		
-		JMenuItem mntmListarContratos = new JMenuItem("Listar");
+		JMenuItem mntmListarContratos = new JMenuItem("Lista de Contratos");
+		mntmListarContratos.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnContratos.add(mntmListarContratos);
 		
 		JMenuItem mntmSaldarContraro = new JMenuItem("Saldar");
+		mntmSaldarContraro.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnContratos.add(mntmSaldarContraro);
 		
 		JMenuItem mntmConsolidarExistente = new JMenuItem("Consolidar Existente");
+		mntmConsolidarExistente.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnContratos.add(mntmConsolidarExistente);
 		
 		JMenu mnAdministracion = new JMenu("Administracion");
+		mnAdministracion.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		mnAdministracion.setIcon(new ImageIcon(Principal.class.getResource("/img/admin.png")));
 		menuBar.add(mnAdministracion);
 		
 		JMenuItem mntmControlDeTasa = new JMenuItem("Control de Tasa");
+		mntmControlDeTasa.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mntmControlDeTasa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(EmpresaRps.getIntento()!=0) {
@@ -200,6 +218,7 @@ public class Principal extends JFrame {
 		mnAdministracion.add(mntmControlDeTasa);
 		
 		JMenuItem mntmCambiarcontrasea = new JMenuItem("Cambiar Contrase\u00F1a");
+		mntmCambiarcontrasea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mntmCambiarcontrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(EmpresaRps.getIntento()==0) {

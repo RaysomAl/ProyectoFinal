@@ -65,6 +65,8 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class CrearProyecto extends JDialog {
 
@@ -108,6 +110,7 @@ public class CrearProyecto extends JDialog {
 	 * Create the dialog.
 	 */
 	public CrearProyecto() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearProyecto.class.getResource("/img/projects.png")));
 		setTitle("Crear Proyecto");
 		setBounds(100, 100, 633, 453);
 		getContentPane().setLayout(new BorderLayout());
@@ -400,7 +403,8 @@ public class CrearProyecto extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Crear Contrato");
+				JButton okButton = new JButton("Realizar Contrato");
+				okButton.setIcon(new ImageIcon(CrearProyecto.class.getResource("/img/001-business-agreement.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(todoSeleccionado()){
@@ -432,6 +436,7 @@ public class CrearProyecto extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setIcon(new ImageIcon(CrearProyecto.class.getResource("/img/001-delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int opcion = JOptionPane.showConfirmDialog(null, "Desea cerra??  No sé salvará ningún Dato","Advertencia",JOptionPane.WARNING_MESSAGE);

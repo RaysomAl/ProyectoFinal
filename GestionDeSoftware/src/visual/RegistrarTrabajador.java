@@ -453,7 +453,7 @@ public class RegistrarTrabajador extends JDialog {
 		
 		jefeProyecto = new JPanel();
 		jefeProyecto.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		jefeProyecto.setBounds(10, 354, 578, 66);
+		jefeProyecto.setBounds(10, 354, 578, 64);
 		contentPanel.add(jefeProyecto);
 		jefeProyecto.setLayout(null);
 		
@@ -473,7 +473,7 @@ public class RegistrarTrabajador extends JDialog {
 		programador = new JPanel();
 		programador.setVisible(false);
 		programador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		programador.setBounds(10, 354, 578, 66);
+		programador.setBounds(10, 354, 578, 64);
 		contentPanel.add(programador);
 		programador.setLayout(null);
 		{
@@ -494,7 +494,7 @@ public class RegistrarTrabajador extends JDialog {
 			planeador = new JPanel();
 			planeador.setVisible(false);
 			planeador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			planeador.setBounds(10, 354, 578, 66);
+			planeador.setBounds(10, 354, 578, 64);
 			contentPanel.add(planeador);
 			planeador.setLayout(null);
 			
@@ -533,7 +533,7 @@ public class RegistrarTrabajador extends JDialog {
 			Disenador = new JPanel();
 			Disenador.setVisible(false);
 			Disenador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			Disenador.setBounds(10, 354, 578, 66);
+			Disenador.setBounds(10, 354, 578, 64);
 			contentPanel.add(Disenador);
 			Disenador.setLayout(null);
 			
@@ -555,7 +555,7 @@ public class RegistrarTrabajador extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
-				okButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/add.trab.png")));
+				okButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/001-technology.png")));
 				okButton.addActionListener(new ActionListener() {
 					@SuppressWarnings("null")
 					public void actionPerformed(ActionEvent e) {
@@ -644,7 +644,7 @@ public class RegistrarTrabajador extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/cancelar.trabajador.png")));
+				cancelButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/001-delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

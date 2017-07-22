@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class CambioDeTasa extends JDialog {
 
@@ -51,6 +53,7 @@ public class CambioDeTasa extends JDialog {
 	 * Create the dialog.
 	 */
 	public CambioDeTasa() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CambioDeTasa.class.getResource("/img/002-money-bag.png")));
 		setTitle("Tasa del Dolar");
 		setBounds(100, 100, 368, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -104,6 +107,7 @@ public class CambioDeTasa extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Salvar");
+				okButton.setIcon(new ImageIcon(CambioDeTasa.class.getResource("/img/001-technology.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						char[] actual = psfContraseña.getPassword();
@@ -133,6 +137,7 @@ public class CambioDeTasa extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setIcon(new ImageIcon(CambioDeTasa.class.getResource("/img/001-delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int opcion = JOptionPane.showConfirmDialog(null, "¿¿Seguro desea cerrar?? no se salvara ningun dato","Advertencia",JOptionPane.WARNING_MESSAGE);

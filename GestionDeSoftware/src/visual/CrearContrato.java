@@ -106,7 +106,7 @@ public class CrearContrato extends JDialog {
 	 */
 	public CrearContrato(Proyecto proyect) {
 		proyec = proyect;
-		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearContrato.class.getResource("/img/contrato32.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearContrato.class.getResource("/img/004-signature.png")));
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
 		Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "","");
@@ -207,8 +207,8 @@ public class CrearContrato extends JDialog {
 			}
 			
 			JButton btnNewButton = new JButton("");
-			btnNewButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/buscar.cliente.png")));
-			btnNewButton.setBounds(226, 80, 35, 22);
+			btnNewButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/003-find.png")));
+			btnNewButton.setBounds(226, 80, 31, 22);
 			panel_1.add(btnNewButton);
 			
 			txtNombre = new JTextField();
@@ -342,7 +342,7 @@ public class CrearContrato extends JDialog {
 			{
 				okButton = new JButton("Salvar Contrato");
 				okButton.setEnabled(false);
-				okButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/add.contrato.png")));
+				okButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/001-technology.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), Float.valueOf(txtTasa.getText()), Float.valueOf(txtUS.getText()));
@@ -360,7 +360,7 @@ public class CrearContrato extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/cancelar.contrato.png")));
+				cancelButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/001-delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int opcion = JOptionPane.showConfirmDialog(null, "Desea cerra??  No sé salvará ningún Dato y se borrara el Proyecto","Advertencia",JOptionPane.WARNING_MESSAGE);

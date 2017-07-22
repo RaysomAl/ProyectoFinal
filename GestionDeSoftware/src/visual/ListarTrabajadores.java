@@ -43,6 +43,7 @@ import logica.Programador;
 import logica.Trabajador;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 
 
@@ -79,7 +80,7 @@ public class ListarTrabajadores extends JDialog {
 	 * @throws ParseException 
 	 */
 	public ListarTrabajadores() throws ParseException {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarTrabajadores.class.getResource("/img/listar32.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarTrabajadores.class.getResource("/img/listPanel.png")));
 		setTitle("Lista de Trabajadores");
 		setResizable(false);
 		setBounds(100, 100,  1050, 597);
@@ -200,7 +201,8 @@ public class ListarTrabajadores extends JDialog {
 		ftBuscarCedula.setBounds(67, 21, 240, 22);
 		Busquedad.add(ftBuscarCedula);
 		
-		JButton btnBuscar = new JButton("New button");
+		JButton btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/003-find.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscarTrab();

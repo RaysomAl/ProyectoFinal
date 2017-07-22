@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class ListarContratos extends JDialog {
 
@@ -29,6 +31,7 @@ public class ListarContratos extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarContratos() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarContratos.class.getResource("/img/listPanel.png")));
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -40,12 +43,14 @@ public class ListarContratos extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setIcon(new ImageIcon(ListarContratos.class.getResource("/img/001-technology.png")));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setIcon(new ImageIcon(ListarContratos.class.getResource("/img/001-delete.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

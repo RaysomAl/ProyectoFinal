@@ -78,10 +78,10 @@ public class RegistarCliente extends JDialog {
 	 * @throws ParseException 
 	 */
 	public RegistarCliente(EmpresaRps emp,String titulo,Cliente modificar) throws ParseException {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistarCliente.class.getResource("/img/add.cliente48.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistarCliente.class.getResource("/img/ClientePanel.png")));
 		empresaRps=emp;
 		modiCliente=modificar;
-		setTitle(titulo);
+		setTitle("Registrar Cliente");
 		setBounds(100, 100, 505, 341);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -103,7 +103,7 @@ public class RegistarCliente extends JDialog {
 			panelCliente.add(lblNombre);
 			
 			lblApellido = new JLabel("Apellido :");
-			lblApellido.setBounds(220, 52, 69, 14);
+			lblApellido.setBounds(239, 52, 69, 14);
 			panelCliente.add(lblApellido);
 			
 			JLabel lblTelefono = new JLabel("Telefono :");
@@ -111,11 +111,11 @@ public class RegistarCliente extends JDialog {
 			panelCliente.add(lblTelefono);
 			
 			lblEmail = new JLabel("E-mail :");
-			lblEmail.setBounds(220, 77, 46, 14);
+			lblEmail.setBounds(239, 77, 46, 14);
 			panelCliente.add(lblEmail);
 			
 			txtEmail = new JTextField();
-			txtEmail.setBounds(282, 74, 127, 20);
+			txtEmail.setBounds(297, 74, 167, 20);
 			panelCliente.add(txtEmail);
 			txtEmail.setColumns(10);
 			
@@ -130,7 +130,7 @@ public class RegistarCliente extends JDialog {
 				
 			});
 			txtNombre.setText("");
-			txtNombre.setBounds(75, 49, 127, 20);
+			txtNombre.setBounds(75, 49, 142, 20);
 			panelCliente.add(txtNombre);
 			txtNombre.setColumns(10);
 			
@@ -144,7 +144,7 @@ public class RegistarCliente extends JDialog {
 				}
 			});
 			txtApellido.setText("");
-			txtApellido.setBounds(282, 49, 127, 20);
+			txtApellido.setBounds(297, 49, 167, 20);
 			panelCliente.add(txtApellido);
 			txtApellido.setColumns(10);
 			
@@ -155,7 +155,7 @@ public class RegistarCliente extends JDialog {
 					txtTelefono.setText("");
 				}
 			});
-			txtTelefono.setBounds(75, 74, 127, 20);
+			txtTelefono.setBounds(75, 74, 142, 20);
 			txtTelefono.setText("");
 			txtTelefono.setSelectionStart(0);
 			panelCliente.add(txtTelefono);
@@ -167,7 +167,7 @@ public class RegistarCliente extends JDialog {
 					txtCedula.setText("");
 				}
 			});
-			txtCedula.setBounds(75, 24, 127, 20);
+			txtCedula.setBounds(75, 24, 142, 20);
 			txtCedula.setText("");
 			txtCedula.setSelectionStart(0);
 			panelCliente.add(txtCedula);
@@ -196,16 +196,16 @@ public class RegistarCliente extends JDialog {
 		panelUbicacion.add(lblProvincia);
 		
 		JLabel lblCiudad = new JLabel("Ciudad :");
-		lblCiudad.setBounds(219, 28, 46, 14);
+		lblCiudad.setBounds(260, 31, 46, 14);
 		panelUbicacion.add(lblCiudad);
 		
 		lblSector = new JLabel("Sector :");
-		lblSector.setBounds(219, 56, 71, 14);
+		lblSector.setBounds(260, 59, 71, 14);
 		panelUbicacion.add(lblSector);  
 		
 		cbxProvincia = new JComboBox();
 		cbxProvincia.setModel(new DefaultComboBoxModel(new String[] {"Azua", "Bahoruco", "Barahona", "Dajab\u00F3n", "Destrito Nacional", "Duarte", "El\u00EDas Pi\u00F1a", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal", "Indenpedencia", "La Altagracia", "La Romana", "La Vega", "Mar\u00EDa Trinidad S\u00E1nchez", "Monse\u00F1or Nouel", "Montecristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Saman\u00E1", "San Crist\u00F3bal", "San Jos\u00E9 de Ocoa", "San Juan", "San Pedro de Macor\u00EDs", "S\u00E1nchez Ram\u00EDrez", "Santiago", "Santiago Rodr\u00EDguez", "Santo Domingo", "Valverde"}));
-		cbxProvincia.setBounds(75, 56, 127, 20);
+		cbxProvincia.setBounds(75, 56, 148, 20);
 		panelUbicacion.add(cbxProvincia);
 		
 		JLabel lblPais = new JLabel("Pais :");
@@ -222,7 +222,7 @@ public class RegistarCliente extends JDialog {
 			}
 		});
 		txtPais.setText("");
-		txtPais.setBounds(75, 25, 127, 20);
+		txtPais.setBounds(75, 25, 148, 20);
 		panelUbicacion.add(txtPais);
 		txtPais.setColumns(10);
 		
@@ -236,7 +236,7 @@ public class RegistarCliente extends JDialog {
 			}
 		});
 		txtCiudad.setText("");
-		txtCiudad.setBounds(282, 25, 127, 20);
+		txtCiudad.setBounds(316, 25, 148, 20);
 		panelUbicacion.add(txtCiudad);
 		txtCiudad.setColumns(10);
 		
@@ -250,7 +250,7 @@ public class RegistarCliente extends JDialog {
 			}
 		});
 		txtSector.setText("");
-		txtSector.setBounds(282, 56, 127, 20);
+		txtSector.setBounds(316, 56, 148, 20);
 		panelUbicacion.add(txtSector);
 		txtSector.setColumns(10);
 		
@@ -330,7 +330,7 @@ public class RegistarCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnRegistrar = new JButton("Registrar");
-				btnRegistrar.setIcon(new ImageIcon(RegistarCliente.class.getResource("/img/add.cliente.png")));
+				btnRegistrar.setIcon(new ImageIcon(RegistarCliente.class.getResource("/img/001-technology.png")));
 				if(modiCliente==null) {
 					btnRegistrar.setText("Registrar");
 				} else {
@@ -473,7 +473,7 @@ public class RegistarCliente extends JDialog {
 			}
 			{
 				JButton btnCancelar = new JButton("Cancelar");
-				btnCancelar.setIcon(new ImageIcon(RegistarCliente.class.getResource("/img/cancelar.cliente.png")));
+				btnCancelar.setIcon(new ImageIcon(RegistarCliente.class.getResource("/img/001-delete.png")));
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(modiCliente!=null) {

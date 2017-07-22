@@ -35,6 +35,8 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class ListarClientes extends JDialog {
 
@@ -77,7 +79,7 @@ public class ListarClientes extends JDialog {
 	 * @throws ParseException 
 	 */
 	public ListarClientes(EmpresaRps emp) throws ParseException {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarClientes.class.getResource("/img/listar32.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarClientes.class.getResource("/img/listPanel.png")));
 		empresaRps=emp;
 		
 		rdbtnEmpresa = new JRadioButton("Empresa");
@@ -99,7 +101,7 @@ public class ListarClientes extends JDialog {
 					btnEliminar.setEnabled(false);
 				}
 			});
-			panel.setBorder(new TitledBorder(null, "Clientes y Contractos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Lista de clientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
@@ -109,8 +111,8 @@ public class ListarClientes extends JDialog {
 			
 
 			
-			btnBuscar = new JButton("Buscar");
-			btnBuscar.setIcon(new ImageIcon(ListarClientes.class.getResource("/img/buscar.cliente.png")));
+			btnBuscar = new JButton("");
+			btnBuscar.setIcon(new ImageIcon(ListarClientes.class.getResource("/img/003-find.png")));
 			btnBuscar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					String inde="";
@@ -148,7 +150,7 @@ public class ListarClientes extends JDialog {
 			} else {
 				btnBuscar.setEnabled(false);
 			}
-			btnBuscar.setBounds(174, 18, 109, 23);
+			btnBuscar.setBounds(174, 18, 28, 23);
 			panel.add(btnBuscar);
 			
 			
@@ -304,7 +306,7 @@ public class ListarClientes extends JDialog {
 					
 				}
 			});
-			txtCedula.setBounds(66, 19, 98, 20);
+			txtCedula.setBounds(66, 19, 98, 22);
 			panel.add(txtCedula);
 			
 			txtRnc = new JFormattedTextField(new MaskFormatter("###-#####-#"));
@@ -344,6 +346,7 @@ public class ListarClientes extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
 			btnModificar = new JButton("Modificar");
+			btnModificar.setIcon(new ImageIcon(ListarClientes.class.getResource("/img/004-interface.png")));
 			btnModificar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
@@ -363,6 +366,7 @@ public class ListarClientes extends JDialog {
 			buttonPane.add(btnModificar);
 			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.setIcon(new ImageIcon(ListarClientes.class.getResource("/img/deleted001.png")));
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String ind="";
@@ -392,6 +396,7 @@ public class ListarClientes extends JDialog {
 			}
 			{
 				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.setIcon(new ImageIcon(ListarClientes.class.getResource("/img/001-delete.png")));
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						int opcion = JOptionPane.showConfirmDialog(null, "Desea cerra??","Advertencia",JOptionPane.WARNING_MESSAGE);

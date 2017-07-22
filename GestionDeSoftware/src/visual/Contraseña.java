@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class Contraseña extends JDialog {
 
@@ -40,6 +42,7 @@ public class Contraseña extends JDialog {
 	 * Create the dialog.
 	 */
 	public Contraseña() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Contraseña.class.getResource("/img/001-lock.png")));
 		setTitle("Cambiar Contrase\u00F1a");
 		setBounds(100, 100, 340, 245);
 		getContentPane().setLayout(new BorderLayout());
@@ -76,6 +79,7 @@ public class Contraseña extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Salvar");
+				okButton.setIcon(new ImageIcon(Contraseña.class.getResource("/img/001-technology.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						char[] actual = psfActual.getPassword();
@@ -106,6 +110,7 @@ public class Contraseña extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setIcon(new ImageIcon(Contraseña.class.getResource("/img/001-delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int opcion = JOptionPane.showConfirmDialog(null, "¿¿Seguro desea cerrar?? no se salvara ningun dato","Advertencia",JOptionPane.WARNING_MESSAGE);
