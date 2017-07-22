@@ -32,6 +32,7 @@ import org.jfree.chart.labels.XYItemLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -41,6 +42,7 @@ import de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel;
 
 import logica.Contrato;
 import logica.EmpresaRps;
+import logica.Grafica;
 import logica.JefeDeProyecto;
 import logica.Programador;
 import logica.Trabajador;
@@ -62,8 +64,10 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
 import javax.swing.ImageIcon;
+
 import java.awt.Font;
 import java.awt.Paint;
+import javax.swing.border.EtchedBorder;
 
 public class Principal extends JFrame {
 
@@ -74,11 +78,11 @@ public class Principal extends JFrame {
 	private JPanel contentPane;
 	private Dimension dim;
 	private JPanel Grafica1;
-	private JPanel Grafica2;
+	private JPanel GraficaLenguaje;
 	private JPanel Grafica3;
 	private JPanel Grafica4;
 	private JList<String> empleados;
-	
+	DefaultCategoryDataset datosLen = new DefaultCategoryDataset();
 	/**
 	 * Launch the application.
 	 */
@@ -130,10 +134,6 @@ public class Principal extends JFrame {
 		JMenuItem mntmListarClientes = new JMenuItem("Lista de Clientes");
 		mntmListarClientes.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnClientes.add(mntmListarClientes);
-		
-		JMenuItem mntmModificar = new JMenuItem("Modificar");
-		mntmModificar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnClientes.add(mntmModificar);
 		JMenu mnTrabajadores = new JMenu("Trabajadores");
 		mnTrabajadores.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		mnTrabajadores.setIcon(new ImageIcon(Principal.class.getResource("/img/trabajador.png")));
@@ -253,7 +253,7 @@ public class Principal extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel panelGrafica1 = new JPanel();
-		panelGrafica1.setBorder(new TitledBorder(null, "Grafica de Ganancias", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelGrafica1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panelGrafica1.setBounds(21, 11, 550, 282);
 		panel.add(panelGrafica1);
 		panelGrafica1.setLayout(null);
@@ -263,9 +263,45 @@ public class Principal extends JFrame {
 		panelGrafica1.add(Grafica1);
 		Grafica1.setLayout(new BorderLayout());
 				
-		Grafica2 = new JPanel();
-		Grafica2.setBounds(582, 0, 572, 304);
-		panel.add(Grafica2);
+		GraficaLenguaje = new JPanel();
+		GraficaLenguaje.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		GraficaLenguaje.setBounds(582, 0, 572, 304);
+		panel.add(GraficaLenguaje);
+		GraficaLenguaje.setLayout(null);
+		
+		
+		
+		
+		ArrayList<String> lenguajes = new ArrayList<>();
+		lenguajes.add("Java");
+		lenguajes.add("C#");
+		lenguajes.add("Visual Basic");
+		lenguajes.add("C++");
+		lenguajes.add("Objective C");
+		lenguajes.add("Swift");
+		lenguajes.add("HTML & CSS");
+		lenguajes.add("PHP");
+		lenguajes.add("JavaScript");
+		lenguajes.add("Java");
+		Grafica masUsado =EmpresaRps.getInstance().getMasUsado(lenguajes);
+		Grafica menosUsado =EmpresaRps.getInstance().getMenosUsado(lenguajes);
+		datosLen.addValue(masUsado.getFrec(),"Más Usado",masUsado.getTipo());
+		datosLen.addValue(menosUsado.getFrec(),"Menos Usado", menosUsado.getTipo());
+		JFreeChart graficaLen = ChartFactory.createBarChart3D("Lenguaje mas usado Vs Lenguaje menos usado", "Lenguaje", "Cantidad de Contratos", datosLen, PlotOrientation.VERTICAL, true, true, false);
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelLenguaje = new JPanel();
+		panelLenguaje.setBounds(10, 11, 552, 282);
+		GraficaLenguaje.add(panelLenguaje);
+		panelLenguaje.setLayout(new BorderLayout(0, 0));
+		
+		JPanel gLenguaje = new ChartPanel(graficaLen);
+		panelLenguaje.add(gLenguaje, BorderLayout.CENTER);
 		
 		XYDataset dataset = dataset();
 		JFreeChart grafica = ChartFactory.createXYLineChart("Ganancias vs Pedidas", "Meses", "RD$", dataset
@@ -501,12 +537,4 @@ public class Principal extends JFrame {
 		lista.setSelectionModel(new MySelectionModel());
 		
 	}
-	/*this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	addWindowListener(new WindowAdapter() {
-      public void windowClosing( WindowEvent evt ) {
-         EmpresaRps.getInstance().guardarFicheroBinario();
-         System.exit(0); 
-      } //PARTE DEL FICHERO BINARIO
-      }); */
-	
 }

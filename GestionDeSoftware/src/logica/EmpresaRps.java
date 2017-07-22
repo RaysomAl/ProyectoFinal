@@ -238,7 +238,7 @@ public class EmpresaRps implements Serializable {
 	
 	}
 	
-	public Grafica getLenguajeMasUsado(ArrayList<String>lenguajeExist){
+	public Grafica getMasUsado(ArrayList<String>lenguajeExist){
 	    ArrayList<String>todosLen=getlenguajes();
 	    int uso=0;
 	    int aux=0;
@@ -256,7 +256,7 @@ public class EmpresaRps implements Serializable {
 	    return lenguajeMasUsado;
 	}
 	
-	public Grafica getLenguajeMenosUsado(ArrayList<String>lenguajeExist){
+	public Grafica getMenosUsado(ArrayList<String>lenguajeExist){
 	    ArrayList<String>todosLen=getlenguajes();
 	    int uso=0;
 	    int aux=50;
