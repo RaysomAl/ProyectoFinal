@@ -183,11 +183,20 @@ public class ListarTrabajadores extends JDialog {
 		JLabel lbcedula = new JLabel("C\u00E9dula:");
 		lbcedula.setBounds(10, 23, 59, 14);
 		Busquedad.add(lbcedula);
-        MaskFormatter fomato = new MaskFormatter("###-#######-#");
 		
-        ftBuscarCedula = new JFormattedTextField(fomato);
+		MaskFormatter cedulaL = null;
+	
+		try {
+			cedulaL = new MaskFormatter("###-#######-#");
+			cedulaL.setPlaceholderCharacter('_');
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
         
-		JFormattedTextField ftBuscarCedula = new JFormattedTextField();
+        
+	    ftBuscarCedula = new JFormattedTextField(cedulaL);
 		ftBuscarCedula.setBounds(67, 21, 240, 22);
 		Busquedad.add(ftBuscarCedula);
 		
