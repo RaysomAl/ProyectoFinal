@@ -87,6 +87,7 @@ public class CrearContrato extends JDialog {
 	private JTextField txtObs;
 	private JTextField txtTasa;
 	private static Proyecto proyec;
+	private int inecesario;
 	
 	/** * Launch the application.
 	 
