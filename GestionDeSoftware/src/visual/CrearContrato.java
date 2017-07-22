@@ -35,6 +35,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SpinnerDateModel;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.Calendar;
 
 import javax.swing.JComboBox;
@@ -46,10 +47,28 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.beans.VetoableChangeListener;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 
 public class CrearContrato extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	private JButton okButton;
 	private JTextField txtNombre;
 	private JTextField txtProyecto;
 	private JTextField txtLenguaje;
@@ -64,9 +83,10 @@ public class CrearContrato extends JDialog {
 	private JRadioButton rdbEmpresa;
 	private JDateChooser dtcNow;
 	private JDateChooser dtcFinal;
-	private JSpinner spnTasa;
 	private static Cliente cliente;
 	private JTextField txtObs;
+	private JTextField txtTasa;
+	private static Proyecto proyec;
 	
 	/** * Launch the application.
 	 
@@ -85,11 +105,12 @@ public class CrearContrato extends JDialog {
 	 * @param nuevo 
 	 */
 	public CrearContrato(Proyecto proyect) {
+		proyec = proyect;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearContrato.class.getResource("/img/contrato32.png")));
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
-		/*Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "");
-		EmpresaRps.getInstance().getMisclientes().add(c);*/
+		Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "","");
+		EmpresaRps.getInstance().getMisclientes().add(c);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -113,8 +134,8 @@ public class CrearContrato extends JDialog {
 			panel.add(lblNewLabel_3);
 			
 			txtProyecto = new JTextField();
+			txtProyecto.setEditable(false);
 			txtProyecto.setText(proyect.getNombreproyecto());
-			txtProyecto.setEnabled(false);
 			txtProyecto.setBounds(89, 214, 150, 23);
 			panel.add(txtProyecto);
 			txtProyecto.setColumns(10);
@@ -124,8 +145,8 @@ public class CrearContrato extends JDialog {
 			panel.add(lblLenguaje);
 			
 			txtLenguaje = new JTextField();
+			txtLenguaje.setEditable(false);
 			txtLenguaje.setText(proyect.getLenguaje());
-			txtLenguaje.setEnabled(false);
 			txtLenguaje.setBounds(89, 264, 150, 23);
 			panel.add(txtLenguaje);
 			txtLenguaje.setColumns(10);
@@ -134,29 +155,23 @@ public class CrearContrato extends JDialog {
 			lblTasa.setBounds(270, 264, 46, 22);
 			panel.add(lblTasa);
 			
-			spnTasa = new JSpinner();
-			spnTasa.setBounds(347, 264, 150, 23);
-			spnTasa.setModel(new SpinnerNumberModel(new Float(48), new Float(34), new Float(65), new Float(1)));
-			panel.add(spnTasa);
-			
 			JLabel lblPrecioRd = new JLabel("Precio RD$:");
 			lblPrecioRd.setBounds(10, 314, 81, 22);
 			panel.add(lblPrecioRd);
 			
 			txtRD = new JTextField();
+			txtRD.setEditable(false);
 			txtRD.setText("0");
-			txtRD.setEnabled(false);
 			txtRD.setBounds(89, 314, 150, 23);
 			panel.add(txtRD);
 			txtRD.setColumns(10);
-			
 			JLabel lblPrecioUs = new JLabel("Precio US$:");
 			lblPrecioUs.setBounds(270, 314, 110, 22);
 			panel.add(lblPrecioUs);
 			
 			txtUS = new JTextField();
+			txtUS.setEditable(false);
 			txtUS.setText("0");
-			txtUS.setEnabled(false);
 			txtUS.setBounds(347, 314, 150, 23);
 			panel.add(txtUS);
 			txtUS.setColumns(10);
@@ -174,10 +189,10 @@ public class CrearContrato extends JDialog {
 			}
 			{
 				ftxCodigo = new JFormattedTextField();
+				ftxCodigo.setEditable(false);
 				ftxCodigo.setBounds(78, 30, 138, 23);
 				panel_1.add(ftxCodigo);
 				ftxCodigo.setText(Contrato.getCode());
-				ftxCodigo.setEnabled(false);
 			}
 			{
 				lblCliente = new JLabel("Empresa:");
@@ -245,19 +260,40 @@ public class CrearContrato extends JDialog {
 			lblCedula.setBounds(10, 84, 46, 14);
 			panel_1.add(lblCedula);
 			
+			txtTasa = new JTextField();
+			txtTasa.setEditable(false);
+			txtTasa.setBounds(347, 265, 150, 20);
+			txtTasa.setText(String.valueOf(EmpresaRps.getTasaDolar()));
+			panel.add(txtTasa);
+			txtTasa.setColumns(10);
+			
 			dtcNow = new JDateChooser();
 			Calendar now = Calendar.getInstance();
 			dtcNow.setCalendar(now);
+			dtcNow.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					Calendar aux = dtcNow.getCalendar();
+					dtcFinal.setMinSelectableDate(aux.getTime());
+					aux.add(Calendar.MONTH, 1);
+					dtcFinal.setCalendar(aux);
+					cargarPrecio();
+				}
+			});
+			dtcNow.setMinSelectableDate(now.getTime());
 			dtcNow.setBounds(89, 164, 150, 23);
 			panel.add(dtcNow);
 			
 			dtcFinal = new JDateChooser();
+			dtcFinal.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					cargarPrecio();
+				}
+			});
 			dtcFinal.setBounds(347, 164, 150, 23);
-			now.add(Calendar.DAY_OF_MONTH, 1);
-			dtcFinal.setMinSelectableDate(now.getTime());
-			now.add(Calendar.DAY_OF_MONTH, -1);
-			now.add(Calendar.MONTH, 1);
-			dtcFinal.setCalendar(now);
+			Calendar aux = dtcNow.getCalendar();
+			dtcFinal.setMinSelectableDate(aux.getTime());
+			aux.add(Calendar.MONTH, 1);
+			dtcFinal.setCalendar(aux);
 			panel.add(dtcFinal);
 			
 			JLabel lblObs = new JLabel("Obs.:");
@@ -270,6 +306,7 @@ public class CrearContrato extends JDialog {
 			txtObs.setBounds(347, 214, 150, 23);
 			panel.add(txtObs);
 			txtObs.setColumns(10);
+			
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(rdbEmpresa.isSelected())
@@ -278,6 +315,8 @@ public class CrearContrato extends JDialog {
 								if(((Empresa)client).getRnc().equalsIgnoreCase(ftxEmpresa.getText())){
 									cliente = client;
 									txtNombre.setText(cliente.getNombre());
+									okButton.setEnabled(true);
+									cargarPrecio();
 								}else{
 									JOptionPane.showMessageDialog(null, "Este empresa RNC: "+ftxEmpresa.getText()+", NO ESTA REGISTRADA", "Error",JOptionPane.ERROR_MESSAGE);
 								}
@@ -287,6 +326,8 @@ public class CrearContrato extends JDialog {
 								if(((Indepediente)client1).getCedula().equalsIgnoreCase(ftxCedula.getText())){
 									cliente = client1;
 									txtNombre.setText(cliente.getNombre());
+									okButton.setEnabled(true);
+									cargarPrecio();
 								}else{
 									JOptionPane.showMessageDialog(null, "Este cliente ceduka: "+ftxCedula.getText()+", NO ESTA REGISTRADA", "Error",JOptionPane.ERROR_MESSAGE);
 								}
@@ -299,11 +340,12 @@ public class CrearContrato extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Salvar Contrato");
+				okButton = new JButton("Salvar Contrato");
+				okButton.setEnabled(false);
 				okButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/add.contrato.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), (float) spnTasa.getValue(), Float.valueOf(txtUS.getText()));
+						Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), Float.valueOf(txtTasa.getText()), Float.valueOf(txtUS.getText()));
 						activarEmpleados(nuevoc);
 						EmpresaRps.getInstance().getMiscontratos().add(nuevoc);
 						EmpresaRps.getInstance().getMisproyectos().add(proyect);
@@ -331,6 +373,27 @@ public class CrearContrato extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	private void cargarPrecio() {
+		long duracion  = dtcFinal.getCalendar().getTime().getTime()-dtcNow.getCalendar().getTime().getTime();
+		long diffdedias = TimeUnit.MILLISECONDS.toDays(duracion);
+		long diff = duracion - TimeUnit.DAYS.toMillis(diffdedias);
+		double diffdeHoras = TimeUnit.MILLISECONDS.toHours(diff);
+		float horasAdias = (float) (diffdeHoras/24.0);
+		float a = horasAdias + diffdedias;
+		a=(float) Math.floor(a);
+		float precio = (float) Math.floor((a * precioTrabajador())*1.15);
+		txtRD.setText(String.valueOf(precio));
+		txtUS.setText(String.valueOf(Math.floor((precio/Float.valueOf(txtTasa.getText())))));
+		
+		
+	}
+	private float precioTrabajador() {
+		float precio = 0;
+		for (Trabajador worker : proyec.getJefe().getMisTrabajadores()) {
+			precio =+ worker.getSalario()*8;
+		}
+		return precio;
 	}
 	static MaskFormatter createFormatter(String format) {//validador numeros X un formato dado
 		MaskFormatter mask = null;

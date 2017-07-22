@@ -1,5 +1,6 @@
 package visual;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -18,8 +19,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
+import javax.management.RuntimeErrorException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
@@ -35,7 +38,33 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.BorderUIResource.EmptyBorderUIResource;
 import javax.swing.text.MaskFormatter;
+
+import com.sun.glass.ui.Pixels;
+import com.sun.glass.ui.Robot;
+
 import javax.swing.event.PopupMenuEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import java.beans.VetoableChangeListener;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class CrearProyecto extends JDialog {
 
@@ -58,7 +87,8 @@ public class CrearProyecto extends JDialog {
 	private JComboBox<String> cbxAux3;
 	private JComboBox<String> cbxTipoAux1;
 	private JComboBox<String> cbxTipoAux2; 
-	private JComboBox<String>cbxTipoAux3;
+	private JComboBox<String> cbxTipoAux3;
+	private int aux =0;
 	
 	
 	/**
@@ -79,7 +109,7 @@ public class CrearProyecto extends JDialog {
 	 */
 	public CrearProyecto() {
 		setTitle("Crear Proyecto");
-		setBounds(100, 100, 561, 453);
+		setBounds(100, 100, 633, 453);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -90,8 +120,15 @@ public class CrearProyecto extends JDialog {
 			panel.setLayout(null);
 			
 			JPanel registrarProyecto = new JPanel();
+			registrarProyecto.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					spnTrabajadores.setEnabled(true);
+				}
+			});
+			registrarProyecto.setRequestFocusEnabled(false);
 			registrarProyecto.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Registrar Proyecto", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			registrarProyecto.setBounds(0, 0, 537, 360);
+			registrarProyecto.setBounds(0, 0, 607, 360);
 			panel.add(registrarProyecto);
 			registrarProyecto.setLayout(null);
 			
@@ -111,6 +148,7 @@ public class CrearProyecto extends JDialog {
 			registrarProyecto.add(lblNombre_1);
 			
 			ftxTitulo = new JFormattedTextField(createDirr("********************"));
+			
 			ftxTitulo.setBounds(73, 100, 150, 23);
 			registrarProyecto.add(ftxTitulo);
 			
@@ -133,13 +171,19 @@ public class CrearProyecto extends JDialog {
 					cargarcbxAux();
 				}
 			});
-			spnTrabajadores.setModel(new SpinnerNumberModel(3, 3, 6, 1));
+			JFormattedTextField tf = ((JSpinner.DefaultEditor)spnTrabajadores.getEditor()).getTextField();
+			tf.setEditable(false);
+			spnTrabajadores.setValue(new Integer(3));
+			((SpinnerNumberModel)spnTrabajadores.getModel()).setMaximum(6);
+			((SpinnerNumberModel)spnTrabajadores.getModel()).setMinimum(3);
+			spnTrabajadores.setBounds(100, 220, 123, 23);
+			registrarProyecto.add(spnTrabajadores);
 			spnTrabajadores.setBounds(100, 220, 123, 23);
 			registrarProyecto.add(spnTrabajadores);
 			
 			JPanel detallesTrabajadores = new JPanel();
 			detallesTrabajadores.setBorder(new TitledBorder(null, "Detalles de los trabajadores", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			detallesTrabajadores.setBounds(233, 23, 294, 326);
+			detallesTrabajadores.setBounds(233, 23, 366, 326);
 			registrarProyecto.add(detallesTrabajadores);
 			detallesTrabajadores.setLayout(null);
 			
@@ -159,11 +203,11 @@ public class CrearProyecto extends JDialog {
 					for (Trabajador trabajador : EmpresaRps.getInstance().getMistrabajadores()) {
 						if(trabajador instanceof JefeDeProyecto)
 							if(trabajador.isDisponible())
-								cbxJefe.addItem(trabajador.getNombre());
+								cbxJefe.addItem(trabajador.getCedula()+"("+trabajador.getNombre()+")");
 					}
 				}
 			});
-			cbxJefe.setBounds(139, 25, 145, 22);
+			cbxJefe.setBounds(139, 25, 216, 22);
 			cbxJefe.addItem("<Seleccione>");
 			detallesTrabajadores.add(cbxJefe);
 			
@@ -190,7 +234,7 @@ public class CrearProyecto extends JDialog {
 				}
 			});
 			cbxProgramador1.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
-			cbxProgramador1.setBounds(139, 65, 145, 22);
+			cbxProgramador1.setBounds(139, 65, 216, 22);
 			detallesTrabajadores.add(cbxProgramador1);
 			
 			cbxProgramador2 = new JComboBox<String>();
@@ -204,7 +248,7 @@ public class CrearProyecto extends JDialog {
 				}
 			});
 			cbxProgramador2.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
-			cbxProgramador2.setBounds(139, 105, 145, 22);
+			cbxProgramador2.setBounds(139, 105, 216, 22);
 			detallesTrabajadores.add(cbxProgramador2);
 			
 			cbxProgramador3 = new JComboBox<String>();
@@ -218,7 +262,7 @@ public class CrearProyecto extends JDialog {
 				}
 			});
 			cbxProgramador3.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
-			cbxProgramador3.setBounds(139, 145, 145, 22);
+			cbxProgramador3.setBounds(139, 145, 216, 22);
 			detallesTrabajadores.add(cbxProgramador3);
 			
 			cbxAux1 = new JComboBox<String>();
@@ -233,7 +277,7 @@ public class CrearProyecto extends JDialog {
 			});
 			cbxAux1.setEnabled(false);
 			cbxAux1.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
-			cbxAux1.setBounds(139, 185, 145, 22);
+			cbxAux1.setBounds(139, 185, 216, 22);
 			detallesTrabajadores.add(cbxAux1);
 			
 			cbxAux2 = new JComboBox<String>();
@@ -248,7 +292,7 @@ public class CrearProyecto extends JDialog {
 			});
 			cbxAux2.setEnabled(false);
 			cbxAux2.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
-			cbxAux2.setBounds(139, 230, 145, 22);
+			cbxAux2.setBounds(139, 230, 216, 22);
 			detallesTrabajadores.add(cbxAux2);
 			
 			cbxAux3 = new JComboBox<String>();
@@ -263,7 +307,7 @@ public class CrearProyecto extends JDialog {
 			});
 			cbxAux3.setEnabled(false);
 			cbxAux3.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
-			cbxAux3.setBounds(139, 275, 145, 22);
+			cbxAux3.setBounds(139, 275, 216, 22);
 			detallesTrabajadores.add(cbxAux3);
 			
 			cbxTipoAux1 = new JComboBox<String>();
@@ -337,10 +381,18 @@ public class CrearProyecto extends JDialog {
 			Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
 			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
 			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
-			JefeDeProyecto alpha = new JefeDeProyecto("", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
+			JefeDeProyecto alpha = new JefeDeProyecto("031-0000000-9", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 1);
+			Diseñador beta = new Diseñador("031-0200031-2", "Maria", "", "", "", (float)1.1, "", (float)1.1, 1, 0, "",0, "");
+			Diseñador eclipse = new Diseñador("031-0200031-2", "Catherine", "", "", "", (float)1.1, "", (float)1.1, 1, 0, "",0, "");
+			Planificador esiplion = new Planificador("031-0200031-4", "Joule", "", "", "", (float)1.1, "", (float)1.1, 0, 0, "", 0, 0, 0);
+			Planificador ganma = new Planificador("031-0200031-4", "Alejandro", "", "", "", (float)1.1, "", (float)1.1, 0, 0, "", 0, 0, 0);
 			EmpresaRps.getInstance().getMistrabajadores().add(e);
 			EmpresaRps.getInstance().getMistrabajadores().add(a);
 			EmpresaRps.getInstance().getMistrabajadores().add(z);
+			EmpresaRps.getInstance().getMistrabajadores().add(ganma);
+			EmpresaRps.getInstance().getMistrabajadores().add(esiplion);
+			EmpresaRps.getInstance().getMistrabajadores().add(eclipse);
+			EmpresaRps.getInstance().getMistrabajadores().add(beta);
 			EmpresaRps.getInstance().getMistrabajadores().add(alpha);
 		}
 		{
@@ -393,7 +445,8 @@ public class CrearProyecto extends JDialog {
 			}
 		}
 	}
-	
+		
+
 	static MaskFormatter createDirr(String format) {/*hace que un string de X tamaño permita solo lo 
 		caracteres de setValidChatacters*/
 		/*(ARGUMENTO)recibe un String llenado con '*' , hasta donde llegen los '*' sera su tamaño maximo*/
@@ -434,65 +487,90 @@ public class CrearProyecto extends JDialog {
 	private void estadisponible(Trabajador trabajador, JComboBox<String> cbx, String trabajo) {
 		//busca un si un trabajador esta disponible o esta en otro cbx para poder usarlo en este proyecto 
 		//y lo carga al combobox argumento
-		if(trabajo.equalsIgnoreCase(Programador.class.getSimpleName()))
+		String ID = trabajador.getCedula()+"("+trabajador.getNombre()+")";
+		if(trabajo.equalsIgnoreCase(Programador.class.getSimpleName())) {
 			if(trabajador.isDisponible())
-				if(!trabajador.getNombre().equalsIgnoreCase((String)(cbxProgramador1.getSelectedItem())) && 
-						!trabajador.getNombre().equalsIgnoreCase((String)(cbxProgramador2.getSelectedItem())) && 
-						!trabajador.getNombre().equalsIgnoreCase((String)(cbxProgramador3.getSelectedItem()))){
+				if(!ID.equalsIgnoreCase((String)(cbxProgramador1.getSelectedItem())) && 
+						!ID.equalsIgnoreCase((String)(cbxProgramador2.getSelectedItem())) && 
+						!ID.equalsIgnoreCase((String)(cbxProgramador3.getSelectedItem()))){
 					if(trabajo.equalsIgnoreCase((String)cbxTipoAux1.getSelectedItem()))
-						if(trabajador.getNombre().equalsIgnoreCase((String)(cbxAux1.getSelectedItem())))
+						if(ID.equalsIgnoreCase((String)(cbxAux1.getSelectedItem())))
 							return ;
 					if(trabajo.equalsIgnoreCase((String)cbxTipoAux2.getSelectedItem()))
-						if(trabajador.getNombre().equalsIgnoreCase((String)(cbxAux2.getSelectedItem())))
+						if(ID.equalsIgnoreCase((String)(cbxAux2.getSelectedItem())))
 							return ;
 					if(trabajo.equalsIgnoreCase((String)cbxTipoAux3.getSelectedItem()))
-						if(trabajador.getNombre().equalsIgnoreCase((String)(cbxAux3.getSelectedItem())))
+						if(ID.equalsIgnoreCase((String)(cbxAux3.getSelectedItem())))
 							return ;
-					cbx.addItem(/*trabajador.getCedula()+"("+*/trabajador.getNombre()/*+")"*/);
+					cbx.addItem(trabajador.getCedula()+"("+trabajador.getNombre()+")");
 				}
+		}else {
+			if(trabajador.isDisponible()){
+				if(trabajo.equalsIgnoreCase((String)cbxTipoAux1.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String)(cbxAux1.getSelectedItem())))
+						return ;
+				if(trabajo.equalsIgnoreCase((String)cbxTipoAux2.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String)(cbxAux2.getSelectedItem())))
+						return ;
+				if(trabajo.equalsIgnoreCase((String)cbxTipoAux3.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String)(cbxAux3.getSelectedItem())))
+						return ;
+				cbx.addItem(trabajador.getCedula()+"("+trabajador.getNombre()+")");
+			}
+		}
 	}
 
 	private void cargarcbxAux() {//le da un enable o disable a los cbx auxiliares usando el spinner
 		int index = (int) spnTrabajadores.getValue();
-		activar(true,index);
+		activar(true,index,aux);
+		aux++;
 	}
 
-	private void activar(boolean b, int i) {/*Funcion que recibe una booleana y activa cbx basado en 
+	private void activar(boolean b, int i,int aux) {/*Funcion que recibe una booleana y activa cbx basado en 
 		el numero de spnTrabajadores*/
-		if(i==3){
-			cbxTipoAux1.setEnabled(!b);
-		}
-		if(i>=4){
+		if(aux>2 )
+			if(i == 3 && aux !=0){
+				cbxTipoAux1.setEnabled(!b);
+				cbxTipoAux1.setSelectedIndex(0);
+				cbxAux1.setEnabled(!b);
+			}
+		if(i==4){
 			cbxTipoAux1.setEnabled(b);
 			cbxTipoAux2.setEnabled(!b);
 			cbxTipoAux3.setEnabled(!b);
+			cbxTipoAux2.setSelectedIndex(0);
+			cbxAux2.setEnabled(!b);
+			cbxAux2.setSelectedItem(0);
 		}
-		if(i>=5){
+		if(i==5){
 			cbxTipoAux2.setEnabled(b);
 			cbxTipoAux3.setEnabled(!b);
+			cbxTipoAux3.setSelectedIndex(0);
+			cbxAux3.setEnabled(!b);
+			cbxAux3.setSelectedItem(0);
 		}
-		if(i>=6)
+		if(i==6) 
 			cbxTipoAux3.setEnabled(b);
-		
 	}
 	
 	private Trabajador buscarTrabajador(JComboBox<String> cbxProgramador1, String string) {
 		for (Trabajador worker : EmpresaRps.getInstance().getMistrabajadores()) {
+			String ID = worker.getCedula()+"("+worker.getNombre()+")";
 			if(string.equalsIgnoreCase(JefeDeProyecto.class.getSimpleName()))
 				if(worker instanceof JefeDeProyecto)
-					if(worker.getNombre().equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
 						return worker;
 			if(string.equalsIgnoreCase(Programador.class.getSimpleName()))
 				if(worker instanceof Programador)
-					if(worker.getNombre().equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
 						return worker;
 			if(string.equalsIgnoreCase(Planificador.class.getSimpleName()))
 				if(worker instanceof Planificador)
-					if(worker.getNombre().equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
 						return worker;
 			if(string.equalsIgnoreCase(Diseñador.class.getSimpleName()))
 				if(worker instanceof Diseñador)
-					if(worker.getNombre().equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
+					if(ID.equalsIgnoreCase((String) cbxProgramador1.getSelectedItem()))
 						return worker;
 		}
 		return null;
