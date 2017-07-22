@@ -49,6 +49,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class Principal extends JFrame {
 
@@ -106,12 +107,13 @@ public class Principal extends JFrame {
 		JMenuItem mntmModificar = new JMenuItem("MOdificar");
 		mnClientes.add(mntmModificar);
 		JMenu mnTrabajadores = new JMenu("Trabajadores");
+		mnTrabajadores.setIcon(new ImageIcon(Principal.class.getResource("/img/trabajador.png")));
 		menuBar.add(mnTrabajadores);
 		
-		JMenuItem mntmCrearTrabajador = new JMenuItem("Crear");
+		JMenuItem mntmCrearTrabajador = new JMenuItem("Registrar trabajador");
 		mnTrabajadores.add(mntmCrearTrabajador);
 		
-		JMenuItem mntmListarTrabajadores = new JMenuItem("Listar");
+		JMenuItem mntmListarTrabajadores = new JMenuItem("Lista de trabajadores");
 		mnTrabajadores.add(mntmListarTrabajadores);
 		
 		JMenu mnContratos = new JMenu("Contratos");
