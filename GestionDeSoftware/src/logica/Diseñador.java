@@ -15,18 +15,20 @@ public class Diseñador extends Trabajador implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	//constructor
-
 	public Diseñador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
-			float pagoHoras, int horastrabajadas, int disponible,
-			String telefono, int eficiencia,String herramienta) {
+			float pagoHoras, int horastrabajadas, String telefono,
+			int eficiencia, int edad) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
-				pagoHoras, horastrabajadas, telefono, eficiencia);
+				pagoHoras, horastrabajadas, telefono, eficiencia, edad);
 		this.herramienta=herramienta;
-		
 		// TODO Auto-generated constructor stub
 	}
+
 	//setters y gettes
+
+
+
 
 	public String getHerramienta() {
 		return herramienta;

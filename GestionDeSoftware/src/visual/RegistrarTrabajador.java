@@ -557,14 +557,15 @@ public class RegistrarTrabajador extends JDialog {
 				JButton okButton = new JButton("Registrar");
 				okButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/add.trab.png")));
 				okButton.addActionListener(new ActionListener() {
+					@SuppressWarnings("null")
 					public void actionPerformed(ActionEvent e) {
 						
-						JefeDeProyecto jefeDeProyecto = null;
-						Programador programador =null;
-						Planificador planificador= null;
-						Diseñador disenador = null;
+						//JefeDeProyecto jefeDeProyecto = null;
+					//	Programador programador =null;
+						//Planificador planificador= null;
+						//Diseñador disenador = null;
 						//datos generales 
-						String cedula = ftCedula.getText();
+						/*String cedula = ftCedula.getText();
 						String nom = txtNombres.getText();
 						String apellido = txtApellidos.getText();
 						String telef = ftTelefono.getText();
@@ -577,9 +578,45 @@ public class RegistrarTrabajador extends JDialog {
 						String ciudad = txtCiudad.getText();
 						String sector = txtSector.getText();
 						String calle = txtCalle.getText();
-						String casa = txtCasa.getText();
+						String casa = txtCasa.getText();*/
 						
-						//
+					/*	jefeDeProyecto.setCedula(ftCedula.getText());
+						jefeDeProyecto.setNombre(txtNombres.getText());
+						jefeDeProyecto.setApellido(txtApellidos.getText());
+						jefeDeProyecto.setTelefono(ftTelefono.getText());
+						jefeDeProyecto.setPagoHoras(Float.parseFloat(txtPago.getText()));
+						jefeDeProyecto.setEdad((int) spnEdad.getValue());
+						jefeDeProyecto.setSexo(cbxSexo.getSelectedItem().toString());
+						jefeDeProyecto.setHorastrabajadas((int) spnHorasTrab.getValue());
+						jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+						
+						planificador.setCedula(ftCedula.getText());
+						planificador.setNombre(txtNombres.getText());
+						planificador.setApellido(txtApellidos.getText());
+						planificador.setTelefono(ftTelefono.getText());
+						planificador.setPagoHoras(Float.parseFloat(txtPago.getText()));
+						planificador.setEdad((int) spnEdad.getValue());
+						planificador.setSexo(cbxSexo.getSelectedItem().toString());
+						planificador.setHorastrabajadas((int) spnHorasTrab.getValue());
+						planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+						
+
+						programador.setCedula(ftCedula.getText());
+						programador.setNombre(txtNombres.getText());
+						programador.setApellido(txtApellidos.getText());
+						programador.setTelefono(ftTelefono.getText());
+						programador.setPagoHoras(Float.parseFloat(txtPago.getText()));
+						programador.setEdad((int) spnEdad.getValue());
+						programador.setSexo(cbxSexo.getSelectedItem().toString());
+						programador.setHorastrabajadas((int) spnHorasTrab.getValue());
+						programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+						
+*/
+						
+						Trabajador trabajador = null;
+				    	
+						
+				
 						if (ftCedula.getText().equals("___-_______-_")||txtApellidos.getText().equals("")||cbxProvincia.getSelectedIndex()==0||txtNombres.getText().equals("")||cbxSexo.getSelectedIndex()==0||ftTelefono.getText().equals("___-___-____")||txtPago.getText().equals("")||txtSector.getText().equals("")||txtCalle.getText().equals(""))
 							JOptionPane.showMessageDialog(null, "Por favor llene todos los campos para continuar","Hay campos obligatorios vacios", JOptionPane.WARNING_MESSAGE, null);
 					    else if ((rbdProgramador.isSelected()&&(cbxLenguajeProgramador.getSelectedIndex()==0||rbdDisenador.isSelected()&&(cbxHerramienta.getSelectedIndex()==0)))) {
@@ -588,47 +625,64 @@ public class RegistrarTrabajador extends JDialog {
 					    else if(buscarTrabajador(ftCedula.getText())){
 					    	JOptionPane.showMessageDialog(null,"El trabajador ya existe");
 					    }
-					    else if(rbdJefeProyecto.isSelected()){
+					     if(rbdJefeProyecto.isSelected()){
 					    	
-					    	jefeDeProyecto = new JefeDeProyecto();
-					    	jefeDeProyecto.setAnosExperiencia((int) SpnExperienciaJefe.getValue());	
-					    	EmpresaRps.getInstance().getMistrabajadores().add(jefeDeProyecto);
-					    	jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+					    	 trabajador = new JefeDeProyecto();
+					    	 ((JefeDeProyecto) trabajador).setAnosExperiencia((int) SpnExperienciaJefe.getValue());	
+					    	//EmpresaRps.getInstance().getMistrabajadores().add(jefeDeProyecto);
+					    	//jefeDeProyecto.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad.getText()+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
-					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
-					    	resetearCampo();
+					    //	EmpresaRps.getInstance().agregarTrabajador(trabajador);
+					    	//JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
+					    	//resetearCampo();
 					    }
-					    else if (rbdProgramador.isSelected()) {
-					    	programador = new Programador();
+					    if (rbdProgramador.isSelected()) {
+					    	trabajador = new Programador();
 					    	
-					    	programador.setLenguajeProgramacion(cbxLenguajeProgramador.getSelectedItem().toString());
-					    	EmpresaRps.getInstance().getMistrabajadores().add(programador);
-					    	programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+					    	((Programador) trabajador).setLenguajeProgramacion(cbxLenguajeProgramador.getSelectedItem().toString());
+					    	//EmpresaRps.getInstance().getMistrabajadores().add(programador);
+					    	//programador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
-					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
-					    	resetearCampo();
+					    	//EmpresaRps.getInstance().agregarTrabajador(trabajador);
+					    	//JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
+					    	//resetearCampo();
 						}
-					    else if (rbdPlanificador.isSelected()) {
-					    	planificador = new Planificador();
-					    	planificador.setCantProyectos(new Integer(txtCantProyecto.getText()));
-					    	planificador.setAnosExp((int) spnExperienciaPlaneador.getValue());
-					    	EmpresaRps.getInstance().getMistrabajadores().add(planificador);
-					    	planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+					     if (rbdPlanificador.isSelected()) {
+					    	 trabajador = new Planificador();
+					    	 ((Planificador) trabajador).setCantProyectos(new Integer(txtCantProyecto.getText()));
+					    	 ((Planificador) trabajador).setAnosExp((int) spnExperienciaPlaneador.getValue());
+					    	//EmpresaRps.getInstance().getMistrabajadores().add(planificador);
+					    	//planificador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
-					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
-					    	resetearCampo();
+					    	//EmpresaRps.getInstance().agregarTrabajador(trabajador);
+					    //JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
+					    	//resetearCampo();
 						}
-					    else if(rbdDisenador.isSelected()){
-					    	disenador = new Diseñador();
-					    	disenador.setHerramienta(cbxHerramienta.getSelectedItem().toString());
-					    	EmpresaRps.getInstance().getMistrabajadores().add(disenador);
-					    	disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+					     if(rbdDisenador.isSelected()){
+					    	 trabajador = new Diseñador();
+					    	 ((Diseñador) trabajador).setHerramienta(cbxHerramienta.getSelectedItem().toString());
+					    	//EmpresaRps.getInstance().getMistrabajadores().add(disenador);
+					    	//disenador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
 					    	System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
-					    	JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
-					    	resetearCampo();
+					    	//EmpresaRps.getInstance().agregarTrabajador(trabajador);
+					    	//JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
+					    	//resetearCampo();
 					    	
 					    }
-						
+					     trabajador.setCedula(ftCedula.getText());
+							trabajador.setNombre(txtNombres.getText());
+							trabajador.setApellido(txtApellidos.getText());
+							trabajador.setTelefono(ftTelefono.getText());
+							trabajador.setPagoHoras(Float.parseFloat(txtPago.getText()));
+							trabajador.setEdad((int) spnEdad.getValue());
+							trabajador.setSexo(cbxSexo.getSelectedItem().toString());
+							trabajador.setHorastrabajadas((int) spnHorasTrab.getValue());
+							trabajador.setDireccion(cbxProvincia.getSelectedItem()+"/"+txtCiudad+"/"+txtSector.getText()+"/"+txtCalle.getText()+"/"+txtCasa.getText());
+							 trabajador.setDisp(0);
+							 EmpresaRps.getInstance().agregarTrabajador(trabajador);
+							 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);  
+						    	resetearCampo();
+							 
 					}
 
 					

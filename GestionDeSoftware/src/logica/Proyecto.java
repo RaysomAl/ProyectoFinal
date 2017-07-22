@@ -22,14 +22,14 @@ public class Proyecto implements Serializable{
     private float precioProyecto;  //se necesita para el contrato
     private boolean activo;// ralddy- lo cree para la funcion cantidadProyectosActivos en clientes
 	   
-	public Proyecto(String nombreproyecto, String lenguaje,String tipo,JefeDeProyecto jefe,String estado) {
+	public Proyecto(String nombreproyecto, String lenguaje,String tipo,JefeDeProyecto jefe) {
 		super();
 		setCodigo();
 		this.nombreproyecto = nombreproyecto;
 		this.lenguaje = lenguaje;
 		this.Observacion = tipo;
 		this.jefe = jefe;
-		this.estado = estado;
+		
 		activo=true;//ralddy- cuando un proyecto se crea este esta activo
 	}
 

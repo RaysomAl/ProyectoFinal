@@ -245,14 +245,14 @@ public class Principal extends JFrame {
 		Grafica3.add(scrollPane);
 		
 		empleados = new JList<String>();
-		Programador e = new Programador("031-0200031-4","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
-		Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 3);
-		Programador a = new Programador("031-0200031-2","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 2);
-		JefeDeProyecto alpha = new JefeDeProyecto("031-02000031-3", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 4);
-		EmpresaRps.getInstance().getMistrabajadores().add(e);
-		EmpresaRps.getInstance().getMistrabajadores().add(a);
-		EmpresaRps.getInstance().getMistrabajadores().add(z);
-		EmpresaRps.getInstance().getMistrabajadores().add(alpha);
+	//	Programador e = new Programador("031-0200031-4","Marco", "","", "", (float)1.1, "",(float)1.1, 1, 1,"",1);
+		//Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 3);
+		//Programador a = new Programador("031-0200031-2","Juan", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 2);
+		//JefeDeProyecto alpha = new JefeDeProyecto("031-02000031-3", "Estela", "","", "", (float)1.1, "",(float)1.1, 1, 1,"", 4);
+		//EmpresaRps.getInstance().getMistrabajadores().add(e);
+		//EmpresaRps.getInstance().getMistrabajadores().add(a);
+		//EmpresaRps.getInstance().getMistrabajadores().add(z);
+		//EmpresaRps.getInstance().getMistrabajadores().add(alpha);
 		scrollPane.setViewportView(empleados);
 		empleados.setSelectionInterval(-1, -1);
 		limitarSeleccionLista(empleados, -1, -1);

@@ -278,7 +278,7 @@ public class ListarTrabajadores extends JDialog {
 	private void buscarTrab() {
 		
 		String cedu = ftBuscarCedula.getText().substring(0, ftBuscarCedula.getCaretPosition());
-		ArrayList<Trabajador> mistrabajadores = noBorrar();
+		ArrayList<Trabajador> mistrabajadores = new ArrayList<>();
 		ArrayList<Trabajador> selec = new ArrayList<>();
 		
 		for (Trabajador trab: mistrabajadores) {
@@ -291,14 +291,15 @@ public class ListarTrabajadores extends JDialog {
 		cargarTrab(selec);
 	}
 	
-	private ArrayList<Trabajador> noBorrar(){
+	/*private ArrayList<Trabajador> noBorrar(){
 		ArrayList<Trabajador> Tnoeliminado = new ArrayList<>();
 		for (Trabajador tr: EmpresaRps.getInstance().getMistrabajadores()) {
 			if (!B.contains(tr))
 				Tnoeliminado.add(tr);
 		}
 		return Tnoeliminado;
-	}
+	}*/  
+	
 	private String getId(int num, Trabajador trabajador) {
 		String aux = null;
 		String aux1 = trabajador.getCedula();

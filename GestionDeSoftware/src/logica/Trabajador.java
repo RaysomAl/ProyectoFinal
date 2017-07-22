@@ -17,6 +17,7 @@ public abstract class Trabajador implements Serializable{
 	protected String apellido;
 	protected String direccion;
 	protected String sexo;
+	protected int edad;
 	protected float salario;
 	protected String evaluacion;
 	protected int disp=0;
@@ -36,7 +37,7 @@ public abstract class Trabajador implements Serializable{
 	public Trabajador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, 
-			String telefono, int eficiencia) {
+			String telefono, int eficiencia,int edad) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -48,6 +49,7 @@ public abstract class Trabajador implements Serializable{
 		this.pagoHoras = pagoHoras;
 		this.horastrabajadas = horastrabajadas;
 		this.telefono = telefono;
+		this.edad = edad;
 		this.eficiencia = eficiencia;
 	}
 	
@@ -194,6 +196,16 @@ public abstract class Trabajador implements Serializable{
 	
 	public void estardisp(){
 	    this.disp--;
+	}
+
+
+	public int getEdad() {
+		return edad;
+	}
+
+
+	public void setEdad(int edad) {
+		this.edad = edad;
 	}
 	
 	
