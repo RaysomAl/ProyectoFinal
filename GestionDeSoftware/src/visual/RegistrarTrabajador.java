@@ -596,7 +596,7 @@ public class RegistrarTrabajador extends JDialog {
 					    else if(buscarTrabajador(ftCedula.getText())){
 					    	JOptionPane.showMessageDialog(null,"El trabajador ya existe");
 					    }
-					    else if(rbdJefeProyecto.isSelected()){
+					    if(rbdJefeProyecto.isSelected()){
 					    	 int anoExp = new Integer(SpnExperienciaJefe.getValue().toString());
 					    	 trabajador = new JefeDeProyecto(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp);
 					    	 EmpresaRps.getInstance().getMistrabajadores().add(trabajador);
