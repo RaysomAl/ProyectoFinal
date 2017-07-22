@@ -192,7 +192,9 @@ public abstract class Trabajador implements Serializable{
 		this.disp = disp;
 	}
 	
-	
+	public void estardisp(){
+	    this.disp--;
+	}
 	
 	
 	

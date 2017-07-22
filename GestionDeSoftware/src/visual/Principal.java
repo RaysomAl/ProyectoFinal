@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -35,6 +36,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
 
 
 
@@ -121,9 +123,28 @@ public class Principal extends JFrame {
 		menuBar.add(mnTrabajadores);
 		
 		JMenuItem mntmCrearTrabajador = new JMenuItem("Registrar trabajador");
+		mntmCrearTrabajador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegistrarTrabajador registrarTrabajador = new RegistrarTrabajador();
+				registrarTrabajador.setVisible(true);
+			}
+		});
 		mnTrabajadores.add(mntmCrearTrabajador);
 		
 		JMenuItem mntmListarTrabajadores = new JMenuItem("Lista de trabajadores");
+		mntmListarTrabajadores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarTrabajadores listarTraba;
+				try {
+					listarTraba = new ListarTrabajadores();
+					listarTraba.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		mnTrabajadores.add(mntmListarTrabajadores);
 		
 		JMenu mnContratos = new JMenu("Contratos");

@@ -33,12 +33,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
+
+import logica.Cliente;
 import logica.Contrato;
 import logica.EmpresaRps;
 import logica.JefeDeProyecto;
 import logica.Planificador;
 import logica.Programador;
 import logica.Trabajador;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 
@@ -94,7 +98,7 @@ public class ListarTrabajadores extends JDialog {
 		scrollPaneLista.setBounds(10, 21, 671, 420);
 		ListaTrabajadores.add(scrollPaneLista);
 		
-		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido",  "Cantidad de contratos", "Teléfono", "Tipo de trabajador"};
+		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido","Cantidad de contratos", "Teléfono", "Tipo de trabajador"};
 		tableModelT = new DefaultTableModel(){
 		    /**
 		     * 
@@ -158,7 +162,7 @@ public class ListarTrabajadores extends JDialog {
 		
 		JPanel FiltroTipo = new JPanel();
 		FiltroTipo.setBorder(new TitledBorder(null, "Filtro por Tipo", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		FiltroTipo.setBounds(12, 11, 329, 60);
+		FiltroTipo.setBounds(12, 11, 299, 60);
 		contentPanel.add(FiltroTipo);
 		FiltroTipo.setLayout(null);
 		
@@ -167,12 +171,12 @@ public class ListarTrabajadores extends JDialog {
 		FiltroTipo.add(lblFiltro);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(81, 21, 198, 20);
+		comboBox.setBounds(56, 21, 209, 22);
 		FiltroTipo.add(comboBox);
 		
 		JPanel Busquedad = new JPanel();
 		Busquedad.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "B\u00FAsqueda", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		Busquedad.setBounds(390, 11, 313, 60);
+		Busquedad.setBounds(344, 11, 359, 60);
 		contentPanel.add(Busquedad);
 		Busquedad.setLayout(null);
 		
@@ -182,20 +186,20 @@ public class ListarTrabajadores extends JDialog {
         MaskFormatter fomato = new MaskFormatter("###-#######-#");
 		
         ftBuscarCedula = new JFormattedTextField(fomato);
-        ftBuscarCedula.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
+        
+		JFormattedTextField ftBuscarCedula = new JFormattedTextField();
+		ftBuscarCedula.setBounds(67, 21, 240, 22);
+		Busquedad.add(ftBuscarCedula);
+		
+		JButton btnBuscar = new JButton("New button");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				buscarTrab();
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
 				
 			}
 		});
-		
-		JFormattedTextField ftBuscarCedula = new JFormattedTextField();
-		ftBuscarCedula.setBounds(67, 20, 222, 20);
-		Busquedad.add(ftBuscarCedula);
+		btnBuscar.setBounds(314, 19, 35, 22);
+		Busquedad.add(btnBuscar);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -215,11 +219,11 @@ public class ListarTrabajadores extends JDialog {
 	}
 	   private void CargarProyectos(ArrayList<Contrato> miscontratos) {
 	       	tableModelP.setRowCount(0);
-		   	DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		   	tcr.setHorizontalAlignment(SwingConstants.CENTER);
-		   	tableProyectos.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		   	tableProyectos.getColumnModel().getColumn(1).setCellRenderer(tcr);
-		   	tableProyectos.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		   	DefaultTableCellRenderer cp = new DefaultTableCellRenderer();
+		   	cp.setHorizontalAlignment(SwingConstants.CENTER);
+		   	tableProyectos.getColumnModel().getColumn(0).setCellRenderer(cp);
+		   	tableProyectos.getColumnModel().getColumn(1).setCellRenderer(cp);
+		   	tableProyectos.getColumnModel().getColumn(2).setCellRenderer(cp);
 		   	rowP = new Object[tableModelP.getColumnCount()];
 		   	for (Contrato p : miscontratos) {
 		   		if (p.getProyecto().getEstado().equals("En progreso")) {
@@ -231,29 +235,29 @@ public class ListarTrabajadores extends JDialog {
 		   	}
 	    }
 	
-	private void loadWorkers(ArrayList<Trabajador> mistrabajadores) {
+	private void cargarTrab(ArrayList<Trabajador> mistrabajadores) {
 	   	tableModelT.setRowCount(0);
-	   	DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-	   	tcr.setHorizontalAlignment(SwingConstants.CENTER);
-	   	tableTrab.getColumnModel().getColumn(0).setCellRenderer(tcr);
-	   	tableTrab.getColumnModel().getColumn(1).setCellRenderer(tcr);
-	   	tableTrab.getColumnModel().getColumn(2).setCellRenderer(tcr);
-	   	tableTrab.getColumnModel().getColumn(3).setCellRenderer(tcr);
-	   	tableTrab.getColumnModel().getColumn(4).setCellRenderer(tcr);
-	   	tableTrab.getColumnModel().getColumn(5).setCellRenderer(tcr);
+	   	DefaultTableCellRenderer ct = new DefaultTableCellRenderer();
+	   	ct.setHorizontalAlignment(SwingConstants.CENTER);
+	   	tableTrab.getColumnModel().getColumn(0).setCellRenderer(ct);
+	   	tableTrab.getColumnModel().getColumn(1).setCellRenderer(ct);
+	   	tableTrab.getColumnModel().getColumn(2).setCellRenderer(ct);
+	   	tableTrab.getColumnModel().getColumn(3).setCellRenderer(ct);
+	   	tableTrab.getColumnModel().getColumn(4).setCellRenderer(ct);
+	   	tableTrab.getColumnModel().getColumn(5).setCellRenderer(ct);
 	   	rowT = new Object[tableModelT.getColumnCount()];
-	   	for (Trabajador ct : mistrabajadores) {
-	   		rowT[0]=ct.getCedula();
-	   		rowT[1]=ct.getNombre();
-	   		rowT[2]=ct.getApellido();
-	   		rowT[3]=ct.getDisp();
-	   		rowT[4]=ct.getTelefono();
+	   	for (Trabajador trab : mistrabajadores) {
+	   		rowT[0]=trab.getCedula();
+	   		rowT[1]=trab.getNombre();
+	   		rowT[2]=trab.getApellido();
+	   		rowT[3]=trab.getDisp();
+	   		rowT[4]=trab.getTelefono();
 	   	    String aux = null;
-	   	    if (ct instanceof JefeDeProyecto)
+	   	    if (trab instanceof JefeDeProyecto)
 	   	    	aux = "Jefe de proyecto";
-	   	    else if (ct instanceof Planificador)
+	   	    else if (trab instanceof Planificador)
 	   	    	aux = "Planificador";
-	   	    else if (ct instanceof Programador)
+	   	    else if (trab instanceof Programador)
 	   	    	aux = "Programador";
 	   	    else
 	   	    	aux = "Diseñador";
@@ -263,6 +267,7 @@ public class ListarTrabajadores extends JDialog {
 	    }
 	
 	private void buscarTrab() {
+		
 		String cedu = ftBuscarCedula.getText().substring(0, ftBuscarCedula.getCaretPosition());
 		ArrayList<Trabajador> mistrabajadores = noBorrar();
 		ArrayList<Trabajador> selec = new ArrayList<>();
@@ -273,7 +278,8 @@ public class ListarTrabajadores extends JDialog {
 				selec.add(trab);
 		   } 
 		
-		loadWorkers(selec);
+		
+		cargarTrab(selec);
 	}
 	
 	private ArrayList<Trabajador> noBorrar(){
