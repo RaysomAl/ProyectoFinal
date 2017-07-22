@@ -9,7 +9,7 @@ public class Programador extends Trabajador implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String lenguajeProgramacion;
-	private String tipoProgamador;
+	
 	
 	public Programador() {
 		// TODO Auto-generated constructor stub
@@ -20,11 +20,11 @@ public class Programador extends Trabajador implements Serializable {
 	public Programador(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, String telefono,
-			int eficiencia, int edad) {
+			int eficiencia, int edad,String lenguajeProgramacion) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
 				pagoHoras, horastrabajadas, telefono, eficiencia, edad);
 		this.lenguajeProgramacion = lenguajeProgramacion;
-		this.tipoProgamador = tipoProgamador;
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -41,14 +41,7 @@ public class Programador extends Trabajador implements Serializable {
 		this.lenguajeProgramacion = lenguajeProgramacion;
 	}
 
-	public String getTipoProgamador() {
-		return tipoProgamador;
-	}
 
-	public void setTipoProgamador(String tipoProgamador) {
-		this.tipoProgamador = tipoProgamador;
-	}
-	
 	
 	
 	

@@ -21,7 +21,7 @@ public class JefeDeProyecto extends Trabajador implements Serializable {
 	public JefeDeProyecto(String cedula, String nombre, String apellido,
 			String direccion, String sexo, float salario, String evaluacion,
 			float pagoHoras, int horastrabajadas, String telefono,
-			int eficiencia, int edad) {
+			int eficiencia, int edad,int anosExperiencia) {
 		super(cedula, nombre, apellido, direccion, sexo, salario, evaluacion,
 				pagoHoras, horastrabajadas, telefono, eficiencia, edad);
 		this.anosExperiencia = anosExperiencia;
