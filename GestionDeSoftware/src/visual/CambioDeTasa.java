@@ -56,6 +56,7 @@ public class CambioDeTasa extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CambioDeTasa.class.getResource("/img/002-money-bag.png")));
 		setTitle("Tasa del Dolar");
 		setBounds(100, 100, 368, 300);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Esenciales", TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

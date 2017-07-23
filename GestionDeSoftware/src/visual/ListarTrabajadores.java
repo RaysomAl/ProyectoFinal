@@ -84,6 +84,7 @@ public class ListarTrabajadores extends JDialog {
 		setTitle("Lista de Trabajadores");
 		setResizable(false);
 		setBounds(100, 100,  1050, 597);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

@@ -44,6 +44,7 @@ public class NuevaPass extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(NuevaPass.class.getResource("/img/001-lock.png")));
 		setTitle("Nueva Contrase\u00F1a:");
 		setBounds(100, 100, 340, 245);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

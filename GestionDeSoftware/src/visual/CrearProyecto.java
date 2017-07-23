@@ -113,6 +113,7 @@ public class CrearProyecto extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearProyecto.class.getResource("/img/projects.png")));
 		setTitle("Crear Proyecto");
 		setBounds(100, 100, 650, 453);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

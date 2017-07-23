@@ -89,6 +89,7 @@ public class ListarContratos extends JDialog {
 	public ListarContratos() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarContratos.class.getResource("/img/listPanel.png")));
 		setBounds(100, 100, 952, 466);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Listado de Contratos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

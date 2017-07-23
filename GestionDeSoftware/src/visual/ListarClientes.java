@@ -88,6 +88,7 @@ public class ListarClientes extends JDialog {
 		EmpresaRps.getInstance().agregarCliente(c2);
 		setTitle("Lista de Clientes");
 		setBounds(100, 100, 546, 400);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

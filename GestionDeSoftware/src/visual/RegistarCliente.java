@@ -83,6 +83,7 @@ public class RegistarCliente extends JDialog {
 		modiCliente=modificar;
 		setTitle("Registrar Cliente");
 		setBounds(100, 100, 505, 341);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
