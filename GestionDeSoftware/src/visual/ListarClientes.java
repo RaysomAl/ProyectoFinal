@@ -283,7 +283,7 @@ public class ListarClientes extends JDialog {
 			txtCedula.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent arg0) {
-					if(EmpresaRps.getInstance().getMisclientes().size()>0 && rdbtnIndepediente.isSelected()) {
+					if(EmpresaRps.getInstance().cantidadIndepediente()>0 && rdbtnIndepediente.isSelected()) {
 						btnBuscar.setEnabled(true);
 					} else {
 						btnBuscar.setEnabled(false);
@@ -296,7 +296,7 @@ public class ListarClientes extends JDialog {
 			txtCedula.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					if(EmpresaRps.getInstance().getMisclientes().size()>0 && rdbtnIndepediente.isSelected()) {
+					if(EmpresaRps.getInstance().cantidadEmpresa()>0 && rdbtnIndepediente.isSelected()) {
 						btnBuscar.setEnabled(true);
 					} else {
 						btnBuscar.setEnabled(false);

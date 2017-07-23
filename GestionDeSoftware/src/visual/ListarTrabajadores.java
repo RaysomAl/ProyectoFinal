@@ -25,6 +25,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -216,6 +217,20 @@ public class ListarTrabajadores extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			
+			JButton btnEvaluacin = new JButton("Evaluaci\u00F3n");
+			btnEvaluacin.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						EmpresaRps.getInstance().evaluacionPersonal();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			btnEvaluacin.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/004-signature.png")));
+			buttonPane.add(btnEvaluacin);
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");

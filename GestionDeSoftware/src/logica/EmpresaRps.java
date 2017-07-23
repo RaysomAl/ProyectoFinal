@@ -1,7 +1,11 @@
 package logica;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -274,6 +278,25 @@ public class EmpresaRps implements Serializable {
 	    return lenguajemenosUsado;
 	}
 	
+	public int cantidadIndepediente() {
+		int cant=0;
+		for (Cliente cliente : misclientes) {
+			if(cliente instanceof Indepediente) {
+				cant++;
+			}
+		}
+		return cant;
+	}
+	public int cantidadEmpresa() {
+		int cant=0;
+		for (Cliente cliente : misclientes) {
+			if(cliente instanceof Empresa) {
+				cant++;
+			}
+		}
+		return cant;
+	}
+	
 	//**********************************************************************************
 	
 	
@@ -305,6 +328,67 @@ public class EmpresaRps implements Serializable {
 		TAMBIEN ESTA COMENTADO EN LA PRINCIPAL
 		
 	}*/
+	public void evaluacionPersonal() throws IOException {
+		
+		if(mistrabajadores.size()>0) {
+			FileWriter escritor=new FileWriter("Evaluacion.txt");
+			String tipo="";
+			escritor.write("             Nombre de la empresa"+"\n");
+			escritor.write("                 EVALUACION DE PERSONAL"+"\n"+"\n");
+			escritor.write("____________________________________________________________"+"\n"+"\n");
+			escritor.write("                    DATOS TRABAJADOR"+"\n"+"\n");
+			for(Trabajador trabajador: mistrabajadores) {
+				if(trabajador instanceof JefeDeProyecto) {
+					tipo="Jefe De Proyecto";
+				}
+				if(trabajador instanceof Programador) {
+					tipo="Programador";
+				}
+				if(trabajador instanceof Planificador) {
+					tipo="Planificador";
+				}
+				if(trabajador instanceof Diseñador) {
+					tipo="Diseñador";
+				}
+			escritor.write("Cédula                      : "+trabajador.getCedula()+"\n");
+			escritor.write("Nombre                      : "+trabajador.getNombre()+"\n");
+			escritor.write("Apellido                    : "+tipo+"\n");
+			escritor.write("Tipo                        : "+trabajador.getCedula()+"\n");
+			escritor.write("Salario                     : "+trabajador.getSalario()+"\n");
+			escritor.write("Proyectos Actuales          : "+trabajador.cantidadProyectosActivos()+"\n");
+			escritor.write("Evaluación                  : "+trabajador.getEvaluacion()+"\n");
+			escritor.write("------------------------------------------------------------"+"\n"+"\n");
+			}
+			escritor.write("____________________________________________________________"+"\n");	
+			
+			escritor.close();
+			leerEvaluacion();
+		} else {
+			JOptionPane.showMessageDialog(null, "La empresa no tiene trabajadores", "Advertencia",JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	public void leerEvaluacion() throws IOException {
+		File file=new File("Evaluacion.txt");
+		if(file.exists()) {
+			
+			String linea="";
+			boolean continua=true;
+			FileReader lector= new FileReader(file);
+			BufferedReader ElLector=new BufferedReader(lector);
+			while(continua) {
+				linea=ElLector.readLine();
+				if(linea!=null) {
+					System.out.println(linea);
+				} else {
+					continua=false;
+				}
+			}
+			lector.close();
+			ElLector.close();
+		}
+	}
+	
 	//**********************************************************************************
 	
 

@@ -208,7 +208,15 @@ public abstract class Trabajador implements Serializable{
 		this.edad = edad;
 	}
 	
-	
+	public int cantidadProyectosActivos() {
+		int cantidad=0;
+		for (Contrato contrato : misContratos) {
+			if(contrato.getProyecto().isActivo()) {
+				cantidad++;
+			}
+		}
+		return cantidad;
+	}
 	
 	
 	
