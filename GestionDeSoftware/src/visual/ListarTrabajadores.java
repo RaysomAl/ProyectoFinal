@@ -279,7 +279,7 @@ public class ListarTrabajadores extends JDialog {
 	   		rowT[0]=trab.getCedula();
 	   		rowT[1]=trab.getNombre();
 	   		rowT[2]=trab.getApellido();
-	   		rowT[3]=trab.getDisp();
+	   		rowT[3]=trab.cantidadProyectosActivos();
 	   		rowT[4]=trab.getTelefono();
 	   	    String aux = null;
 	   	    if (trab instanceof JefeDeProyecto)
@@ -323,12 +323,5 @@ public class ListarTrabajadores extends JDialog {
 		aux = aux1.substring(0, num);
 		return aux;
 	}
-	 private boolean isWorking(Trabajador trabajador) {
-	    	boolean aux = false;
-	    	for (Contrato contr: EmpresaRps.getInstance().getMiscontratos()) {
-	    		if (contr.getProyecto().getEstado().equals("En progreso") && contr.getProyecto().getJefe().getMisTrabajadores().contains(trabajador))
-	    			aux = true;
-	    	}
-	    	return aux;
-	    }
+	
 }

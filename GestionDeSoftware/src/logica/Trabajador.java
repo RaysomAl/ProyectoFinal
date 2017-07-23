@@ -20,7 +20,7 @@ public abstract class Trabajador implements Serializable{
 	protected int edad;
 	protected float salario;
 	protected String evaluacion;
-	protected int disp=0;
+	//protected int disp=0;
 	protected float pagoHoras;
 	protected int horastrabajadas;
 	protected String telefono;
@@ -185,7 +185,7 @@ public abstract class Trabajador implements Serializable{
 	}
 
 
-	public int getDisp() {
+	/*public int getDisp() {
 		return disp;
 	}
 
@@ -196,7 +196,7 @@ public abstract class Trabajador implements Serializable{
 	
 	public void estardisp(){
 	    this.disp--;
-	}
+	}*/
 
 
 	public int getEdad() {
