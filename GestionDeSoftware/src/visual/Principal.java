@@ -68,6 +68,7 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Paint;
 import javax.swing.border.EtchedBorder;
+import java.awt.Toolkit;
 
 public class Principal extends JFrame {
 
@@ -112,6 +113,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setTitle("EmpresaRps.S.A.");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/001-software.png")));
 		setResizable(false);
 		dim = super.getToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +127,7 @@ public class Principal extends JFrame {
 		
 		JMenu mnClientes = new JMenu("Clientes");
 		mnClientes.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		mnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/userClient1.png")));
+		mnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/004-group.png")));
 		menuBar.add(mnClientes);
 		
 		JMenuItem mntmCrearCliente = new JMenuItem("Registrar Cliente");
