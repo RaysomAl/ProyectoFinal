@@ -292,12 +292,6 @@ public class Principal extends JFrame {
 		datosLen.addValue(menosUsado.getFrec(),"Menos Usado", menosUsado.getTipo());
 		JFreeChart graficaLen = ChartFactory.createBarChart3D("Lenguaje más usado Vs Lenguaje menos usado", "Lenguaje", "Cantidad de Contratos", datosLen, PlotOrientation.VERTICAL, true, true, false);
 		
-		
-		
-		
-		
-		
-		
 		JPanel panelLenguaje = new JPanel();
 		panelLenguaje.setBounds(10, 11, 552, 282);
 		GraficaLenguaje.add(panelLenguaje);
@@ -527,7 +521,7 @@ public class Principal extends JFrame {
 		        int selectionLength = list.getSelectedIndices().length;
 		        if (selectionLength >= maxCount)
 		            return;
-
+		        //klk
 		        if (index1 - index0 >= maxCount - selectionLength)
 		        {
 		            index1 = index0 + maxCount - 1 - selectionLength;

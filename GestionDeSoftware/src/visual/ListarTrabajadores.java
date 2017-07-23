@@ -208,7 +208,6 @@ public class ListarTrabajadores extends JDialog {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscarTrab();
-				System.out.println("klk1");
 			}
 		});
 		btnBuscar.setBounds(314, 19, 35, 22);
@@ -297,9 +296,7 @@ public class ListarTrabajadores extends JDialog {
 		String cedu = ftBuscarCedula.getText().substring(0, ftBuscarCedula.getCaretPosition());
 		ArrayList<Trabajador> mistrabajadores = new ArrayList<>();
 		ArrayList<Trabajador> selec = new ArrayList<>();
-		System.out.println("klk2");
 		for (Trabajador trab: EmpresaRps.getInstance().getMistrabajadores()) {
-			//System.out.println("klk3");
 			System.out.println(trab.getNombre());
 			String aux = getId(ftBuscarCedula.getCaretPosition(), trab);
 			if (cedu.equals(aux))
@@ -326,7 +323,7 @@ public class ListarTrabajadores extends JDialog {
 	 private boolean isWorking(Trabajador trabajador) {
 	    	boolean aux = false;
 	    	for (Contrato contr: EmpresaRps.getInstance().getMiscontratos()) {
-	    		if (contr.getProyecto().getEstado().equals("En progreso") && contr.getProyecto().getMistrabajadores().contains(trabajador))
+	    		if (contr.getProyecto().getEstado().equals("En progreso") && contr.getProyecto().getJefe().getMisTrabajadores().contains(trabajador))
 	    			aux = true;
 	    	}
 	    	return aux;

@@ -11,14 +11,13 @@ public class Proyecto implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Trabajador> mistrabajadores = new ArrayList<>();
 	private static int code = 1;
 	private int codigo;
 	private String nombreproyecto;
 	private String lenguaje;
     private String Observacion;
     private String estado;
-    private JefeDeProyecto jefe;
+    private JefeDeProyecto jefe;//jefe tiene los trabajadores
     private float precioProyecto;  //se necesita para el contrato
     private boolean activo;// ralddy- lo cree para la funcion cantidadProyectosActivos en clientes
 	   
@@ -128,23 +127,5 @@ public class Proyecto implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-
-
-
-	public ArrayList<Trabajador> getMistrabajadores() {
-		return mistrabajadores;
-	}
-
-
-
-
-	public void setMistrabajadores(ArrayList<Trabajador> mistrabajadores) {
-		this.mistrabajadores = mistrabajadores;
-	}
-	
-	
-    
-    
 
 }

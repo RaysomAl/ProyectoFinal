@@ -90,6 +90,7 @@ public class CrearProyecto extends JDialog {
 	private JComboBox<String> cbxTipoAux1;
 	private JComboBox<String> cbxTipoAux2; 
 	private JComboBox<String> cbxTipoAux3;
+	private JButton okButton;
 	private int aux =0;
 	
 	
@@ -207,6 +208,12 @@ public class CrearProyecto extends JDialog {
 							if(trabajador.isDisponible())
 								cbxJefe.addItem(trabajador.getCedula()+"("+trabajador.getNombre()+")");
 					}
+					if(cbxJefe.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxJefe.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxJefe.setBounds(139, 25, 216, 22);
@@ -233,6 +240,12 @@ public class CrearProyecto extends JDialog {
 				}
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 					cargarTrabajadores(cbxProgramador1, "Programador");
+					if(cbxProgramador1.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxProgramador1.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxProgramador1.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
@@ -247,6 +260,12 @@ public class CrearProyecto extends JDialog {
 				}
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 					cargarTrabajadores(cbxProgramador2, "Programador");
+					if(cbxProgramador2.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxProgramador2.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxProgramador2.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
@@ -261,6 +280,12 @@ public class CrearProyecto extends JDialog {
 				}
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 					cargarTrabajadores(cbxProgramador3, "Programador");
+					if(cbxProgramador3.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxProgramador3.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxProgramador3.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>"}));
@@ -275,6 +300,12 @@ public class CrearProyecto extends JDialog {
 				}
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 					cargarTrabajadores(cbxAux1, (String)cbxTipoAux1.getSelectedItem());
+					if(cbxAux1.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxAux1.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxAux1.setEnabled(false);
@@ -290,6 +321,12 @@ public class CrearProyecto extends JDialog {
 				}
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 					cargarTrabajadores(cbxAux2, (String)cbxTipoAux2.getSelectedItem());
+					if(cbxAux2.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxAux2.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxAux2.setEnabled(false);
@@ -305,6 +342,12 @@ public class CrearProyecto extends JDialog {
 				}
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 					cargarTrabajadores(cbxAux3, (String)cbxTipoAux3.getSelectedItem());
+					if(cbxAux3.getModel().getSize()==1) {
+						JOptionPane.showMessageDialog(null, "No hay suficientes empleados, debe contratar mas", "Advertencia",JOptionPane.WARNING_MESSAGE);
+						okButton.setEnabled(false);
+					}
+					if(cbxAux3.getModel().getSize()>1)
+						okButton.setEnabled(true);
 				}
 			});
 			cbxAux3.setEnabled(false);
@@ -382,6 +425,8 @@ public class CrearProyecto extends JDialog {
 			registrarProyecto.add(ftxObservacion);
 			Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
 			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
+			Programador w = new Programador("031-0200031-1","Elise", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
+			Programador q = new Programador("031-0200031-1","Kestrel", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
 			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
 			JefeDeProyecto alpha = new JefeDeProyecto("031-0000000-9", "Estela", "","", "", (float)1.1, "",(float)1.1, 1,"",1,1, 1);
 			Diseñador beta = new Diseñador("031-0200031-2", "Maria", "", "", "", (float)1.1, "", (float)1.1, 1, "", 1,0, "");
@@ -391,6 +436,8 @@ public class CrearProyecto extends JDialog {
 			EmpresaRps.getInstance().getMistrabajadores().add(e);
 			EmpresaRps.getInstance().getMistrabajadores().add(a);
 			EmpresaRps.getInstance().getMistrabajadores().add(z);
+			EmpresaRps.getInstance().getMistrabajadores().add(q);
+			EmpresaRps.getInstance().getMistrabajadores().add(w);
 			EmpresaRps.getInstance().getMistrabajadores().add(ganma);
 			EmpresaRps.getInstance().getMistrabajadores().add(esiplion);
 			EmpresaRps.getInstance().getMistrabajadores().add(eclipse);
@@ -402,7 +449,7 @@ public class CrearProyecto extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Realizar Contrato");
+				okButton = new JButton("Realizar Contrato");
 				okButton.setIcon(new ImageIcon(CrearProyecto.class.getResource("/img/001-business-agreement.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -420,7 +467,7 @@ public class CrearProyecto extends JDialog {
 							JefeDeProyecto lider = (JefeDeProyecto) buscarTrabajador(cbxJefe, "JefeDeProyecto");
 							lider.setMisTrabajadores(empleados);
 							Proyecto nuevo = new Proyecto(limpiarEspacios(ftxTitulo.getText()),(String)cbxLeguaje.getSelectedItem(),limpiarEspacios(ftxObservacion.getText()),lider);
-							CrearContrato nuevoC = new CrearContrato(nuevo);
+							CrearContrato nuevoC = new CrearContrato(nuevo,false,null);
 							dispose();
 							nuevoC.setModal(true);
 							nuevoC.setVisible(true);

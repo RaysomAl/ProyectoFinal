@@ -25,6 +25,7 @@ public class Contrato implements Serializable {
 	private Calendar fechaSaldada;
 	private Proyecto proyecto;  
 	private float preciofinal;
+	private float precioSaldo;
 	private float tasaDolar;
 	private float precioDolar; 
 	private boolean terminado = false;
@@ -124,9 +125,9 @@ public class Contrato implements Serializable {
 	public float montoPagar(boolean ingreso) {
 		float pago = this.preciofinal;
 		float perdida = 0;
-		Period resta = Period.between(fechaSaldada.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		Period resta = Period.between(LocalDate.now() , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		if(resta.getMonths()!=0) {//calcular los dias basados en milisegundos
-			Date now = fechaSaldada.getTime();
+			Date now = Calendar.getInstance().getTime();
 			Date later = fechaFinal.getTime();
 			long duracion  = now.getTime()-later.getTime();
 			long diffdedias = TimeUnit.MILLISECONDS.toDays(duracion);
@@ -154,6 +155,14 @@ public class Contrato implements Serializable {
 
 	public void setFechaSaldada(Calendar fechaSaldada) {
 		this.fechaSaldada = fechaSaldada;
+	}
+
+	public float getPrecioSaldo() {
+		return precioSaldo;
+	}
+
+	public void setPrecioSaldo(float precioSaldo) {
+		this.precioSaldo = precioSaldo;
 	}
 	
 	

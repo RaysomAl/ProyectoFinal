@@ -18,6 +18,7 @@ import logica.Indepediente;
 import logica.JefeDeProyecto;
 import logica.Proyecto;
 import logica.Trabajador;
+import sun.util.locale.provider.AuxLocaleProviderAdapter;
 
 import java.awt.Color;
 
@@ -87,6 +88,7 @@ public class CrearContrato extends JDialog {
 	private JTextField txtObs;
 	private JTextField txtTasa;
 	private static Proyecto proyec;
+	private static Contrato contrato;
 	
 	/** * Launch the application.
 	 
@@ -104,8 +106,9 @@ public class CrearContrato extends JDialog {
 	 * Create the dialog.
 	 * @param nuevo 
 	 */
-	public CrearContrato(Proyecto proyect) {
+	public CrearContrato(Proyecto proyect, boolean update, Contrato contr) {
 		proyec = proyect;
+		contrato =contr;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearContrato.class.getResource("/img/004-signature.png")));
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
@@ -138,7 +141,8 @@ public class CrearContrato extends JDialog {
 			
 			txtProyecto = new JTextField();
 			txtProyecto.setEditable(false);
-			txtProyecto.setText(proyect.getNombreproyecto());
+			if(!update)
+				txtProyecto.setText(proyect.getNombreproyecto());
 			txtProyecto.setBounds(89, 214, 150, 23);
 			panel.add(txtProyecto);
 			txtProyecto.setColumns(10);
@@ -149,7 +153,8 @@ public class CrearContrato extends JDialog {
 			
 			txtLenguaje = new JTextField();
 			txtLenguaje.setEditable(false);
-			txtLenguaje.setText(proyect.getLenguaje());
+			if(!update)
+				txtLenguaje.setText(proyect.getLenguaje());
 			txtLenguaje.setBounds(89, 264, 150, 23);
 			panel.add(txtLenguaje);
 			txtLenguaje.setColumns(10);
@@ -164,7 +169,8 @@ public class CrearContrato extends JDialog {
 			
 			txtRD = new JTextField();
 			txtRD.setEditable(false);
-			txtRD.setText("0");
+			if(!update)
+				txtRD.setText("0");
 			txtRD.setBounds(89, 314, 150, 23);
 			panel.add(txtRD);
 			txtRD.setColumns(10);
@@ -174,7 +180,8 @@ public class CrearContrato extends JDialog {
 			
 			txtUS = new JTextField();
 			txtUS.setEditable(false);
-			txtUS.setText("0");
+			if(!update)
+				txtUS.setText("0");
 			txtUS.setBounds(347, 314, 150, 23);
 			panel.add(txtUS);
 			txtUS.setColumns(10);
@@ -195,7 +202,8 @@ public class CrearContrato extends JDialog {
 				ftxCodigo.setEditable(false);
 				ftxCodigo.setBounds(78, 30, 138, 23);
 				panel_1.add(ftxCodigo);
-				ftxCodigo.setText(Contrato.getCode());
+				if(!update)
+					ftxCodigo.setText(Contrato.getCode());
 			}
 			{
 				lblCliente = new JLabel("Empresa:*");
@@ -211,6 +219,8 @@ public class CrearContrato extends JDialog {
 			
 			JButton btnNewButton = new JButton("");
 			btnNewButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/003-find.png")));
+			if(update)
+				btnNewButton.setEnabled(false);
 			btnNewButton.setBounds(226, 80, 31, 22);
 			panel_1.add(btnNewButton);
 			
@@ -270,7 +280,8 @@ public class CrearContrato extends JDialog {
 			txtTasa = new JTextField();
 			txtTasa.setEditable(false);
 			txtTasa.setBounds(347, 265, 150, 20);
-			txtTasa.setText(String.valueOf(EmpresaRps.getTasaDolar()));
+			if(!update)
+				txtTasa.setText(String.valueOf(EmpresaRps.getTasaDolar()));
 			panel.add(txtTasa);
 			txtTasa.setColumns(10);
 			
@@ -279,11 +290,13 @@ public class CrearContrato extends JDialog {
 			dtcNow.setCalendar(now);
 			dtcNow.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
-					Calendar aux = dtcNow.getCalendar();
-					dtcFinal.setMinSelectableDate(aux.getTime());
-					aux.add(Calendar.MONTH, 1);
-					dtcFinal.setCalendar(aux);
-					cargarPrecio();
+					if(!update) {
+						Calendar aux = dtcNow.getCalendar();
+						dtcFinal.setMinSelectableDate(aux.getTime());
+						aux.add(Calendar.MONTH, 1);
+						dtcFinal.setCalendar(aux);
+						cargarPrecio();
+					}
 				}
 			});
 			dtcNow.setMinSelectableDate(now.getTime());
@@ -291,9 +304,16 @@ public class CrearContrato extends JDialog {
 			panel.add(dtcNow);
 			
 			dtcFinal = new JDateChooser();
+			dtcFinal.getCalendarButton().addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(update)
+						okButton.setEnabled(true);
+				}
+			});
 			dtcFinal.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
-					cargarPrecio();
+					if(!update)
+						cargarPrecio();
 				}
 			});
 			dtcFinal.setBounds(347, 164, 150, 23);
@@ -308,11 +328,14 @@ public class CrearContrato extends JDialog {
 			panel.add(lblObs);
 			
 			txtObs = new JTextField();
-			txtObs.setText(proyect.getTipo());
+			if(!update)
+				txtObs.setText(proyect.getTipo());
 			txtObs.setEditable(false);
 			txtObs.setBounds(347, 214, 150, 23);
 			panel.add(txtObs);
 			txtObs.setColumns(10);
+			if(update)
+				cargarUpdate();
 			
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -361,19 +384,35 @@ public class CrearContrato extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				okButton = new JButton("Salvar Contrato");
+				if(!update)
+					okButton = new JButton("Salvar Contrato");
+				if(update)
+					okButton = new JButton("Prorrogar Contrato");
 				okButton.setEnabled(false);
 				okButton.setIcon(new ImageIcon(CrearContrato.class.getResource("/img/001-technology.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						proyec.setPrecioProyecto(Float.valueOf(txtRD.getText()));
-						Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), Float.valueOf(txtTasa.getText()), Float.valueOf(txtUS.getText()));
-						activarEmpleados(nuevoc);
-						EmpresaRps.getInstance().getMiscontratos().add(nuevoc);
-						EmpresaRps.getInstance().getMisproyectos().add(proyect);
-						JOptionPane.showMessageDialog(null, "El proyecto :"+proyect.getCodigo()+", y el contrato: "+nuevoc.getCodigoContrato()+", Se han salvado existosamente", "Informacion",JOptionPane.INFORMATION_MESSAGE);
-						dispose();
+						if(!update) {
+								proyec.setPrecioProyecto(Float.valueOf(txtRD.getText()));
+								Contrato nuevoc = new Contrato(ftxCodigo.getText(), cliente, dtcNow.getCalendar(), dtcFinal.getCalendar(), proyect, Float.valueOf(txtRD.getText()), Float.valueOf(txtTasa.getText()), Float.valueOf(txtUS.getText()));
+								activarEmpleados(nuevoc);
+								EmpresaRps.getInstance().getMiscontratos().add(nuevoc);
+								EmpresaRps.getInstance().getMisproyectos().add(proyect);
+								JOptionPane.showMessageDialog(null, "El proyecto :"+proyect.getCodigo()+", y el contrato: "+nuevoc.getCodigoContrato()+", Se han salvado existosamente", "Informacion",JOptionPane.INFORMATION_MESSAGE);
+								dispose();
 						}
+						if(update) {
+							int opcion = JOptionPane.showConfirmDialog(null, "Seguro de su nueva fecha: "+String.valueOf(dtcFinal.getCalendar().get(Calendar.DAY_OF_MONTH))+"/"+String.valueOf(dtcFinal.getCalendar().get(Calendar.MONTH))+"/"+String.valueOf(dtcFinal.getCalendar().get(Calendar.YEAR)),"Información",JOptionPane.INFORMATION_MESSAGE);
+							if(opcion == JOptionPane.OK_OPTION){
+								for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {
+									if(aux.getCodigoContrato().equalsIgnoreCase(ftxCodigo.getText()))
+										aux.setFechaFinal(dtcFinal.getCalendar());
+								}
+								JOptionPane.showMessageDialog(null, "Contrato Prorrogado exitosamente", "Informacion",JOptionPane.INFORMATION_MESSAGE);
+								dispose();
+							}
+						}
+					}
 
 				});
 				okButton.setActionCommand("OK");
@@ -396,6 +435,46 @@ public class CrearContrato extends JDialog {
 			}
 		}
 	}
+	private void cargarUpdate() {
+		ftxCodigo.setText(contrato.getCodigoContrato());
+		if(contrato.getCliente() instanceof Indepediente) {
+			ftxCedula.setText(((Indepediente)contrato.getCliente()).getCedula());
+			ftxCedula.setEnabled(false);
+			txtNombre.setText(((Indepediente)contrato.getCliente()).getNombre());
+			ftxEmpresa.setVisible(false);
+			lblCliente.setVisible(false);
+			lblCedula.setVisible(true);
+			ftxCedula.setVisible(true);
+			rdbIndependiente.setSelected(true);
+			rdbEmpresa.setSelected(false);
+			rdbEmpresa.setEnabled(false);
+			rdbIndependiente.setEnabled(false);
+		}
+		if(contrato.getCliente() instanceof Empresa) {
+			ftxEmpresa.setText(((Empresa)contrato.getCliente()).getRnc());
+			ftxEmpresa.setEnabled(false);
+			txtNombre.setText(((Empresa)contrato.getCliente()).getNombre());
+			ftxEmpresa.setVisible(true);
+			lblCliente.setVisible(true);
+			lblCedula.setVisible(false);
+			ftxCedula.setVisible(false);
+			rdbIndependiente.setSelected(false);
+			rdbEmpresa.setSelected(true);
+			rdbEmpresa.setEnabled(false);
+			rdbIndependiente.setEnabled(false);
+		}
+		txtLenguaje.setText(contrato.getProyecto().getLenguaje());
+		txtObs.setText(contrato.getProyecto().getTipo());
+		txtProyecto.setText(contrato.getProyecto().getNombreproyecto());
+		txtRD.setText(String.valueOf(contrato.getPreciofinal()));
+		txtTasa.setText(String.valueOf(contrato.getTasaDolar()));
+		txtUS.setText(String.valueOf(contrato.getPrecioDolar()));
+		dtcNow.setCalendar(contrato.getFechaInicio());
+		dtcNow.setEnabled(false);
+		dtcFinal.setCalendar(contrato.getFechaFinal());
+		dtcFinal.setMinSelectableDate(contrato.getFechaInicio().getTime());
+		
+	}
 	private void cargarPrecio() {
 		long duracion  = dtcFinal.getCalendar().getTime().getTime()-dtcNow.getCalendar().getTime().getTime();
 		long diffdedias = TimeUnit.MILLISECONDS.toDays(duracion);
@@ -407,7 +486,6 @@ public class CrearContrato extends JDialog {
 		float precio = (float) Math.floor((a * precioTrabajador())*1.15);
 		txtRD.setText(String.valueOf(precio));
 		txtUS.setText(String.valueOf(Math.floor((precio/Float.valueOf(txtTasa.getText())))));
-		
 		
 	}
 	private float precioTrabajador() {

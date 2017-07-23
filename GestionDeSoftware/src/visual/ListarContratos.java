@@ -60,6 +60,7 @@ public class ListarContratos extends JDialog {
 	private JComboBox<String> cbxCliente;
 	private JComboBox<String> cbxEstado;
 	private JButton btnBuscar;
+	private JButton btnPresentar;
 	private JPanel pnlCliente;
 	private JPanel pnlEstado;
 	private JPanel pnlCodigo;
@@ -68,7 +69,9 @@ public class ListarContratos extends JDialog {
 	private	JFormattedTextField ftxCedula;
 	private JFormattedTextField ftxCodigo;
 	private JList<String> lstTrabajadores;
-	private ArrayList<Contrato> auxiliar;
+	private ArrayList<Contrato> auxiliar = new ArrayList<Contrato>();
+	private JButton btnNewButton;
+	private JButton btnsalvar;
 
 	/**
 	 * Launch the application.
@@ -104,29 +107,11 @@ public class ListarContratos extends JDialog {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				cargarLista();
-			}
-
-			private void cargarLista() {
-				int index = table.getSelectedRow();
-				String[] trabajadores = new String[auxiliar.get(index).getProyecto().getJefe().getMisTrabajadores().size()];
-				int i=0;
-				for (Trabajador worker : auxiliar.get(index).getProyecto().getJefe().getMisTrabajadores()) {
-					trabajadores[i] = worker.getCedula()+"("+worker.getNombre()+")"+"/"+tipotrab(worker);
-				}
-				lstTrabajadores.setListData(trabajadores);
-			}
-
-			private String tipotrab(Trabajador worker) {
-				if(worker instanceof Programador)
-					return Programador.class.getSimpleName();
-				if(worker instanceof Diseñador)
-					return Diseñador.class.getSimpleName();
-				if(worker instanceof JefeDeProyecto)
-					return JefeDeProyecto.class.getSimpleName();
-				if(worker instanceof Planificador)
-					return Planificador.class.getSimpleName();
-				return null;
+				btnPresentar.setEnabled(true);
+				btnNewButton.setEnabled(true);
+				btnsalvar.setEnabled(true);
+				
+				
 			}
 		});
 		model = new DefaultTableModel(){
@@ -209,6 +194,7 @@ public class ListarContratos extends JDialog {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				auxiliar.clear();
 				if(cbxBuscar.getSelectedIndex()==0)
 					loadTable(0,false,null);
 				if(cbxBuscar.getSelectedIndex()==1) {
@@ -331,19 +317,53 @@ public class ListarContratos extends JDialog {
 		lstTrabajadores = new JList<String>();
 		limitarSeleccionLista(lstTrabajadores,-1,-1);
 		scrollPane_1.setViewportView(lstTrabajadores);
+		
+		btnPresentar = new JButton("Presentar Trabajadores");
+		btnPresentar.setEnabled(false);
+		btnPresentar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow()>=0) {
+					lstTrabajadores.removeAll();
+					cargarLista();
+				}
+			}
+		});
+		btnPresentar.setBounds(709, 259, 186, 23);
+		contentPanel.add(btnPresentar);
+		
+		btnNewButton = new JButton("Prorrogar Contrato");
+		btnNewButton.setEnabled(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PassDSaldar nuevo = new PassDSaldar(auxiliar.get(table.getSelectedRow()));
+				nuevo.setModal(true);
+				nuevo.setVisible(true);
+				model.setRowCount(0);
+			}
+		});
+		btnNewButton.setBounds(709, 309, 186, 23);
+		contentPanel.add(btnNewButton);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setIcon(new ImageIcon(ListarContratos.class.getResource("/img/001-technology.png")));
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnsalvar = new JButton("Saldar Contrato");
+				btnsalvar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						SaldarContrato saldar = new SaldarContrato(auxiliar.get(table.getSelectedRow()));
+						saldar.setModal(true);
+						saldar.setVisible(true);
+					}
+				});
+				btnsalvar.setEnabled(false);
+				btnsalvar.setIcon(new ImageIcon(ListarContratos.class.getResource("/img/001-technology.png")));
+				btnsalvar.setActionCommand("OK");
+				buttonPane.add(btnsalvar);
+				getRootPane().setDefaultButton(btnsalvar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.setIcon(new ImageIcon(ListarContratos.class.getResource("/img/001-delete.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
@@ -352,7 +372,6 @@ public class ListarContratos extends JDialog {
 	}
 
 	private void loadTable(int posicion,boolean estado,String codigoContrato) {
-		auxiliar = new ArrayList<Contrato>();
 		model.setRowCount(0);
 		filaLista = new Object[model.getColumnCount()];
 		for (Contrato contra : EmpresaRps.getInstance().getMiscontratos()) {
@@ -473,6 +492,31 @@ public class ListarContratos extends JDialog {
 		    }
 		}
 		lista.setSelectionModel(new MySelectionModel());
-		
+	}
+	private void cargarLista() {
+		String codigo = String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0));
+		String[] trabajadores = null;
+		int i=0;
+		for (Contrato code : EmpresaRps.getInstance().getMiscontratos()) 
+			if(code.getCodigoContrato().equalsIgnoreCase(codigo)) {
+				trabajadores = new String[code.getProyecto().getJefe().getMisTrabajadores().size()];
+				for (Trabajador worker : code.getProyecto().getJefe().getMisTrabajadores()) {
+					trabajadores[i] = worker.getCedula()+"("+worker.getNombre()+")"+"/"+tipotrab(worker);
+					i++;
+				}
+			}
+		lstTrabajadores.setListData(trabajadores);
+		trabajadores = null;
+	}
+	private String tipotrab(Trabajador worker) {
+		if(worker instanceof Programador)
+			return Programador.class.getSimpleName();
+		if(worker instanceof Diseñador)
+			return Diseñador.class.getSimpleName();
+		if(worker instanceof JefeDeProyecto)
+			return JefeDeProyecto.class.getSimpleName();
+		if(worker instanceof Planificador)
+			return Planificador.class.getSimpleName();
+		return null;
 	}
 }
