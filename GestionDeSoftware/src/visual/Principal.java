@@ -273,24 +273,24 @@ public class Principal extends JFrame {
 		GraficaLenguaje.setLayout(null);
 		
 		
-		
+		//Java", "C", "C++", "Python", "C#", "Visual Basic. NET", "JavaScript", "PHP", "Perl", "Assembly language"
 		
 		ArrayList<String> lenguajes = new ArrayList<>();
 		lenguajes.add("Java");
 		lenguajes.add("C#");
+		lenguajes.add("C");
 		lenguajes.add("Visual Basic");
 		lenguajes.add("C++");
-		lenguajes.add("Objective C");
-		lenguajes.add("Swift");
-		lenguajes.add("HTML & CSS");
+		lenguajes.add("Perl");
+		lenguajes.add("Assembly language");
 		lenguajes.add("PHP");
 		lenguajes.add("JavaScript");
-		lenguajes.add("Java");
+		lenguajes.add("Python");
 		Grafica masUsado =EmpresaRps.getInstance().getMasUsado(lenguajes);
 		Grafica menosUsado =EmpresaRps.getInstance().getMenosUsado(lenguajes);
 		datosLen.addValue(masUsado.getFrec(),"Más Usado",masUsado.getTipo());
 		datosLen.addValue(menosUsado.getFrec(),"Menos Usado", menosUsado.getTipo());
-		JFreeChart graficaLen = ChartFactory.createBarChart3D("Lenguaje mas usado Vs Lenguaje menos usado", "Lenguaje", "Cantidad de Contratos", datosLen, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart graficaLen = ChartFactory.createBarChart3D("Lenguaje más usado Vs Lenguaje menos usado", "Lenguaje", "Cantidad de Contratos", datosLen, PlotOrientation.VERTICAL, true, true, false);
 		
 		
 		

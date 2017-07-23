@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
+import javax.swing.AbstractButton;
 import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
@@ -234,6 +235,7 @@ public class RegistrarTrabajador extends JDialog {
 				
 			}
 			{
+			
 				spnEdad = new JSpinner();
 				SpinnerNumberModel edad = new SpinnerNumberModel();
 				edad.setValue(20);
@@ -241,6 +243,8 @@ public class RegistrarTrabajador extends JDialog {
 				edad.setMaximum(30);
 				edad.setMinimum(20);
 		        spnEdad.setModel(edad);
+		        JFormattedTextField tf = ((JSpinner.DefaultEditor)spnEdad.getEditor()).getTextField();
+				tf.setEditable(false);
 				spnEdad.setBounds(390, 19, 178, 22);
 				datosGenerales.add(spnEdad);
 			}
@@ -466,7 +470,10 @@ public class RegistrarTrabajador extends JDialog {
 		ExpJefe.setValue(0);
 		ExpJefe.setStepSize(1);
 		ExpJefe.setMinimum(0);
+		ExpJefe.setMaximum(50);
 		SpnExperienciaJefe.setModel(ExpJefe);
+		JFormattedTextField tf = ((JSpinner.DefaultEditor)SpnExperienciaJefe.getEditor()).getTextField();
+		tf.setEditable(false);
 		SpnExperienciaJefe.setBounds(140, 21, 136, 22);
 		jefeProyecto.add(SpnExperienciaJefe);
 		
@@ -507,7 +514,10 @@ public class RegistrarTrabajador extends JDialog {
 			ExpPlanificador.setValue(0);
 			ExpPlanificador.setStepSize(1);
 			ExpPlanificador.setMinimum(0);
+			ExpPlanificador.setMaximum(50);
 			spnExperienciaPlaneador.setModel(ExpPlanificador);
+			JFormattedTextField tfspn = ((JSpinner.DefaultEditor)spnExperienciaPlaneador.getEditor()).getTextField();
+			tfspn.setEditable(false);
 			spnExperienciaPlaneador.setBounds(140, 21, 136, 22);
 			planeador.add(spnExperienciaPlaneador);
 			
@@ -516,6 +526,14 @@ public class RegistrarTrabajador extends JDialog {
 			planeador.add(lblCantidadDeProyectos);
 			
 			spnCantProyecto = new JSpinner();
+			SpinnerNumberModel cantProyecto = new SpinnerNumberModel();
+			cantProyecto.setValue(0);
+			cantProyecto.setStepSize(1);
+			cantProyecto.setMinimum(0);
+			cantProyecto.setMaximum(50);
+		    spnCantProyecto.setModel(cantProyecto);
+			JFormattedTextField tfsp = ((JSpinner.DefaultEditor)spnCantProyecto.getEditor()).getTextField();
+			tfsp.setEditable(false);
 			spnCantProyecto.setBounds(440, 24, 86, 22);
 			planeador.add(spnCantProyecto);
 		}
