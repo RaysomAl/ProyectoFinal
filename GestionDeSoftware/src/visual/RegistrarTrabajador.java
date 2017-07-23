@@ -70,7 +70,7 @@ public class RegistrarTrabajador extends JDialog {
 	private JPanel planeador;
 	private JPanel Disenador;
 	private JTextField txtCasa;
-	private JTextField txtCantProyecto;
+	private JSpinner spnCantProyecto;
 
 
 	/**
@@ -514,20 +514,10 @@ public class RegistrarTrabajador extends JDialog {
 			JLabel lblCantidadDeProyectos = new JLabel("Cantidad de proyectos:");
 			lblCantidadDeProyectos.setBounds(300, 24, 150, 14);
 			planeador.add(lblCantidadDeProyectos);
-			{
-				txtCantProyecto = new JTextField();
-				txtCantProyecto.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyTyped(KeyEvent e) {
-						char cantproyect =  e.getKeyChar();
-						if((cantproyect < '0' || cantproyect > '9') && cantproyect != '.')
-							e.consume();
-					}
-				});
-				txtCantProyecto.setBounds(440, 24, 86, 22);
-				planeador.add(txtCantProyecto);
-				txtCantProyecto.setColumns(10);
-			}
+			
+			spnCantProyecto = new JSpinner();
+			spnCantProyecto.setBounds(440, 24, 86, 22);
+			planeador.add(spnCantProyecto);
 		}
 		{
 			Disenador = new JPanel();
@@ -607,7 +597,7 @@ public class RegistrarTrabajador extends JDialog {
 						}
 					    else if (rbdPlanificador.isSelected()) {
 					    	 int anoExp = new Integer(spnExperienciaPlaneador.getValue().toString());
-					    	 int cantProy = new Integer(txtCantProyecto.getText());
+					    	 int cantProy = new Integer(spnCantProyecto.getValue().toString());
 					    	 Planificador alpha = new Planificador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp,cantProy);
 					    	 EmpresaRps.getInstance().agregarTrabajador(alpha);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
