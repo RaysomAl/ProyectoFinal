@@ -71,6 +71,14 @@ import java.awt.Toolkit;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Principal extends JFrame implements Runnable{
 
@@ -80,7 +88,7 @@ public class Principal extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Dimension dim;
-	private JPanel Grafica1;
+	private static JPanel Grafica1;
 	private JPanel GraficaLenguaje;
 	private JPanel Grafica3;
 	private JPanel Grafica4;
@@ -115,19 +123,12 @@ public class Principal extends JFrame implements Runnable{
 			public void run() {
 				try {
 				UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel");
-				/*PARTE DEL FICHERO BINARIO
-				 * 
-				 * FileInputStream leerFileInputStream = null;
-			     ObjectInputStream empresaRpsInputStream = null;
-			     
-			     leerFileInputStream = new FileInputStream("biblioteca.dat");
-			     empresaRpsInputStream = new ObjectInputStream(leerFileInputStream);
-			     EmpresaRps.setInstance((EmpresaRps)empresaRpsInputStream.readObject());*/
 					Principal frame = new Principal();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		});
 	}
@@ -136,6 +137,37 @@ public class Principal extends JFrame implements Runnable{
 	 * Create the frame.
 	 */
 	public Principal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					FileOutputStream salida = new FileOutputStream("biblioteca.dat");
+					ObjectOutputStream escritor = new ObjectOutputStream(salida);
+					escritor.writeObject(EmpresaRps.getInstance());
+					escritor.close();
+				} catch(IOException a1) {
+					a1.printStackTrace();;
+				}
+				
+			}
+		}); 
+		try {
+	    	 	FileInputStream leerFileInputStream = null;
+	 	    	ObjectInputStream empresaRpsInputStream = null;
+	 	    	leerFileInputStream = new FileInputStream("biblioteca.dat");
+	 	    	empresaRpsInputStream = new ObjectInputStream(leerFileInputStream);
+	 	    	EmpresaRps.setInstance((EmpresaRps)empresaRpsInputStream.readObject());
+	 	    	leerFileInputStream.close();
+	     } catch (FileNotFoundException e2) {
+				JOptionPane.showMessageDialog(null,  "Error en crear el archivo de base datos, nada reciente se salvo", "Error",JOptionPane.ERROR_MESSAGE);
+	     } catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+	     } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+	     }
+	     
 		setTitle("EmpresaRps.S.A.");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/evaluation.png")));
 		setResizable(false);
@@ -338,12 +370,12 @@ public class Principal extends JFrame implements Runnable{
 		
 		Grafica3 = new JPanel();
 		Grafica3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
-		Grafica3.setBounds(592, 304, 221, 272);
+		Grafica3.setBounds(592, 304, 242, 272);
 		panel.add(Grafica3);
 		Grafica3.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 20, 201, 241);
+		scrollPane.setBounds(10, 20, 222, 241);
 		Grafica3.add(scrollPane);
 		
 		empleados = new JList<String>();
@@ -369,7 +401,7 @@ public class Principal extends JFrame implements Runnable{
 		
 		JPanel Reloj = new JPanel();
 		Reloj.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
-		Reloj.setBounds(823, 304, 331, 272);
+		Reloj.setBounds(844, 304, 310, 272);
 		panel.add(Reloj);
 		Reloj.setLayout(null);
 		
@@ -417,9 +449,18 @@ public class Principal extends JFrame implements Runnable{
 		hilo.start();
 	}
 
-	/*public static actualizarGraficas() {
+	public static void actualizarGraficas() {
+		XYDataset dataset = dataset();
+		JFreeChart grafica = ChartFactory.createXYLineChart("Ganancias vs Pedidas", "Meses", "RD$", dataset
+				,PlotOrientation.VERTICAL,true,true,false);
+		graficaGananciaVsPerdidas(grafica);
+		grafica.setBackgroundPaint(Color.WHITE);
+		ChartPanel panelgrafica = new ChartPanel(grafica);//creamos un panel para la grafica
+		panelgrafica.setDomainZoomable(false);//no sera zoomeable por click izquierdo abriendo en eje x
+		panelgrafica.setRangeZoomable(false);//no sera zoomeable por click izquierdo abrindo en eje y
+		Grafica1.add(panelgrafica,BorderLayout.CENTER);//insertamos la grafica en el panel grafica 
 		
-	}*/
+	}
 
 	private String[] CargarLista() {
 		ArrayList<Trabajador> malosTrabajadores = new ArrayList<Trabajador>();
@@ -429,7 +470,7 @@ public class Principal extends JFrame implements Runnable{
 			malosTrabajadore = new String[1];
 		cargarAarray(malosTrabajadores,malosTrabajadore);
 		if(malosTrabajadores.size()==0)
-			malosTrabajadore[0]= "No hay trabajadores Ineficientes recientemente";
+			malosTrabajadore[0]= "No hay trabajadores Ineficientes";
 		return malosTrabajadore;
 	}
 
@@ -444,7 +485,7 @@ public class Principal extends JFrame implements Runnable{
 			malosTrabajadore[i] = malosTrabajadores.get(i).getCedula()+"("+malosTrabajadores.get(i).getNombre()+")";
 	}
 
-	private void graficaGananciaVsPerdidas(JFreeChart grafica) {
+	private static void graficaGananciaVsPerdidas(JFreeChart grafica) {
 		XYPlot personalizacion = grafica.getXYPlot();//crear plot de una grafica, permite interactuar con fisico de grafica
 		personalizacion.setBackgroundPaint(Color.WHITE);//COLOR FONDO de grafica
 		personalizacion.setDomainGridlinePaint(Color.GRAY);//COLOR LINEAS VERTICALES grafica
@@ -466,7 +507,7 @@ public class Principal extends JFrame implements Runnable{
 		lineas.setBaseItemLabelsVisible(true);
 	}
 
-	private XYDataset dataset() {//creamos hoja de datos se inserta en linea 111 
+	private static XYDataset dataset() {//creamos hoja de datos se inserta en linea 111 
 		XYSeries saldoIngresos = new XYSeries("Ingresos");//datos de ingresos
 		XYSeries saldoPerdidas = new XYSeries("Perdidas");//datos de perdidas
 		Float saldoArray = null;//auxiliar para guardar flotantes
@@ -475,26 +516,6 @@ public class Principal extends JFrame implements Runnable{
 		cargarArray(total, 0, 10);
 		ArrayList<Float> Perdidas = new ArrayList<Float>();
 		cargarArray(Perdidas, 0, 10);
-		Calendar ejemplo = Calendar.getInstance();
-		ejemplo.add(Calendar.MONTH,0 );
-		Contrato e = new Contrato("1", null, ejemplo, Calendar.getInstance(), null, (float)5000, (float)0, (float)48.7);
-		e.setTerminado(true);
-		e.setFechaSaldada(ejemplo);
-		Calendar klk = Calendar.getInstance();
-		klk.add(Calendar.MONTH, -5);
-		Contrato a = new Contrato("3", null, klk, klk, null, (float)60000, (float)0, (float)48.7);
-		a.setTerminado(true);
-		a.setFechaSaldada(Calendar.getInstance());
-		Calendar fecha = Calendar.getInstance();
-		Calendar fecha2 = Calendar.getInstance();
-		fecha.add(Calendar.MONTH, -5);
-		fecha2.add(Calendar.MONTH, -4);
-		Contrato alpha = new Contrato("2", null, fecha, fecha, null, (float)60000, (float)0, (float)48.7);
-		alpha.setFechaSaldada(fecha2);
-		alpha.setTerminado(true);
-		EmpresaRps.getInstance().getMiscontratos().add(e);
-		EmpresaRps.getInstance().getMiscontratos().add(alpha);
-		EmpresaRps.getInstance().getMiscontratos().add(a);
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
 			if(aux.isTerminado()) {//si el contrato termino
 				if(-(Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
@@ -605,7 +626,7 @@ public class Principal extends JFrame implements Runnable{
 		return false;
 	}
 
-	private void cargarMeses(String[] meses) {//metodo que carga los meses basado la fecha actual
+	private static void cargarMeses(String[] meses) {//metodo que carga los meses basado la fecha actual
 		LocalDate aux = LocalDate.now();
 		int mes = aux.getMonthValue();
 		if(mes<11)
@@ -623,7 +644,7 @@ public class Principal extends JFrame implements Runnable{
 	}
 	
 	
-	private String carString(int mes) {//retorna el mes basado en un int de 1 a 12
+	private static String carString(int mes) {//retorna el mes basado en un int de 1 a 12
 			if(mes==1)
 				return "Ene.";
 			if(mes==2)
@@ -651,7 +672,7 @@ public class Principal extends JFrame implements Runnable{
 		return null;
 	}
 
-	private void cargarArray(ArrayList<Float> total, int unidad, int limite) {// llena un array float de una unidad, hasta su limite maximo
+	private static void cargarArray(ArrayList<Float> total, int unidad, int limite) {// llena un array float de una unidad, hasta su limite maximo
 		for (int i = 0; i < limite; i++) {
 			total.add((float) unidad);
 		}

@@ -113,10 +113,6 @@ public class CrearContrato extends JDialog {
 		setTitle("Creacion de Contrato");
 		setBounds(100, 100, 546, 440);
 		setLocationRelativeTo(null);
-		Indepediente c = new Indepediente("000-0000000-1", "mario", "", "", "", "", "", "","");
-		Empresa a = new Empresa("000-00000-1", "Industria", "", "", "", "");
-		EmpresaRps.getInstance().getMisclientes().add(c);
-		EmpresaRps.getInstance().getMisclientes().add(a);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

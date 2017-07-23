@@ -24,6 +24,8 @@ import java.awt.Color;
 import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class SaldarContrato extends JDialog {
 
@@ -84,7 +86,7 @@ public class SaldarContrato extends JDialog {
 		}
 		
 		txtID = new JTextField();
-		txtID.setEnabled(false);
+		txtID.setEditable(false);
 		txtID.setBounds(119, 31, 158, 23);
 		contentPanel.add(txtID);
 		txtID.setColumns(10);
@@ -116,31 +118,31 @@ public class SaldarContrato extends JDialog {
 		panel.add(lblPrecioFinal);
 		
 		txtFechaF = new JTextField();
-		txtFechaF.setEnabled(false);
+		txtFechaF.setEditable(false);
 		txtFechaF.setBounds(104, 23, 158, 23);
 		panel.add(txtFechaF);
 		txtFechaF.setColumns(10);
 		
 		txtFechaS = new JTextField();
-		txtFechaS.setEnabled(false);
+		txtFechaS.setEditable(false);
 		txtFechaS.setBounds(104, 63, 158, 23);
 		panel.add(txtFechaS);
 		txtFechaS.setColumns(10);
 		
 		txtPrecioF = new JTextField();
-		txtPrecioF.setEnabled(false);
+		txtPrecioF.setEditable(false);
 		txtPrecioF.setBounds(393, 23, 151, 23);
 		panel.add(txtPrecioF);
 		txtPrecioF.setColumns(10);
 		
 		txtPrecioS = new JTextField();
-		txtPrecioS.setEnabled(false);
+		txtPrecioS.setEditable(false);
 		txtPrecioS.setBounds(393, 63, 151, 23);
 		panel.add(txtPrecioS);
 		txtPrecioS.setColumns(10);
 		
 		txtCliente = new JTextField();
-		txtCliente.setEnabled(false);
+		txtCliente.setEditable(false);
 		txtCliente.setBounds(119, 76, 158, 23);
 		contentPanel.add(txtCliente);
 		txtCliente.setColumns(10);
@@ -154,13 +156,13 @@ public class SaldarContrato extends JDialog {
 		contentPanel.add(lblNewLabel_4);
 		
 		txtJefe = new JTextField();
-		txtJefe.setEnabled(false);
+		txtJefe.setEditable(false);
 		txtJefe.setBounds(408, 31, 151, 23);
 		contentPanel.add(txtJefe);
 		txtJefe.setColumns(10);
 		
 		txtProyecto = new JTextField();
-		txtProyecto.setEnabled(false);
+		txtProyecto.setEditable(false);
 		txtProyecto.setBounds(408, 76, 151, 23);
 		contentPanel.add(txtProyecto);
 		txtProyecto.setColumns(10);
@@ -172,7 +174,7 @@ public class SaldarContrato extends JDialog {
 		pnlEval.setLayout(null);
 		
 		txtEmp1 = new JTextField();
-		txtEmp1.setEnabled(false);
+		txtEmp1.setEditable(false);
 		txtEmp1.setBounds(98, 31, 105, 23);
 		pnlEval.add(txtEmp1);
 		txtEmp1.setColumns(10);
@@ -195,19 +197,19 @@ public class SaldarContrato extends JDialog {
 		pnlEval.add(lblEvaluacion);
 		
 		txtEmp2 = new JTextField();
-		txtEmp2.setEnabled(false);
+		txtEmp2.setEditable(false);
 		txtEmp2.setColumns(10);
 		txtEmp2.setBounds(213, 31, 105, 23);
 		pnlEval.add(txtEmp2);
 		
 		txtEmp3 = new JTextField();
-		txtEmp3.setEnabled(false);
+		txtEmp3.setEditable(false);
 		txtEmp3.setColumns(10);
 		txtEmp3.setBounds(328, 31, 105, 23);
 		pnlEval.add(txtEmp3);
 		
 		txtEmp4 = new JTextField();
-		txtEmp4.setEnabled(false);
+		txtEmp4.setEditable(false);
 		txtEmp4.setColumns(10);
 		txtEmp4.setBounds(443, 31, 105, 23);
 		pnlEval.add(txtEmp4);
@@ -248,19 +250,19 @@ public class SaldarContrato extends JDialog {
 		pnlEval.add(spnEmp4);
 		
 		txtEmp5 = new JTextField();
-		txtEmp5.setEnabled(false);
+		txtEmp5.setEditable(false);
 		txtEmp5.setColumns(10);
 		txtEmp5.setBounds(98, 131, 105, 23);
 		pnlEval.add(txtEmp5);
 		
 		txtEmp6 = new JTextField();
-		txtEmp6.setEnabled(false);
+		txtEmp6.setEditable(false);
 		txtEmp6.setColumns(10);
 		txtEmp6.setBounds(213, 131, 105, 23);
 		pnlEval.add(txtEmp6);
 		
 		txtEmp7 = new JTextField();
-		txtEmp7.setEnabled(false);
+		txtEmp7.setEditable(false);
 		txtEmp7.setColumns(10);
 		txtEmp7.setBounds(328, 131, 105, 23);
 		pnlEval.add(txtEmp7);
@@ -304,6 +306,7 @@ public class SaldarContrato extends JDialog {
 						if(opcion == JOptionPane.OK_OPTION){
 							aplicarEvaluacion();
 						}
+						Principal.actualizarGraficas();
 						dispose();
 					}
 

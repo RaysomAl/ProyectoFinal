@@ -15,9 +15,6 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 
 public class EmpresaRps implements Serializable {
-	
-	
-
 	/**
 	 * 
 	 */

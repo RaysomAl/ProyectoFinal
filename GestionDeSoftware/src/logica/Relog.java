@@ -1,9 +1,14 @@
 package logica;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Relog extends Thread{
+public class Relog extends Thread implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String minutos, segundos, horas;
 	private Thread hilo;
 	private boolean estado;

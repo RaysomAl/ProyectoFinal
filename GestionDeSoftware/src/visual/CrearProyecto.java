@@ -423,26 +423,6 @@ public class CrearProyecto extends JDialog {
 			ftxObservacion = new JFormattedTextField(createDirr("********************"));
 			ftxObservacion.setBounds(123, 281, 119, 23);
 			registrarProyecto.add(ftxObservacion);
-			Programador e = new Programador("031-0200031-1","Marco", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
-			Programador z = new Programador("031-0200031-1","Maria", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
-			Programador w = new Programador("031-0200031-1","Elise", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
-			Programador q = new Programador("031-0200031-1","Kestrel", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
-			Programador a = new Programador("031-0200031-1","Juan", "","", "", (float)1.1, "",(float)1.1, 1, "",4,1,"");
-			JefeDeProyecto alpha = new JefeDeProyecto("031-0000000-9", "Estela", "","", "", (float)1.1, "",(float)1.1, 1,"",1,1, 1);
-			Diseñador beta = new Diseñador("031-0200031-2", "Maria", "", "", "", (float)1.1, "", (float)1.1, 1, "", 1,0, "");
-			Diseñador eclipse = new Diseñador("031-0200031-2", "Catherine", "", "", "", (float)1.1, "", (float)1.1, 1,"", 1,0, "");
-			Planificador esiplion = new Planificador("031-0200031-4", "Joule", "", "", "", (float)1.1, "", (float)1.1, 0, "", 1, 0, 0, 0);
-			Planificador ganma = new Planificador("031-0200031-4", "Alejandro", "", "", "", (float)1.1, "", (float)1.1, 0, "", 1, 0, 0, 0);
-			EmpresaRps.getInstance().getMistrabajadores().add(e);
-			EmpresaRps.getInstance().getMistrabajadores().add(a);
-			EmpresaRps.getInstance().getMistrabajadores().add(z);
-			EmpresaRps.getInstance().getMistrabajadores().add(q);
-			EmpresaRps.getInstance().getMistrabajadores().add(w);
-			EmpresaRps.getInstance().getMistrabajadores().add(ganma);
-			EmpresaRps.getInstance().getMistrabajadores().add(esiplion);
-			EmpresaRps.getInstance().getMistrabajadores().add(eclipse);
-			EmpresaRps.getInstance().getMistrabajadores().add(beta);
-			EmpresaRps.getInstance().getMistrabajadores().add(alpha);
 		}
 		{
 			JPanel buttonPane = new JPanel();
