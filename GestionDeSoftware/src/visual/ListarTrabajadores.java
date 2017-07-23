@@ -234,15 +234,10 @@ public class ListarTrabajadores extends JDialog {
 			btnEvaluacin.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/wish-list.png")));
 			buttonPane.add(btnEvaluacin);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Listo");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
 			}
 		}
 	}
