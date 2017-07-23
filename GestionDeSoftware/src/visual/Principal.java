@@ -13,6 +13,8 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFrame;
@@ -32,43 +34,37 @@ import org.jfree.chart.labels.XYItemLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 
+import logica.Cliente;
 import logica.Contrato;
+import logica.Empresa;
 import logica.EmpresaRps;
 import logica.Grafica;
-import logica.JefeDeProyecto;
-import logica.Programador;
+import logica.Indepediente;
+import logica.Relog;
 import logica.Trabajador;
 
 import javax.swing.border.TitledBorder;
-import javax.swing.text.MaskFormatter;
-import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-
 import javax.swing.ImageIcon;
 
 import java.awt.Font;
-import java.awt.Paint;
 import javax.swing.border.EtchedBorder;
 import java.awt.Toolkit;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class Principal extends JFrame {
 
@@ -84,6 +80,12 @@ public class Principal extends JFrame {
 	private JPanel Grafica4;
 	private JList<String> empleados;
 	DefaultCategoryDataset datosLen = new DefaultCategoryDataset();
+	private Relog miRelog;
+	private String minutos, segundos, horas;
+	private Thread hilo;
+	private boolean estado;
+	private JTextField txtHora;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -114,6 +116,8 @@ public class Principal extends JFrame {
 	 */
 	public Principal() {
 		setTitle("EmpresaRps.S.A.");
+		miRelog = new Relog();
+		start(miRelog);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/evaluation.png")));
 		setResizable(false);
 		dim = super.getToolkit().getScreenSize();
@@ -196,14 +200,6 @@ public class Principal extends JFrame {
 		mntmListarContratos.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnContratos.add(mntmListarContratos);
 		
-		JMenuItem mntmSaldarContraro = new JMenuItem("Saldar");
-		mntmSaldarContraro.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnContratos.add(mntmSaldarContraro);
-		
-		JMenuItem mntmConsolidarExistente = new JMenuItem("Consolidar Existente");
-		mntmConsolidarExistente.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnContratos.add(mntmConsolidarExistente);
-		
 		JMenu mnAdministracion = new JMenu("Administracion");
 		mnAdministracion.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		mnAdministracion.setIcon(new ImageIcon(Principal.class.getResource("/img/admin.png")));
@@ -262,13 +258,13 @@ public class Principal extends JFrame {
 		panelGrafica1.setLayout(null);
 		
 		Grafica1 = new JPanel();
-		Grafica1.setBounds(10, 21, 530, 250);
+		Grafica1.setBounds(10, 11, 530, 260);
 		panelGrafica1.add(Grafica1);
 		Grafica1.setLayout(new BorderLayout());
 				
 		GraficaLenguaje = new JPanel();
 		GraficaLenguaje.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		GraficaLenguaje.setBounds(582, 0, 572, 304);
+		GraficaLenguaje.setBounds(582, 11, 572, 282);
 		panel.add(GraficaLenguaje);
 		GraficaLenguaje.setLayout(null);
 		
@@ -293,7 +289,7 @@ public class Principal extends JFrame {
 		JFreeChart graficaLen = ChartFactory.createBarChart3D("Lenguaje más usado Vs Lenguaje menos usado", "Lenguaje", "Cantidad de Contratos", datosLen, PlotOrientation.VERTICAL, true, true, false);
 		
 		JPanel panelLenguaje = new JPanel();
-		panelLenguaje.setBounds(10, 11, 552, 282);
+		panelLenguaje.setBounds(10, 11, 552, 260);
 		GraficaLenguaje.add(panelLenguaje);
 		panelLenguaje.setLayout(new BorderLayout(0, 0));
 		
@@ -312,12 +308,12 @@ public class Principal extends JFrame {
 		
 		Grafica3 = new JPanel();
 		Grafica3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Empleados Ineficientes", TitledBorder.LEADING, TitledBorder.TOP, null, Color.LIGHT_GRAY));
-		Grafica3.setBounds(10, 304, 561, 272);
+		Grafica3.setBounds(592, 304, 221, 272);
 		panel.add(Grafica3);
 		Grafica3.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 20, 552, 241);
+		scrollPane.setBounds(10, 20, 201, 241);
 		Grafica3.add(scrollPane);
 		
 		empleados = new JList<String>();
@@ -327,9 +323,29 @@ public class Principal extends JFrame {
 		empleados.setListData(CargarLista());
 		
 		Grafica4 = new JPanel();
-		Grafica4.setBounds(582, 304, 572, 293);
+		Grafica4.setBounds(21, 304, 550, 272);
+		CategoryDataset stackDataset = crearStack();
+		JFreeChart graficaBarras = crearGrafica(stackDataset);
+		ChartPanel panelGrafica4 = new ChartPanel(graficaBarras);
 		panel.add(Grafica4);
+		Grafica4.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.add(panelGrafica4,BorderLayout.CENTER);
+		panel_1.setBounds(10, 11, 530, 250);
+		Grafica4.add(panel_1);
+		
+		txtHora = new JTextField();
+		txtHora.setEnabled(false);
+		txtHora.setBounds(890, 423, 86, 20);
+		panel.add(txtHora);
+		txtHora.setColumns(10);
 	}
+
+	/*public static actualizarGraficas() {
+		
+	}*/
 
 	private String[] CargarLista() {
 		ArrayList<Trabajador> malosTrabajadores = new ArrayList<Trabajador>();
@@ -402,9 +418,9 @@ public class Principal extends JFrame {
 		Contrato alpha = new Contrato("2", null, fecha, fecha, null, (float)60000, (float)0, (float)48.7);
 		alpha.setFechaSaldada(fecha2);
 		alpha.setTerminado(true);
-		/*EmpresaRps.getInstance().getMiscontratos().add(e);
+		EmpresaRps.getInstance().getMiscontratos().add(e);
 		EmpresaRps.getInstance().getMiscontratos().add(alpha);
-		EmpresaRps.getInstance().getMiscontratos().add(a);*/
+		EmpresaRps.getInstance().getMiscontratos().add(a);
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
 			if(aux.isTerminado()) {//si el contrato termino
 				if(-(Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
@@ -432,6 +448,89 @@ public class Principal extends JFrame {
 		return data;
 	}
 	
+	private JFreeChart crearGrafica(CategoryDataset stackDataset) {
+		JFreeChart grafica = ChartFactory.createStackedBarChart
+				("Clientes con contratos tardios", "Clientes", "Cantidad Contratos", stackDataset, PlotOrientation.VERTICAL,
+						true, true, false);
+		
+		return grafica;
+	}
+	private CategoryDataset crearStack() {
+		DefaultCategoryDataset resultados = new DefaultCategoryDataset();
+		//resultados.addValue(value, rowKey, columnKey);
+		ArrayList<Cliente> misDATOS = new ArrayList<Cliente>();
+		ArrayList<Integer> aldia = new ArrayList<Integer>();
+		ArrayList<Integer> tardio = new ArrayList<Integer>();
+		cargarInt(aldia, 0, EmpresaRps.getInstance().getMisclientes().size());
+		cargarInt(tardio, 0, EmpresaRps.getInstance().getMisclientes().size());
+		int i = 0;
+		for (Cliente clien : EmpresaRps.getInstance().getMisclientes()) {
+			for (Contrato contr : EmpresaRps.getInstance().getMiscontratos()) {
+				if(contr.isTerminado()) {
+					if(contr.getCliente() instanceof Empresa)
+						if(clien instanceof Empresa)
+							if(((Empresa)clien).getRnc().equalsIgnoreCase(((Empresa)contr.getCliente()).getRnc())) { 
+								if(ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+									aldia.set(i, aldia.get(i)+1);
+								if(!ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+									tardio.set(i, tardio.get(i)+1);
+							}
+					if(contr.getCliente() instanceof Indepediente)
+						if(clien instanceof Indepediente)
+							if(((Indepediente)clien).getCedula().equalsIgnoreCase(((Indepediente)contr.getCliente()).getCedula())) { 
+								if(ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+									aldia.set(i, aldia.get(i)+1);
+								if(!ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+									tardio.set(i, tardio.get(i)+1);
+							}
+				}		
+			}
+			misDATOS.set(i, clien);
+			i++;
+		}
+		Integer[] losMasTarde = {0,0,0,0,0,0,0,0};
+		int aux = 0;
+		for (int j = 0; j < losMasTarde.length; j++) {
+			for (int x = 0; j < tardio.size(); j++) {
+				if(tardio.get(j)>aux&&buscarInt(losMasTarde,j))
+					aux = j;
+			}
+			losMasTarde[j]=aux;
+			aux = 0;
+		}
+		for (int j = 0; j < losMasTarde.length; j++) {
+			if(losMasTarde[j]!=0) {
+				resultados.addValue(aldia.get(j), "Al dia", misDATOS.get(j).getNombre());
+				resultados.addValue(tardio.get(j), "Tardio", misDATOS.get(j).getNombre());
+			}
+		}
+		return resultados;
+	}
+	
+	private boolean buscarInt(Integer[] losMasTarde,int j) {
+		for (int i = 0; i < losMasTarde.length; i++) {
+			if(j == losMasTarde[i])
+				return false;
+		}
+		return true;
+	}
+
+	private boolean ComparaFecha(Calendar fechaFinal, Calendar fechaSaldada) {
+		Date now = fechaFinal.getTime();
+		Date later = fechaSaldada.getTime();
+		long duracion  = now.getTime()-later.getTime();
+		long diffdedias = TimeUnit.MILLISECONDS.toDays(duracion);
+		long diff = duracion - TimeUnit.DAYS.toMillis(diffdedias);
+		double diffdeHoras = TimeUnit.MILLISECONDS.toHours(diff);
+		float horasAdias = (float) (diffdeHoras/24.0);
+		float a = horasAdias + diffdedias;
+		a=(float) Math.floor(a);
+		int b = (int) a;
+		if(b==0)
+			return true;
+		return false;
+	}
+
 	private void cargarMeses(String[] meses) {//metodo que carga los meses basado la fecha actual
 		LocalDate aux = LocalDate.now();
 		int mes = aux.getMonthValue();
@@ -483,6 +582,11 @@ public class Principal extends JFrame {
 			total.add((float) unidad);
 		}
 	}
+	private void cargarInt(ArrayList<Integer> total, int unidad, int limite) {// llena un array float de una unidad, hasta su limite maximo
+		for (int i = 0; i < limite; i++) {
+			total.add((int) unidad);
+		}
+	}
 	
 	private void limitarSeleccionLista(final JList<String> lista,final int maxCounte,final int minCounte) {
 		class MySelectionModel extends DefaultListSelectionModel
@@ -532,6 +636,47 @@ public class Principal extends JFrame {
 		    }
 		}
 		lista.setSelectionModel(new MySelectionModel());
-		
+	}
+	public void start(Relog relo) {
+		estado = true;
+		hilo = new Thread() {
+		@Override
+		public void run() {
+			do {
+				corre(relo);
+			}while(estado);
+		}
+		};
+		hilo.start();
+	}
+	public void corre(Relog relo) {
+		do {
+			relo.start();
+			horas = relo.getHoras();
+			minutos = relo.getMinutos();
+			segundos = relo.getSegundos();
+			String hora="";
+			if(Integer.valueOf(horas)==0)
+				hora += String.valueOf(00);
+			if(Integer.valueOf(horas)<10)
+				hora += String.valueOf(0)+String.valueOf(horas);
+			if(Integer.valueOf(horas)>=10)
+				hora += String.valueOf(horas);
+			hora+=":";
+			if(Integer.valueOf(minutos)==0)
+				hora += String.valueOf(00);
+			if(Integer.valueOf(minutos)<10)
+				hora += String.valueOf(0)+String.valueOf(minutos);
+			if(Integer.valueOf(minutos)>=10)
+				hora += String.valueOf(minutos);
+			hora+=":";
+			if(Integer.valueOf(segundos)==0)
+				hora += String.valueOf(00);
+			if(Integer.valueOf(segundos)<10)
+				hora += String.valueOf(0)+String.valueOf(segundos);
+			if(Integer.valueOf(segundos)>=10)
+				hora += String.valueOf(segundos);
+			txtHora.setText(hora);
+		}while(relo.isAlive());
 	}
 }
