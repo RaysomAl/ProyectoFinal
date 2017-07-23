@@ -334,7 +334,7 @@ public class EmpresaRps implements Serializable {
 			FileWriter escritor=new FileWriter("Evaluacion.txt");
 			String tipo="";
 			escritor.write("             Nombre de la empresa"+"\n");
-			escritor.write("                 EVALUACION DE PERSONAL"+"\n"+"\n");
+			escritor.write("                 EVALUACION DEL PERSONAL"+"\n"+"\n");
 			escritor.write("____________________________________________________________"+"\n"+"\n");
 			escritor.write("                    DATOS TRABAJADOR"+"\n"+"\n");
 			for(Trabajador trabajador: mistrabajadores) {
