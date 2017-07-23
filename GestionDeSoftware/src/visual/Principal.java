@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListSelectionModel;
@@ -56,17 +57,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
 
 import java.awt.Font;
+
 import javax.swing.border.EtchedBorder;
+
 import java.awt.Toolkit;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class Principal extends JFrame {
+public class Principal extends JFrame implements Runnable{
 
 	/**
 	 * 
@@ -80,11 +86,26 @@ public class Principal extends JFrame {
 	private JPanel Grafica4;
 	private JList<String> empleados;
 	DefaultCategoryDataset datosLen = new DefaultCategoryDataset();
-	private Relog miRelog;
-	private String minutos, segundos, horas;
-	private Thread hilo;
+	
 	private boolean estado;
-	private JTextField txtHora;
+	private String hora;
+    private String minuto;
+    private String segundo;
+    private String ano;
+    private String semana;
+    private String dia;
+    private String mes;
+    private Thread hilo;  
+    private String amPm;
+    
+	private JLabel lbHora;
+	private JLabel lbpunto;
+	private JLabel lbMinutos;
+	private JLabel lbsegundo;
+	private JLabel lbsemana;
+	private JLabel lbdia;
+	private JLabel lbmes;
+	private JLabel lbano;
 	
 	/**
 	 * Launch the application.
@@ -116,8 +137,6 @@ public class Principal extends JFrame {
 	 */
 	public Principal() {
 		setTitle("EmpresaRps.S.A.");
-		miRelog = new Relog();
-		start(miRelog);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/evaluation.png")));
 		setResizable(false);
 		dim = super.getToolkit().getScreenSize();
@@ -135,10 +154,21 @@ public class Principal extends JFrame {
 		menuBar.add(mnClientes);
 		
 		JMenuItem mntmCrearCliente = new JMenuItem("Registrar Cliente");
+		mntmCrearCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 		mntmCrearCliente.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnClientes.add(mntmCrearCliente);
 		
 		JMenuItem mntmListarClientes = new JMenuItem("Lista de Clientes");
+		mntmListarClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mntmListarClientes.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnClientes.add(mntmListarClientes);
 		JMenu mnTrabajadores = new JMenu("Trabajadores");
@@ -252,7 +282,7 @@ public class Principal extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel panelGrafica1 = new JPanel();
-		panelGrafica1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panelGrafica1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
 		panelGrafica1.setBounds(21, 11, 550, 282);
 		panel.add(panelGrafica1);
 		panelGrafica1.setLayout(null);
@@ -263,7 +293,7 @@ public class Principal extends JFrame {
 		Grafica1.setLayout(new BorderLayout());
 				
 		GraficaLenguaje = new JPanel();
-		GraficaLenguaje.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		GraficaLenguaje.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
 		GraficaLenguaje.setBounds(582, 11, 572, 282);
 		panel.add(GraficaLenguaje);
 		GraficaLenguaje.setLayout(null);
@@ -307,7 +337,7 @@ public class Principal extends JFrame {
 		Grafica1.add(panelgrafica,BorderLayout.CENTER);//insertamos la grafica en el panel grafica 
 		
 		Grafica3 = new JPanel();
-		Grafica3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Empleados Ineficientes", TitledBorder.LEADING, TitledBorder.TOP, null, Color.LIGHT_GRAY));
+		Grafica3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
 		Grafica3.setBounds(592, 304, 221, 272);
 		panel.add(Grafica3);
 		Grafica3.setLayout(null);
@@ -323,6 +353,7 @@ public class Principal extends JFrame {
 		empleados.setListData(CargarLista());
 		
 		Grafica4 = new JPanel();
+		Grafica4.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
 		Grafica4.setBounds(21, 304, 550, 272);
 		CategoryDataset stackDataset = crearStack();
 		JFreeChart graficaBarras = crearGrafica(stackDataset);
@@ -336,11 +367,54 @@ public class Principal extends JFrame {
 		panel_1.setBounds(10, 11, 530, 250);
 		Grafica4.add(panel_1);
 		
-		txtHora = new JTextField();
-		txtHora.setEnabled(false);
-		txtHora.setBounds(890, 423, 86, 20);
-		panel.add(txtHora);
-		txtHora.setColumns(10);
+		JPanel Reloj = new JPanel();
+		Reloj.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
+		Reloj.setBounds(823, 304, 331, 272);
+		panel.add(Reloj);
+		Reloj.setLayout(null);
+		
+		lbHora = new JLabel("60");
+		lbHora.setFont(new Font("Segoe UI", Font.BOLD, 85));
+		lbHora.setBounds(10, 26, 104, 87);
+		Reloj.add(lbHora);
+		
+		lbpunto = new JLabel(":");
+		lbpunto.setFont(new Font("Segoe UI", Font.BOLD, 90));
+		lbpunto.setBounds(124, 23, 32, 87);
+		Reloj.add(lbpunto);
+		
+		lbMinutos = new JLabel("60");
+		lbMinutos.setFont(new Font("Segoe UI", Font.BOLD, 85));
+		lbMinutos.setBounds(158, 26, 104, 87);
+		Reloj.add(lbMinutos);
+		
+		lbsemana = new JLabel("Domingo");
+		lbsemana.setFont(new Font("Segoe UI", Font.BOLD, 30));
+		lbsemana.setBounds(10, 164, 138, 52);
+		Reloj.add(lbsemana);
+		
+		lbdia = new JLabel("20");
+		lbdia.setFont(new Font("Segoe UI", Font.BOLD, 60));
+		lbdia.setBounds(150, 146, 82, 64);
+		Reloj.add(lbdia);
+		
+		lbmes = new JLabel("Mayo");
+		lbmes.setFont(new Font("Segoe UI", Font.BOLD, 26));
+		lbmes.setBounds(232, 151, 82, 39);
+		Reloj.add(lbmes);
+		
+		lbano = new JLabel("2017");
+		lbano.setFont(new Font("Segoe UI", Font.BOLD, 24));
+		lbano.setBounds(232, 192, 74, 38);
+		Reloj.add(lbano);
+		
+		lbsegundo = new JLabel("60");
+		lbsegundo.setFont(new Font("Segoe UI", Font.BOLD, 22));
+		lbsegundo.setBounds(272, 83, 32, 25);
+		Reloj.add(lbsegundo);
+		
+		hilo = new Thread(this);
+		hilo.start();
 	}
 
 	/*public static actualizarGraficas() {
@@ -636,47 +710,92 @@ public class Principal extends JFrame {
 		    }
 		}
 		lista.setSelectionModel(new MySelectionModel());
+		
+	
 	}
-	public void start(Relog relo) {
-		estado = true;
-		hilo = new Thread() {
-		@Override
-		public void run() {
-			do {
-				corre(relo);
-			}while(estado);
+	
+	
+	
+	public void run() {
+		Thread actual = Thread.currentThread();
+		while(actual == hilo){
+			timempo();
+			lbHora.setText(hora);
+			lbMinutos.setText(minuto);
+			lbsegundo.setText(segundo);
+			lbsemana.setText(semana);
+			lbdia.setText(dia);
+			lbmes.setText(mes);
+			lbano.setText(ano);
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		};
-		hilo.start();
 	}
-	public void corre(Relog relo) {
-		do {
-			relo.start();
-			horas = relo.getHoras();
-			minutos = relo.getMinutos();
-			segundos = relo.getSegundos();
-			String hora="";
-			if(Integer.valueOf(horas)==0)
-				hora += String.valueOf(00);
-			if(Integer.valueOf(horas)<10)
-				hora += String.valueOf(0)+String.valueOf(horas);
-			if(Integer.valueOf(horas)>=10)
-				hora += String.valueOf(horas);
-			hora+=":";
-			if(Integer.valueOf(minutos)==0)
-				hora += String.valueOf(00);
-			if(Integer.valueOf(minutos)<10)
-				hora += String.valueOf(0)+String.valueOf(minutos);
-			if(Integer.valueOf(minutos)>=10)
-				hora += String.valueOf(minutos);
-			hora+=":";
-			if(Integer.valueOf(segundos)==0)
-				hora += String.valueOf(00);
-			if(Integer.valueOf(segundos)<10)
-				hora += String.valueOf(0)+String.valueOf(segundos);
-			if(Integer.valueOf(segundos)>=10)
-				hora += String.valueOf(segundos);
-			txtHora.setText(hora);
-		}while(relo.isAlive());
+	private void timempo() {
+		Calendar calendario = new GregorianCalendar();
+		Date fecha = new Date();
+		
+		calendario.setTime(fecha);
+		amPm = calendario.get(Calendar.AM_PM) == Calendar.AM?"AM":"PM";
+		
+		if(amPm.equals("PM")){
+			int hour = calendario.get(Calendar.HOUR_OF_DAY);
+			hora = hour > 9?""+hour:"0"+hour;
+		}else{
+			hora = calendario.get(Calendar.HOUR_OF_DAY)>9?""+calendario.get(Calendar.HOUR_OF_DAY):"0"+calendario.get(Calendar.HOUR_OF_DAY); 
+        }
+		minuto = calendario.get(Calendar.MINUTE)>9?""+calendario.get(Calendar.MINUTE):"0"+calendario.get(Calendar.MINUTE);
+		segundo = calendario.get(Calendar.SECOND)>9?""+calendario.get(Calendar.SECOND):"0"+calendario.get(Calendar.SECOND);
+		
+		dia = String.valueOf(calendario.get(Calendar.DAY_OF_MONTH));
+        int m = calendario.get(Calendar.MONTH);
+        if(m == 0)
+        	mes = "Enero";
+        else if(m == 1)
+        	mes = "Febrero";
+        else if(m == 2)
+        	mes = "Marzo";
+        else if(m == 3)
+        	mes = "Abril";
+        else if(m == 4)
+        	mes = "Mayo";
+        else if(m == 5)
+        	mes = "Junio";
+        else if(m == 6)
+        	mes = "Julio";
+        else if(m == 7)
+        	mes = "Agosto";
+        else if(m == 8)
+        	mes = "Septiembre";
+        else if(m == 9)
+        	mes = "Octubre";
+        else if(m == 10)
+        	mes = "Noviembre";
+        else if(m == 11)
+        	mes = "Diciembre";
+        
+        ano = String.valueOf(calendario.get(Calendar.YEAR));
+        
+        int diaSem =  calendario.get(Calendar.DAY_OF_WEEK);
+        if(diaSem == 1)
+        	semana = "Domingo";
+        else if(diaSem == 2)
+        	semana = "Lunes";
+        else if(diaSem == 3)
+        	semana = "Martes";
+        else if(diaSem == 4)
+        	semana = "Miércoles";
+        else if(diaSem == 5)
+        	semana = "Jueves";
+        else if(diaSem == 6)
+        	semana = "Viernes";
+        else if(diaSem == 7)
+        	semana = "Sábado";
+        
 	}
+	
+
 }
