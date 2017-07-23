@@ -188,9 +188,15 @@ public class Principal extends JFrame implements Runnable{
 		JMenuItem mntmCrearCliente = new JMenuItem("Registrar Cliente");
 		mntmCrearCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+				RegistarCliente nuevoC;
+				try {
+					nuevoC = new RegistarCliente(EmpresaRps.getInstance(), "Registrar Cliente",null);
+					nuevoC.setModal(true);
+					nuevoC.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		mntmCrearCliente.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -199,6 +205,15 @@ public class Principal extends JFrame implements Runnable{
 		JMenuItem mntmListarClientes = new JMenuItem("Lista de Clientes");
 		mntmListarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					ListarClientes listaC = new ListarClientes(EmpresaRps.getInstance());
+					listaC.setModal(true);
+					listaC.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		mntmListarClientes.setFont(new Font("Segoe UI", Font.PLAIN, 16));

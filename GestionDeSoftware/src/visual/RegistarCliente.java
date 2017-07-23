@@ -62,7 +62,7 @@ public class RegistarCliente extends JDialog {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		try {
 			RegistarCliente dialog = new RegistarCliente(null, "Registrar Cliente", null);//Ralddy- mantener el null de la derecha para la principal
