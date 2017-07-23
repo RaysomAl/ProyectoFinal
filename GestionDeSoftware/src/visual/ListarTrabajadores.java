@@ -231,7 +231,7 @@ public class ListarTrabajadores extends JDialog {
 
 				}
 			});
-			btnEvaluacin.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/004-signature.png")));
+			btnEvaluacin.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/wish-list.png")));
 			buttonPane.add(btnEvaluacin);
 			{
 				JButton okButton = new JButton("OK");

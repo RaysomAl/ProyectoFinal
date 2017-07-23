@@ -114,7 +114,7 @@ public class Principal extends JFrame {
 	 */
 	public Principal() {
 		setTitle("EmpresaRps.S.A.");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/001-software.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/evaluation.png")));
 		setResizable(false);
 		dim = super.getToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
