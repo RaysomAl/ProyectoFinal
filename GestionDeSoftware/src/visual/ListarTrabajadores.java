@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
 
@@ -220,12 +221,14 @@ public class ListarTrabajadores extends JDialog {
 			JButton btnEvaluacin = new JButton("Evaluaci\u00F3n");
 			btnEvaluacin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					try {
-						EmpresaRps.getInstance().evaluacionPersonal();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if(EmpresaRps.getInstance().getMistrabajadores().size()>0) {
+						Evaluacion dialog = new Evaluacion(EmpresaRps.getInstance());
+						dialog.setModal(true);
+						dialog.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "La empresa no tiene trabajadores", "Advertencia",JOptionPane.WARNING_MESSAGE);
 					}
+
 				}
 			});
 			btnEvaluacin.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/004-signature.png")));

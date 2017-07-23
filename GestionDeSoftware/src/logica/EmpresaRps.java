@@ -364,7 +364,7 @@ public class EmpresaRps implements Serializable {
 			escritor.close();
 			leerEvaluacion();
 		} else {
-			JOptionPane.showMessageDialog(null, "La empresa no tiene trabajadores", "Advertencia",JOptionPane.WARNING_MESSAGE);
+			
 		}
 	}
 	
