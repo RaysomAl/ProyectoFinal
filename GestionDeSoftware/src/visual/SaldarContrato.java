@@ -28,7 +28,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SaldarContrato extends JDialog {
-
+//
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtID;
 	private JTextField txtCliente;
@@ -182,7 +182,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp1 = new JSpinner();
 		JFormattedTextField tf = ((JSpinner.DefaultEditor)spnEmp1.getEditor()).getTextField();
 		tf.setEditable(false);
-		spnEmp1.setValue(new Integer(1));
+		spnEmp1.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp1.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp1.getModel()).setMinimum(1);
 		spnEmp1.setBounds(108, 82, 47, 20);
@@ -225,7 +225,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp2 = new JSpinner();
 		JFormattedTextField tf2 = ((JSpinner.DefaultEditor)spnEmp2.getEditor()).getTextField();
 		tf2.setEditable(false);
-		spnEmp2.setValue(new Integer(1));
+		spnEmp2.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp2.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp2.getModel()).setMinimum(1);
 		spnEmp2.setBounds(224, 82, 47, 20);
@@ -234,7 +234,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp3 = new JSpinner();
 		JFormattedTextField tf3 = ((JSpinner.DefaultEditor)spnEmp3.getEditor()).getTextField();
 		tf3.setEditable(false);
-		spnEmp3.setValue(new Integer(1));
+		spnEmp3.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp3.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp3.getModel()).setMinimum(1);
 		spnEmp3.setBounds(338, 82, 47, 20);
@@ -243,7 +243,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp4 = new JSpinner();
 		JFormattedTextField tf4 = ((JSpinner.DefaultEditor)spnEmp4.getEditor()).getTextField();
 		tf4.setEditable(false);
-		spnEmp4.setValue(new Integer(1));
+		spnEmp4.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp4.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp4.getModel()).setMinimum(1);
 		spnEmp4.setBounds(453, 82, 47, 20);
@@ -270,7 +270,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp5 = new JSpinner();
 		JFormattedTextField tf5 = ((JSpinner.DefaultEditor)spnEmp5.getEditor()).getTextField();
 		tf5.setEditable(false);
-		spnEmp5.setValue(new Integer(1));
+		spnEmp5.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp5.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp5.getModel()).setMinimum(1);
 		spnEmp5.setBounds(108, 182, 47, 20);
@@ -279,7 +279,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp7 = new JSpinner();
 		JFormattedTextField tf6 = ((JSpinner.DefaultEditor)spnEmp7.getEditor()).getTextField();
 		tf6.setEditable(false);
-		spnEmp7.setValue(new Integer(1));
+		spnEmp7.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp7.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp7.getModel()).setMinimum(1);
 		spnEmp7.setBounds(338, 182, 47, 20);
@@ -288,7 +288,7 @@ public class SaldarContrato extends JDialog {
 		spnEmp6 = new JSpinner();
 		JFormattedTextField tf7 = ((JSpinner.DefaultEditor)spnEmp6.getEditor()).getTextField();
 		tf7.setEditable(false);
-		spnEmp6.setValue(new Integer(1));
+		spnEmp6.setValue(new Integer(5));
 		((SpinnerNumberModel)spnEmp6.getModel()).setMaximum(5);
 		((SpinnerNumberModel)spnEmp6.getModel()).setMinimum(1);
 		spnEmp6.setBounds(224, 182, 47, 20);

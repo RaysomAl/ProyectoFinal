@@ -165,8 +165,6 @@ public class CrearContrato extends JDialog {
 			
 			txtRD = new JTextField();
 			txtRD.setEditable(false);
-			if(!update)
-				txtRD.setText("0");
 			txtRD.setBounds(89, 314, 150, 23);
 			panel.add(txtRD);
 			txtRD.setColumns(10);
@@ -176,8 +174,6 @@ public class CrearContrato extends JDialog {
 			
 			txtUS = new JTextField();
 			txtUS.setEditable(false);
-			if(!update)
-				txtUS.setText("0");
 			txtUS.setBounds(347, 314, 150, 23);
 			panel.add(txtUS);
 			txtUS.setColumns(10);
@@ -330,6 +326,8 @@ public class CrearContrato extends JDialog {
 			txtObs.setBounds(347, 214, 150, 23);
 			panel.add(txtObs);
 			txtObs.setColumns(10);
+			if(!update)
+				cargarPrecio();
 			if(update)
 				cargarUpdate();
 			
@@ -485,10 +483,10 @@ public class CrearContrato extends JDialog {
 		
 	}
 	private float precioTrabajador() {
-		float precio = 0;
-		for (Trabajador worker : proyec.getJefe().getMisTrabajadores()) {
-			precio =+ worker.getSalario()*8;
-		}
+		long precio = 0;
+		for (Trabajador worker : proyec.getJefe().getMisTrabajadores()) 
+			precio = (long) (precio + worker.getSalario()*8);
+		precio= (long) (precio + proyec.getJefe().getPagoHoras()*8);
 		return precio;
 	}
 	static MaskFormatter createFormatter(String format) {//validador numeros X un formato dado

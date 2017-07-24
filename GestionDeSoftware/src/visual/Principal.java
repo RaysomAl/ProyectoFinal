@@ -464,6 +464,7 @@ public class Principal extends JFrame implements Runnable{
 		
 		hilo = new Thread(this);
 		hilo.start();
+		actualizarGraficas();
 	}
 
 	public static void actualizarGraficas() {
@@ -514,7 +515,7 @@ public class Principal extends JFrame implements Runnable{
 		axis.setRange(0,meses.length);//inicio de eje x y fin de eje x, todo referido a tamaño
 		personalizacion.setDomainAxis(axis);//inserta el axis con todo detalles 
 		NumberAxis rango = (NumberAxis) personalizacion.getRangeAxis();//creamos axis eje, este es numerico asi que es mas sencillo
-		rango.setRange(0.0,100000);//decimos de donde a donde vamos, ella misma pone intervalos 
+		rango.setRange(0.0,500000);//decimos de donde a donde vamos, ella misma pone intervalos 
 		XYLineAndShapeRenderer lineas = (XYLineAndShapeRenderer) personalizacion.getRenderer();//editar las lineas de la graficas
 		lineas.setBaseShapesVisible(true);//lineas de punto a punto sera visibles no solo los puntos
 		XYItemLabelGenerator label = new StandardXYItemLabelGenerator();//generar labels para los puntos
@@ -535,7 +536,7 @@ public class Principal extends JFrame implements Runnable{
 		cargarArray(Perdidas, 0, 10);
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
 			if(aux.isTerminado()) {//si el contrato termino
-				if(-(Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
+				if((Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
 					for (int i = 10; i >= 0; i--){//solo presentara los contrates de los ultimos 10 meses
 						if((Period.between(aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),LocalDate.now()).getMonths())==i) {
 							//se ingresara el saldo del contrato gano y perdido a sus respectivos arrays
