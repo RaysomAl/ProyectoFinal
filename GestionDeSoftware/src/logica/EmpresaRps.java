@@ -343,6 +343,7 @@ public class EmpresaRps implements Serializable {
 			escritor.write("                 EVALUACION DEL PERSONAL"+"\n"+"\n");
 			escritor.write("____________________________________________________________"+"\n"+"\n");
 			escritor.write("                    DATOS TRABAJADOR"+"\n"+"\n");
+			escritor.write("____________________________________________________________"+"\n"+"\n");
 			for(Trabajador trabajador: mistrabajadores) {
 				if(trabajador instanceof JefeDeProyecto) {
 					tipo="Jefe De Proyecto";
@@ -363,9 +364,9 @@ public class EmpresaRps implements Serializable {
 			escritor.write("Salario                     : "+trabajador.getSalario()+"\n");
 			escritor.write("Proyectos Actuales          : "+trabajador.cantidadProyectosActivos()+"\n");
 			escritor.write("Evaluación                  : "+trabajador.getEvaluacion()+"\n");
-			escritor.write("------------------------------------------------------------"+"\n"+"\n");
+			escritor.write("____________________________________________________________"+"\n");
 			}
-			escritor.write("____________________________________________________________"+"\n");	
+		
 			
 			escritor.close();
 			leerEvaluacion();

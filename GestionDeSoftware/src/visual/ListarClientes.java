@@ -61,7 +61,7 @@ public class ListarClientes extends JDialog {
 
 	/**
 	 * Launch the application.
-	 */
+	 *
 	public static void main(String[] args) {
 		try {
 			ListarClientes dialog = new ListarClientes(null);
@@ -82,7 +82,7 @@ public class ListarClientes extends JDialog {
 		rdbtnEmpresa = new JRadioButton("Empresa");
 		rdbtnIndepediente = new JRadioButton("Indepediente");
 		setTitle("Lista de Clientes");
-		setBounds(100, 100, 546, 400);
+		setBounds(100, 100, 1073, 598);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -101,7 +101,7 @@ public class ListarClientes extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
-			JLabel lblIndetificador = new JLabel("Cedula :");
+			JLabel lblIndetificador = new JLabel("C\u00E9dula :");
 			lblIndetificador.setBounds(10, 22, 46, 14);
 			panel.add(lblIndetificador);
 			
@@ -214,7 +214,7 @@ public class ListarClientes extends JDialog {
 					btnBuscar.setEnabled(false);
 				}
 			});
-			scrollPaneContractos.setBounds(274, 67, 236, 238);
+			scrollPaneContractos.setBounds(772, 67, 236, 238);
 			panel.add(scrollPaneContractos);
 			
 			tbContractos = new JTable();
@@ -335,6 +335,11 @@ public class ListarClientes extends JDialog {
 			});
 			txtRnc.setBounds(66, 19, 98, 20);
 			panel.add(txtRnc);
+			
+			JPanel panel_Clientes = new JPanel();
+			panel_Clientes.setToolTipText("");
+			panel_Clientes.setBounds(10, 67, 624, 437);
+			panel.add(panel_Clientes);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -415,7 +420,7 @@ public class ListarClientes extends JDialog {
 	public static void cargaTablaClientes() {
 		modeloClientes.setRowCount(0);
 		if(rdbtnIndepediente.isSelected()) {
-			String[] columnas={"CEDULA","NOMBRE"};
+			String[] columnas={"cédula","nombre"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 			for (Cliente cliente : EmpresaRps.getInstance().getMisclientes()) {
@@ -438,7 +443,7 @@ public class ListarClientes extends JDialog {
 			
 		}
 		if(rdbtnEmpresa.isSelected()) {
-			String[] columnas={"RNC","NOMBRE"};
+			String[] columnas={"rnc","nombre"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 			for (Cliente cliente : EmpresaRps.getInstance().getMisclientes()) {
@@ -466,7 +471,7 @@ public class ListarClientes extends JDialog {
 
 		modeloClientes.setRowCount(0);
 		if(cliente instanceof Indepediente) {
-			String[] columnas={"CEDULA","NOMBRE"};
+			String[] columnas={"cédula","nombre"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 
@@ -488,7 +493,7 @@ public class ListarClientes extends JDialog {
 			
 		}
 		if(cliente instanceof Empresa) {
-			String[] columnas={"RNC","NOMBRE"};
+			String[] columnas={"rnc","nombre"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 
@@ -516,15 +521,16 @@ public class ListarClientes extends JDialog {
 		String[] columnas={"CODIGO","PROYECTO"};
 		modeloContratos.setColumnIdentifiers(columnas);
 		filaContratos=new Object[modeloContratos.getColumnCount()];
-		if(indiceCliente>-1 && cliente!=null) {
+		if(cliente!=null) {
 			
 			
 			for (Contrato contrato : cliente.getMisContratos()) {
 				if(contrato.getProyecto().isActivo()) {
 					filaContratos[0]=contrato.getCodigoContrato();
 					filaContratos[1]=contrato.getProyecto().getNombreproyecto();
+					modeloContratos.addRow(filaContratos);
 				}
-				modeloContratos.addRow(filaContratos);
+				
 				
 			}
 		}
@@ -561,8 +567,4 @@ public class ListarClientes extends JDialog {
 	public static void setBtnBuscar(JButton btnBuscar) {
 		ListarClientes.btnBuscar = btnBuscar;
 	}
-	
-	
-	
-	
 }

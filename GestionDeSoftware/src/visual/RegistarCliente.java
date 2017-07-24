@@ -98,7 +98,7 @@ public class RegistarCliente extends JDialog {
 			contentPanel.add(panelCliente);
 			panelCliente.setLayout(null);
 			
-			lblIndetificacion = new JLabel("Cedula :");
+			lblIndetificacion = new JLabel("C\u00E9dula :");
 			lblIndetificacion.setBounds(10, 27, 46, 14);
 			panelCliente.add(lblIndetificacion);
 			
@@ -106,11 +106,11 @@ public class RegistarCliente extends JDialog {
 			lblNombre.setBounds(10, 52, 88, 14);
 			panelCliente.add(lblNombre);
 			
-			lblApellido = new JLabel("Apellido :");
+			lblApellido = new JLabel("Apellidos :");
 			lblApellido.setBounds(239, 52, 69, 14);
 			panelCliente.add(lblApellido);
 			
-			JLabel lblTelefono = new JLabel("Telefono :");
+			JLabel lblTelefono = new JLabel("Tel\u00E9fono :");
 			lblTelefono.setBounds(10, 77, 69, 14);
 			panelCliente.add(lblTelefono);
 			
@@ -212,7 +212,7 @@ public class RegistarCliente extends JDialog {
 		cbxProvincia.setBounds(75, 56, 148, 20);
 		panelUbicacion.add(cbxProvincia);
 		
-		JLabel lblPais = new JLabel("Pais :");
+		JLabel lblPais = new JLabel("Pa\u00EDs :");
 		lblPais.setBounds(10, 28, 46, 14);
 		panelUbicacion.add(lblPais);
 		

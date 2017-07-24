@@ -34,7 +34,7 @@ public class Evaluacion extends JDialog {
 
 	/**
 	 * Launch the application.
-	 */
+	 *
 	public static void main(String[] args) {
 		try {
 			Evaluacion dialog = new Evaluacion(null);
@@ -107,13 +107,15 @@ public class Evaluacion extends JDialog {
 		}
 	}
 	public void llenarTextArea() {
-	
+
 			
 			String tipo="";
-			textArea.append("             Nombre de la empresa"+"\n");
+			textArea.append("               Nombre de la empresa"+"\n");
 			textArea.append("                 EVALUACION DE PERSONAL"+"\n"+"\n");
 			textArea.append("____________________________________________________________"+"\n"+"\n");
 			textArea.append("                    DATOS TRABAJADOR"+"\n"+"\n");
+			textArea.append("____________________________________________________________"+"\n"+"\n");
+			
 			for(Trabajador trabajador: EmpresaRps.getInstance().getMistrabajadores()) {
 				if(trabajador instanceof JefeDeProyecto) {
 					tipo="Jefe De Proyecto";
@@ -127,16 +129,16 @@ public class Evaluacion extends JDialog {
 				if(trabajador instanceof Diseñador) {
 					tipo="Diseñador";
 				}
-				textArea.append("Cédula                      : "+trabajador.getCedula()+"\n");
+				textArea.append("Cédula                        : "+trabajador.getCedula()+"\n");
 				textArea.append("Nombre                      : "+trabajador.getNombre()+"\n");
-				textArea.append("Apellido                    : "+tipo+"\n");
-				textArea.append("Tipo                        : "+trabajador.getCedula()+"\n");
-				textArea.append("Salario                     : "+trabajador.getSalario()+"\n");
-				textArea.append("Proyectos Actuales          : "+trabajador.cantidadProyectosActivos()+"\n");
-				textArea.append("Evaluación                  : "+trabajador.getEvaluacion()+"\n");
-				textArea.append("------------------------------------------------------------"+"\n"+"\n");
+				textArea.append("Apellido                      : "+trabajador.getApellido()+"\n");
+				textArea.append("Tipo                             : "+tipo+"\n");
+				textArea.append("Salario                        : "+trabajador.getSalario()+"\n");
+				textArea.append("Proyectos                   : "+""+"\n");
+				textArea.append("Evaluación                 : "+trabajador.getEvaluacion()+"\n");
+				textArea.append("____________________________________________________________"+"\n");
 			}
-			textArea.append("____________________________________________________________"+"\n");	
+				
 			
 			
 			
