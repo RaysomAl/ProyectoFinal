@@ -88,6 +88,24 @@ public class ListarClientes extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
+		
+		
+		tbClientes = new JTable();
+		tbContractos = new JTable();
+		modeloClientes=new DefaultTableModel(){
+			@Override
+			public boolean isCellEditable(int row,int column) {
+				return false;
+			}
+		};
+		modeloContratos=new DefaultTableModel(){
+			@Override
+			public boolean isCellEditable(int row,int column) {
+				return false;
+			}
+		};
+		
+		
 		{
 			JPanel panel = new JPanel();
 			panel.addMouseListener(new MouseAdapter() {
@@ -153,80 +171,10 @@ public class ListarClientes extends JDialog {
 			
 
 			selecionPorDefecto();
-			
-			
-			JScrollPane scrollPaneClientes = new JScrollPane();
-			scrollPaneClientes.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					indiceCliente=-1;
-					cliente=null;
-					btnModificar.setEnabled(false);
-					btnEliminar.setEnabled(false);
-					btnBuscar.setEnabled(false);
-				}
-			});
-			scrollPaneClientes.setBounds(10, 67, 236, 238);
-			panel.add(scrollPaneClientes);
-			
-			tbClientes = new JTable();
-			tbClientes.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					
-					indiceCliente=tbClientes.getSelectedRow();
 
-					if(indiceCliente>-1) {
-						
-						String indentificador = (String) tbClientes.getModel().getValueAt(indiceCliente, 0);
-						cliente=EmpresaRps.getInstance().buscarCliente(indentificador);
-						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);
-						cargaTablaContractos(cliente);
-						
-					} else {
-						
-						btnModificar.setEnabled(false);
-						btnEliminar.setEnabled(false);
-						cliente=null;
-					}
-
-				}
-			});
-			modeloClientes=new DefaultTableModel(){
-				@Override
-				public boolean isCellEditable(int row,int column) {
-					return false;
-				}
-			};
 			cargaTablaClientes();
-			
-			scrollPaneClientes.setViewportView(tbClientes);
-			
-			JScrollPane scrollPaneContractos = new JScrollPane();
-			scrollPaneContractos.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					indiceCliente=-1;
-					cliente=null;
-					btnModificar.setEnabled(false);
-					btnEliminar.setEnabled(false);
-					btnBuscar.setEnabled(false);
-				}
-			});
-			scrollPaneContractos.setBounds(772, 67, 236, 238);
-			panel.add(scrollPaneContractos);
-			
-			tbContractos = new JTable();
-			modeloContratos=new DefaultTableModel(){
-				@Override
-				public boolean isCellEditable(int row,int column) {
-					return false;
-				}
-			};
+
 			cargaTablaContractos(cliente);
-			
-			scrollPaneContractos.setViewportView(tbContractos);
 			
 
 			
@@ -337,9 +285,77 @@ public class ListarClientes extends JDialog {
 			panel.add(txtRnc);
 			
 			JPanel panel_Clientes = new JPanel();
+			panel_Clientes.setBorder(new TitledBorder(null, "Clientes", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 			panel_Clientes.setToolTipText("");
-			panel_Clientes.setBounds(10, 67, 624, 437);
+			panel_Clientes.setBounds(10, 67, 644, 437);
 			panel.add(panel_Clientes);
+			panel_Clientes.setLayout(null);
+			
+			
+			JScrollPane scrollPaneClientes = new JScrollPane();
+			scrollPaneClientes.setBounds(10, 21, 624, 405);
+			panel_Clientes.add(scrollPaneClientes);
+			scrollPaneClientes.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					indiceCliente=-1;
+					cliente=null;
+					btnModificar.setEnabled(false);
+					btnEliminar.setEnabled(false);
+					btnBuscar.setEnabled(false);
+				}
+			});
+			
+			
+			tbClientes.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					indiceCliente=tbClientes.getSelectedRow();
+
+					if(indiceCliente>-1) {
+						
+						String indentificador = (String) tbClientes.getModel().getValueAt(indiceCliente, 0);
+						cliente=EmpresaRps.getInstance().buscarCliente(indentificador);
+						btnModificar.setEnabled(true);
+						btnEliminar.setEnabled(true);
+						cargaTablaContractos(cliente);
+						
+					} else {
+						
+						btnModificar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						cliente=null;
+					}
+
+				}
+			});
+			
+			scrollPaneClientes.setViewportView(tbClientes);
+			
+			JPanel panel_1 = new JPanel();
+			panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Contratos", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_1.setBounds(729, 67, 279, 437);
+			panel.add(panel_1);
+			panel_1.setLayout(null);
+			
+			JScrollPane scrollPaneContractos = new JScrollPane();
+			scrollPaneContractos.setBounds(10, 21, 259, 405);
+			panel_1.add(scrollPaneContractos);
+			scrollPaneContractos.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					indiceCliente=-1;
+					cliente=null;
+					btnModificar.setEnabled(false);
+					btnEliminar.setEnabled(false);
+					btnBuscar.setEnabled(false);
+				}
+			});
+			
+		
+			
+			scrollPaneContractos.setViewportView(tbContractos);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -420,13 +436,19 @@ public class ListarClientes extends JDialog {
 	public static void cargaTablaClientes() {
 		modeloClientes.setRowCount(0);
 		if(rdbtnIndepediente.isSelected()) {
-			String[] columnas={"cédula","nombre"};
+			String[] columnas={"Cédula","Nombre","Teléfono","E-mail","País","Ciudad","Provincia","Sector"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 			for (Cliente cliente : EmpresaRps.getInstance().getMisclientes()) {
 				if(cliente instanceof Indepediente) {
 					filaClientes[0]=((Indepediente) cliente).getCedula();
 					filaClientes[1]=((Indepediente) cliente).getNombre()+" "+((Indepediente) cliente).getAmpellido();
+					filaClientes[2]=cliente.getTelefono();
+					filaClientes[3]=cliente.getEmail();
+					filaClientes[4]=cliente.getPais();
+					filaClientes[5]=cliente.getCiudad();
+					filaClientes[6]=((Indepediente) cliente).getProvincia();
+					filaClientes[7]=((Indepediente) cliente).getSector();
 					modeloClientes.addRow(filaClientes);
 				}
 				
@@ -438,18 +460,25 @@ public class ListarClientes extends JDialog {
 			TableColumnModel columnas1 = tbClientes.getColumnModel();
 			columnas1.getColumn(0).setPreferredWidth(98);
 			columnas1.getColumn(1).setPreferredWidth(135);
-
-
-			
+			columnas1.getColumn(2).setPreferredWidth(97);
+			columnas1.getColumn(3).setPreferredWidth(97);
+			columnas1.getColumn(4).setPreferredWidth(97);
+			columnas1.getColumn(5).setPreferredWidth(97);
+			columnas1.getColumn(6).setPreferredWidth(97);
+			columnas1.getColumn(7).setPreferredWidth(97);
 		}
 		if(rdbtnEmpresa.isSelected()) {
-			String[] columnas={"rnc","nombre"};
+			String[] columnas={"Rnc","Nombre","Teléfono","E-mail","País","Ciudad"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 			for (Cliente cliente : EmpresaRps.getInstance().getMisclientes()) {
 				if(cliente instanceof Empresa) {
 					filaClientes[0]=((Empresa) cliente).getRnc();
 					filaClientes[1]=((Empresa) cliente).getNombre();
+					filaClientes[2]=cliente.getTelefono();
+					filaClientes[3]=cliente.getEmail();
+					filaClientes[4]=cliente.getPais();
+					filaClientes[5]=cliente.getCiudad();
 					
 					modeloClientes.addRow(filaClientes);
 				}
@@ -462,6 +491,10 @@ public class ListarClientes extends JDialog {
 			TableColumnModel columnas1 = tbClientes.getColumnModel();
 			columnas1.getColumn(0).setPreferredWidth(80);
 			columnas1.getColumn(1).setPreferredWidth(153);
+			columnas1.getColumn(2).setPreferredWidth(97);
+			columnas1.getColumn(3).setPreferredWidth(97);
+			columnas1.getColumn(4).setPreferredWidth(97);
+			columnas1.getColumn(5).setPreferredWidth(97);
 		}
 		
 		
@@ -478,6 +511,12 @@ public class ListarClientes extends JDialog {
 
 					filaClientes[0]=((Indepediente) cliente).getCedula();
 					filaClientes[1]=((Indepediente) cliente).getNombre()+" "+((Indepediente) cliente).getAmpellido();
+					filaClientes[2]=cliente.getTelefono();
+					filaClientes[3]=cliente.getEmail();
+					filaClientes[4]=cliente.getPais();
+					filaClientes[5]=cliente.getCiudad();
+					filaClientes[6]=((Indepediente) cliente).getProvincia();
+					filaClientes[7]=((Indepediente) cliente).getSector();
 				
 				modeloClientes.addRow(filaClientes);
 			
@@ -488,18 +527,25 @@ public class ListarClientes extends JDialog {
 			TableColumnModel columnas1 = tbClientes.getColumnModel();
 			columnas1.getColumn(0).setPreferredWidth(98);
 			columnas1.getColumn(1).setPreferredWidth(135);
-
-
+			columnas1.getColumn(2).setPreferredWidth(97);
+			columnas1.getColumn(3).setPreferredWidth(97);
+			columnas1.getColumn(4).setPreferredWidth(97);
+			columnas1.getColumn(5).setPreferredWidth(97);
+			columnas1.getColumn(6).setPreferredWidth(97);
+			columnas1.getColumn(7).setPreferredWidth(97);
 			
 		}
 		if(cliente instanceof Empresa) {
-			String[] columnas={"rnc","nombre"};
+			String[] columnas={"Rnc","Nombre","Teléfono","E-mail","País","Ciudad"};
 			modeloClientes.setColumnIdentifiers(columnas);
 			filaClientes=new Object[modeloClientes.getColumnCount()];
 
 					filaClientes[0]=((Empresa) cliente).getRnc();
 					filaClientes[1]=((Empresa) cliente).getNombre();
-					
+					filaClientes[2]=cliente.getTelefono();
+					filaClientes[3]=cliente.getEmail();
+					filaClientes[4]=cliente.getPais();
+					filaClientes[5]=cliente.getCiudad();
 					
 				
 				modeloClientes.addRow(filaClientes);
@@ -511,6 +557,10 @@ public class ListarClientes extends JDialog {
 			TableColumnModel columnas1 = tbClientes.getColumnModel();
 			columnas1.getColumn(0).setPreferredWidth(80);
 			columnas1.getColumn(1).setPreferredWidth(153);
+			columnas1.getColumn(2).setPreferredWidth(97);
+			columnas1.getColumn(3).setPreferredWidth(97);
+			columnas1.getColumn(4).setPreferredWidth(97);
+			columnas1.getColumn(5).setPreferredWidth(97);
 		}
 		cargaTablaContractos(cliente);
 		
@@ -518,7 +568,7 @@ public class ListarClientes extends JDialog {
 	
 	public static void cargaTablaContractos(Cliente cliente) {
 		modeloContratos.setRowCount(0);
-		String[] columnas={"CODIGO","PROYECTO"};
+		String[] columnas={"Código","Proyecto"};
 		modeloContratos.setColumnIdentifiers(columnas);
 		filaContratos=new Object[modeloContratos.getColumnCount()];
 		if(cliente!=null) {
@@ -540,8 +590,8 @@ public class ListarClientes extends JDialog {
 		tbContractos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tbContractos.getTableHeader().setResizingAllowed(false);
 		TableColumnModel columnas1 = tbContractos.getColumnModel();
-		columnas1.getColumn(0).setPreferredWidth(98);
-		columnas1.getColumn(1).setPreferredWidth(135);
+		columnas1.getColumn(0).setPreferredWidth(110);
+		columnas1.getColumn(1).setPreferredWidth(146);
 	}
 
 	public static JButton getBtnModificar() {

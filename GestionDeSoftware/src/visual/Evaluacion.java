@@ -83,6 +83,7 @@ public class Evaluacion extends JDialog {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						dispose();
 					}
 				});
 				btnGuardar.setIcon(new ImageIcon(Evaluacion.class.getResource("/img/001-technology.png")));
