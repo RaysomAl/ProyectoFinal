@@ -49,7 +49,10 @@ public class Contrato implements Serializable {
 	public String getCodigoContrato() {
 		return codigoContrato;
 	}
-
+	
+	public static void cargarCode() {
+		code++;
+	}
 	public void setCodigoContrato() {
 		this.codigoContrato = String.valueOf(code++) + "-" + String.valueOf(LocalDate.now().getYear());
 	}
@@ -169,6 +172,18 @@ public class Contrato implements Serializable {
 
 	public void setPrecioSaldo(float precioSaldo) {
 		this.precioSaldo = precioSaldo;
+	}
+	public int retornarDifDias() {
+		Date now = Calendar.getInstance().getTime();
+		Date later = fechaSaldada.getTime();
+		long duracion  = now.getTime()-later.getTime();
+		long diffdedias = TimeUnit.MILLISECONDS.toDays(duracion);
+		long diff = duracion - TimeUnit.DAYS.toMillis(diffdedias);
+		double diffdeHoras = TimeUnit.MILLISECONDS.toHours(diff);
+		float horasAdias = (float) (diffdeHoras/24.0);
+		float a = horasAdias + diffdedias;
+		a=(float) Math.floor(a);
+		return (int) a;
 	}
 	
 	

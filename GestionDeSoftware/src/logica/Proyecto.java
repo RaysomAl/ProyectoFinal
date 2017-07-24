@@ -40,7 +40,9 @@ public class Proyecto implements Serializable{
 		return codigo;
 	}
 
-
+	public static void cargarCodigo() {
+		code++;
+	}
 	public void setCodigo() {
 		this.codigo = (int) (code + (Math.pow(10, 5)*(LocalDate.now().getYear())));
 		code++;

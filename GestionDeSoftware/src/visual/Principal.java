@@ -49,6 +49,7 @@ import logica.Empresa;
 import logica.EmpresaRps;
 import logica.Grafica;
 import logica.Indepediente;
+import logica.Proyecto;
 import logica.Relog;
 import logica.Trabajador;
 
@@ -93,7 +94,7 @@ public class Principal extends JFrame implements Runnable{
 	private JPanel GraficaLenguaje;
 	private JPanel Grafica3;
 	private JPanel Grafica4;
-	private JList<String> empleados;
+	private static JList<String> empleados;
 	DefaultCategoryDataset datosLen = new DefaultCategoryDataset();
 	
 	private boolean estado;
@@ -159,6 +160,13 @@ public class Principal extends JFrame implements Runnable{
 	 	    	empresaRpsInputStream = new ObjectInputStream(leerFileInputStream);
 	 	    	EmpresaRps.setInstance((EmpresaRps)empresaRpsInputStream.readObject());
 	 	    	leerFileInputStream.close();
+	 	    	for (int i = 0; i <EmpresaRps.getInstance().getMiscontratos().size(); i++) {
+	 	    		Contrato.cargarCode();
+				}
+	 	    	for (int i = 0; i < EmpresaRps.getInstance().getMisproyectos().size(); i++) {
+					Proyecto.cargarCodigo();
+				}
+	 	    	
 	     } catch (FileNotFoundException e2) {
 				JOptionPane.showMessageDialog(null,  "Error en crear el archivo de base datos, nada reciente se salvo", "Error",JOptionPane.ERROR_MESSAGE);
 	     } catch (IOException e1) {
@@ -385,13 +393,13 @@ public class Principal extends JFrame implements Runnable{
 		
 		Grafica3 = new JPanel();
 		Grafica3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.BLUE, null));
-		Grafica3.setBounds(592, 304, 242, 272);
+		Grafica3.setBounds(582, 304, 252, 272);
 		panel.add(Grafica3);
 		Grafica3.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 20, 222, 241);
+		scrollPane.setBounds(10, 20, 232, 241);
 		Grafica3.add(scrollPane);
 		
 		empleados = new JList<String>();
@@ -476,13 +484,13 @@ public class Principal extends JFrame implements Runnable{
 		panelgrafica.setDomainZoomable(false);//no sera zoomeable por click izquierdo abriendo en eje x
 		panelgrafica.setRangeZoomable(false);//no sera zoomeable por click izquierdo abrindo en eje y
 		Grafica1.add(panelgrafica,BorderLayout.CENTER);//insertamos la grafica en el panel grafica 
-		
+		empleados.setListData(CargarLista());
 	}
 
-	private String[] CargarLista() {
+	private static String[] CargarLista() {
 		ArrayList<Trabajador> malosTrabajadores = new ArrayList<Trabajador>();
 		CargarMalosTrabajadores(malosTrabajadores);	
-		String malosTrabajadore[]= new String[malosTrabajadores.size()];
+		String malosTrabajadore[]= new String[malosTrabajadores.size()+1];
 		if(malosTrabajadores.size()==0)
 			malosTrabajadore = new String[1];
 		cargarAarray(malosTrabajadores,malosTrabajadore);
@@ -491,15 +499,16 @@ public class Principal extends JFrame implements Runnable{
 		return malosTrabajadore;
 	}
 
-	private void CargarMalosTrabajadores(ArrayList<Trabajador> malosTrabajadores) {
+	private static void CargarMalosTrabajadores(ArrayList<Trabajador> malosTrabajadores) {
 		for (Trabajador trabajador : EmpresaRps.getInstance().getMistrabajadores()) 
 			if(trabajador.getEficiencia()<=3)
 				malosTrabajadores.add(trabajador);
 	}
 	
-	private void cargarAarray(ArrayList<Trabajador> malosTrabajadores, String[] malosTrabajadore) {
+	private static void cargarAarray(ArrayList<Trabajador> malosTrabajadores, String[] malosTrabajadore) {
+		malosTrabajadore[0] = malosTrabajadore[0] = "Lista de Trabajadores deficientes";
 		for (int i = 0; i < malosTrabajadores.size(); i++) 
-			malosTrabajadore[i] = malosTrabajadores.get(i).getCedula()+"("+malosTrabajadores.get(i).getNombre()+")";
+			malosTrabajadore[i+1] = malosTrabajadores.get(i).getCedula()+"("+malosTrabajadores.get(i).getNombre()+")";
 	}
 
 	private static void graficaGananciaVsPerdidas(JFreeChart grafica) {
@@ -527,32 +536,23 @@ public class Principal extends JFrame implements Runnable{
 	private static XYDataset dataset() {//creamos hoja de datos se inserta en linea 111 
 		XYSeries saldoIngresos = new XYSeries("Ingresos");//datos de ingresos
 		XYSeries saldoPerdidas = new XYSeries("Perdidas");//datos de perdidas
-		Float saldoArray = null;//auxiliar para guardar flotantes
-		Calendar ejm = Calendar.getInstance();//164 a 188 son contratos auxiliares con fechas variadas
-		ejm.add(Calendar.MONTH, 1);
-		LocalDate NOW = ejm.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		float total = 0 ;
-		float Perdidas = 0;
-		int j = 10;
-		do {
+		Float[] ganancias = {(float)0,(float)0,(float)0,(float)0,(float)0,(float) 0,(float)0,(float)0,(float)0,(float)0}; 
+		Float[] perdi =  {(float)0,(float)0,(float)0,(float)0,(float)0,(float) 0,(float)0,(float)0,(float)0,(float)0}; 
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
 			if(aux.isTerminado()) {//si el contrato termino
-				for (int i = 10; i > 0; i--) 
-					if((Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
-						if((Period.between(aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),ejm.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getMonths()==i)) {
-						//se ingresara el saldo del contrato gano y perdido a sus respectivos arrays
-						total  =+ aux.getPrecioSaldo();
-						Perdidas +=aux.getPreciofinal()-aux.getPrecioSaldo();
-						System.out.println(total);
-					}
+				if(aux.retornarDifDias()/30<10) {
+					//se ingresara el saldo del contrato gano y perdido a sus respectivos arrays
+					ganancias[aux.retornarDifDias()/30+1] = ganancias[aux.retornarDifDias()/30+1]+ aux.getPrecioSaldo();
+					perdi[aux.retornarDifDias()/30+1] =+(float) + (aux.getPreciofinal()-aux.getPrecioSaldo());
+					//System.out.println(total);
 				}
 			}
 		}
-		System.out.println("klk");
-		saldoIngresos.add(9-j,total);
-		saldoPerdidas.add(9-j, Perdidas);
-		j--;
-		}while(j!=0);
+		for (int j = 0; j < perdi.length; j++) {
+			saldoIngresos.add(9-j,ganancias[j]);
+			saldoPerdidas.add(9-j, perdi[j]);
+		}
+		
 		XYSeriesCollection data = new XYSeriesCollection();//colleccion para guardar todo en un solo data
 		data.addSeries(saldoIngresos);// ingresamos ambos datas de ingresos y perdidas
 		data.addSeries(saldoPerdidas);
