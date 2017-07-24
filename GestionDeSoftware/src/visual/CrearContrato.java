@@ -333,11 +333,11 @@ public class CrearContrato extends JDialog {
 			
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int cont = 2;
+					
 					if(rdbEmpresa.isSelected()) {
 						for (Cliente client : EmpresaRps.getInstance().getMisclientes()) 
 							if(client instanceof Empresa) {
-								cont++;
+								
 								if(((Empresa)client).getRnc().equalsIgnoreCase(ftxEmpresa.getText())){
 									cliente = client;
 									txtNombre.setText(cliente.getNombre());
@@ -348,13 +348,11 @@ public class CrearContrato extends JDialog {
 									okButton.setEnabled(false);
 								}
 							}
-						if(cont==0)
-							JOptionPane.showMessageDialog(null, "No hay empresas registradas", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
-					}
+						}
 					if(rdbIndependiente.isSelected()) {
 						for (Cliente client1 : EmpresaRps.getInstance().getMisclientes())
 							if(client1 instanceof Indepediente) {
-								cont++;
+							
 								if(((Indepediente)client1).getCedula().equalsIgnoreCase(ftxCedula.getText())){
 									cliente = client1;
 									txtNombre.setText(cliente.getNombre());
@@ -365,9 +363,7 @@ public class CrearContrato extends JDialog {
 									okButton.setEnabled(false);
 								}
 							}
-						if(cont==0)
-							JOptionPane.showMessageDialog(null, "No hay clientes registrados", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
-					}
+						}
 					
 				}
 			});
