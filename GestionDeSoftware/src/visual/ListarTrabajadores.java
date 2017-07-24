@@ -15,6 +15,7 @@ import java.awt.Toolkit;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,6 +39,7 @@ import javax.swing.JTable;
 
 import logica.Cliente;
 import logica.Contrato;
+import logica.Diseñador;
 import logica.EmpresaRps;
 import logica.JefeDeProyecto;
 import logica.Planificador;
@@ -46,6 +48,7 @@ import logica.Trabajador;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 
 
 
@@ -61,6 +64,7 @@ public class ListarTrabajadores extends JDialog {
     private JFormattedTextField ftBuscarCedula;
     private ArrayList<Trabajador> B = new ArrayList<>();
     private JScrollPane scrollPaneLista;
+    private JComboBox comboBox;
     
     
 
@@ -92,6 +96,9 @@ public class ListarTrabajadores extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
+		Trabajador c1=new JefeDeProyecto("123-1234567-1", "miguel", "gonzales", "buenos aires", "masculino", 8000, "bien", 500, 8, "829-145-1156", 3, 23, 5);
+		EmpresaRps.getInstance().getMistrabajadores().add(c1);
+		
 		JPanel ListaTrabajadores = new JPanel();
 		ListaTrabajadores.setBorder(new TitledBorder(null, "Lista de trabajadores", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		ListaTrabajadores.setBounds(12, 82, 691, 452);
@@ -102,7 +109,7 @@ public class ListarTrabajadores extends JDialog {
 		scrollPaneLista.setBounds(10, 21, 671, 420);
 		ListaTrabajadores.add(scrollPaneLista);
 		
-		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido","Cantidad de contratos", "Teléfono", "Tipo de trabajador"};
+		
 		tableModelT = new DefaultTableModel(){
 		    /**
 		     * 
@@ -115,8 +122,16 @@ public class ListarTrabajadores extends JDialog {
 			return false;
 		    }
 		};
-		tableModelT.setColumnIdentifiers(columnsHeadersT);
 		tableTrab= new JTable();
+		comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cargaTrabajadores();
+			}
+		});
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"General", "Jefe De Proyecto", "Planificador", "Programador", "Dise\u00F1ador"}));
+		comboBox.setSelectedIndex(0);
+		
 		tableTrab.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -126,6 +141,7 @@ public class ListarTrabajadores extends JDialog {
 			    }
 			}
 		});
+		cargaTrabajadores();
 		scrollPaneLista.setColumnHeaderView(tableTrab);
 		tableTrab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableTrab.setModel(tableModelT);
@@ -174,7 +190,8 @@ public class ListarTrabajadores extends JDialog {
 		lblFiltro.setBounds(10, 24, 61, 14);
 		FiltroTipo.add(lblFiltro);
 		
-		JComboBox comboBox = new JComboBox();
+		
+		
 		comboBox.setBounds(56, 21, 209, 22);
 		FiltroTipo.add(comboBox);
 		
@@ -208,7 +225,7 @@ public class ListarTrabajadores extends JDialog {
 		btnBuscar.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/003-find.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buscarTrab();
+				//buscarTrab();
 			}
 		});
 		btnBuscar.setBounds(314, 19, 35, 22);
@@ -259,7 +276,7 @@ public class ListarTrabajadores extends JDialog {
 		   	}
 	    }
 	
-	private void cargarTrab(ArrayList<Trabajador> mistrabajadores) {
+	/*private void cargarTrab(ArrayList<Trabajador> mistrabajadores) {
 	   	tableModelT.setRowCount(0);
 	   	DefaultTableCellRenderer ct = new DefaultTableCellRenderer();
 	   	ct.setHorizontalAlignment(SwingConstants.CENTER);
@@ -318,5 +335,87 @@ public class ListarTrabajadores extends JDialog {
 		aux = aux1.substring(0, num);
 		return aux;
 	}
+	
+	public void cargaTrabajadores() {
+		tableModelT.setRowCount(0);
+		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido","Cantidad de contratos", "Teléfono", "Tipo de trabajador"};
+		tableModelT.setColumnIdentifiers(columnsHeadersT);
+		rowT=new Object[tableModelT.getColumnCount()];
+		for (Trabajador trabajador : EmpresaRps.getInstance().getMistrabajadores()) {
+			if(comboBox.getSelectedIndex()==0) {
+				rowT[0]=trabajador.getCedula();
+				rowT[1]=trabajador.getNombre();
+				rowT[2]=trabajador.getApellido();
+				rowT[3]=trabajador.getMisContratos().size();
+				rowT[4]=trabajador.getTelefono();
+				if(trabajador instanceof JefeDeProyecto) {
+					rowT[5]="Jefe De Proyecto";
+				}
+				if(trabajador instanceof Planificador) {
+					rowT[5]="Planificador";
+				}
+				if(trabajador instanceof Programador) {
+					rowT[5]="Programador";
+				}
+				if(trabajador instanceof Diseñador) {
+					rowT[5]="Diseñador";
+				}
+				tableModelT.addRow(rowT);
+			}
+			
+			if(comboBox.getSelectedIndex()==1 && trabajador instanceof JefeDeProyecto) {
+				rowT[0]=trabajador.getCedula();
+				rowT[1]=trabajador.getNombre();
+				rowT[2]=trabajador.getApellido();
+				rowT[3]=trabajador.getMisContratos().size();
+				rowT[4]=trabajador.getTelefono();
+				rowT[5]="Jefe De Proyecto";
+				tableModelT.addRow(rowT);
+
+			}
+			if(comboBox.getSelectedIndex()==2 && trabajador instanceof Planificador) {
+				rowT[0]=trabajador.getCedula();
+				rowT[1]=trabajador.getNombre();
+				rowT[2]=trabajador.getApellido();
+				rowT[3]=trabajador.getMisContratos().size();
+				rowT[4]=trabajador.getTelefono();
+				rowT[5]="Planificador";
+				tableModelT.addRow(rowT);
+			}
+			if(comboBox.getSelectedIndex()==3 && trabajador instanceof Programador) {
+				rowT[0]=trabajador.getCedula();
+				rowT[1]=trabajador.getNombre();
+				rowT[2]=trabajador.getApellido();
+				rowT[3]=trabajador.getMisContratos().size();
+				rowT[4]=trabajador.getTelefono();
+				rowT[5]="Programador";	
+				tableModelT.addRow(rowT);
+			}
+			if(comboBox.getSelectedIndex()==4 && trabajador instanceof Diseñador) {
+				rowT[0]=trabajador.getCedula();
+				rowT[1]=trabajador.getNombre();
+				rowT[2]=trabajador.getApellido();
+				rowT[3]=trabajador.getMisContratos().size();
+				rowT[4]=trabajador.getTelefono();
+				rowT[5]="Diseñador";
+				tableModelT.addRow(rowT);
+			}
+			
+			
+		}
+		
+		tableTrab.setModel(tableModelT);
+		tableTrab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableTrab.getTableHeader().setResizingAllowed(false);
+		TableColumnModel columnas1 = tableTrab.getColumnModel();
+		columnas1.getColumn(0).setPreferredWidth(111);
+		columnas1.getColumn(1).setPreferredWidth(111);
+		columnas1.getColumn(2).setPreferredWidth(111);
+		columnas1.getColumn(3).setPreferredWidth(111);
+		columnas1.getColumn(4).setPreferredWidth(111);
+		columnas1.getColumn(5).setPreferredWidth(113);
+		
+	}
+
 	
 }
