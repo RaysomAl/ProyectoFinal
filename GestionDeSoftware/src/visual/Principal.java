@@ -528,32 +528,31 @@ public class Principal extends JFrame implements Runnable{
 		XYSeries saldoIngresos = new XYSeries("Ingresos");//datos de ingresos
 		XYSeries saldoPerdidas = new XYSeries("Perdidas");//datos de perdidas
 		Float saldoArray = null;//auxiliar para guardar flotantes
-		LocalDate NOW = LocalDate.now();//164 a 188 son contratos auxiliares con fechas variadas
-		ArrayList<Float> total = new ArrayList<Float>();
-		cargarArray(total, 0, 10);
-		ArrayList<Float> Perdidas = new ArrayList<Float>();
-		cargarArray(Perdidas, 0, 10);
+		Calendar ejm = Calendar.getInstance();//164 a 188 son contratos auxiliares con fechas variadas
+		ejm.add(Calendar.MONTH, 1);
+		LocalDate NOW = ejm.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		float total = 0 ;
+		float Perdidas = 0;
+		int j = 10;
+		do {
 		for (Contrato aux : EmpresaRps.getInstance().getMiscontratos()) {//recorre los contratos existentes
 			if(aux.isTerminado()) {//si el contrato termino
-				if((Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
-					for (int i = 10; i >= 0; i--){//solo presentara los contrates de los ultimos 10 meses
-						if((Period.between(aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),LocalDate.now()).getMonths())==i) {
-							//se ingresara el saldo del contrato gano y perdido a sus respectivos arrays
-							saldoArray = total.get(i);
-							total.add(i, saldoArray + aux.montoPagar(true));
-							saldoArray = (float) 0;
-							saldoArray = Perdidas.get(i);
-							Perdidas.add(i, saldoArray+aux.montoPagar(false));
-							saldoArray = (float) 0;
-						}
+				for (int i = 10; i > 0; i--) 
+					if((Period.between(NOW, aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())).getMonths()<10) {//si el contrato es reciente de ultimos 10 mese
+						if((Period.between(aux.getFechaSaldada().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),ejm.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getMonths()==i)) {
+						//se ingresara el saldo del contrato gano y perdido a sus respectivos arrays
+						total  =+ aux.getPrecioSaldo();
+						Perdidas +=aux.getPreciofinal()-aux.getPrecioSaldo();
+						System.out.println(total);
 					}
 				}
 			}
 		}
-		for (int i = 0; i < 10; i++) {
-			saldoIngresos.add(9-i,total.get(i));
-			saldoPerdidas.add(9-i,Perdidas.get(i));
-		}
+		System.out.println("klk");
+		saldoIngresos.add(j-9,total);
+		saldoPerdidas.add(j-9, Perdidas);
+		j--;
+		}while(j!=0);
 		XYSeriesCollection data = new XYSeriesCollection();//colleccion para guardar todo en un solo data
 		data.addSeries(saldoIngresos);// ingresamos ambos datas de ingresos y perdidas
 		data.addSeries(saldoPerdidas);

@@ -98,9 +98,6 @@ public class ListarTrabajadores extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		//Trabajador c1=new JefeDeProyecto("123-1234567-1", "miguel", "gonzales", "buenos aires", "masculino", 8000, "bien", 500, 8, "829-145-1156", 3, 23, 5);
-		//EmpresaRps.getInstance().getMistrabajadores().add(c1);
-		
 		JPanel ListaTrabajadores = new JPanel();
 		ListaTrabajadores.setBorder(new TitledBorder(null, "Lista de trabajadores", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		ListaTrabajadores.setBounds(12, 82, 691, 440);

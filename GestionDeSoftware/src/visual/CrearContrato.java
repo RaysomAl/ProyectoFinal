@@ -392,6 +392,7 @@ public class CrearContrato extends JDialog {
 								activarEmpleados(nuevoc);
 								EmpresaRps.getInstance().getMiscontratos().add(nuevoc);
 								EmpresaRps.getInstance().getMisproyectos().add(proyect);
+								cliente.getMisContratos().add(nuevoc);
 								JOptionPane.showMessageDialog(null, "El proyecto :"+proyect.getCodigo()+", y el contrato: "+nuevoc.getCodigoContrato()+", Se han salvado existosamente", "Informacion",JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 						}

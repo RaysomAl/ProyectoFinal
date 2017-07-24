@@ -125,6 +125,7 @@ public class Contrato implements Serializable {
 	public float montoPagar(boolean ingreso) {
 		float pago = this.preciofinal;
 		float perdida = 0;
+		int b = 0;
 		Period resta = Period.between(LocalDate.now() , fechaFinal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		if(resta.getMonths()!=0) {//calcular los dias basados en milisegundos
 			Date now = Calendar.getInstance().getTime();
@@ -136,12 +137,17 @@ public class Contrato implements Serializable {
 			float horasAdias = (float) (diffdeHoras/24.0);
 			float a = horasAdias + diffdedias;
 			a=(float) Math.floor(a);
-			int b = (int) a;
-			for (int i = 0; i < b; i++) {//reduce 1% por cada dia
-				perdida += pago*0.01;
-				pago -= pago*0.01;
+			b = (int) a;
+			if(b>0)
+				for (int i = 0; i < b; i++) {//reduce 1% por cada dia
+					perdida += pago*0.01;
+					pago -= pago*0.01;
 			}
 		}
+		if(b<=0&&ingreso)
+			return pago;
+		if(b<=0&&!ingreso)
+			return perdida;
 		if(ingreso)
 			return (float)Math.floor(pago);
 		if(!ingreso)

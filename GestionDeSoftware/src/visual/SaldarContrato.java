@@ -306,7 +306,6 @@ public class SaldarContrato extends JDialog {
 						if(opcion == JOptionPane.OK_OPTION){
 							aplicarEvaluacion();
 						}
-						Principal.actualizarGraficas();
 						dispose();
 					}
 

@@ -116,7 +116,7 @@ public class ListarContratos extends JDialog {
 				btnPresentar.setEnabled(true);
 				btnNewButton.setEnabled(true);
 				btnsalvar.setEnabled(true);
-				
+				lstTrabajadores.removeAll();
 				
 			}
 		});
@@ -341,10 +341,15 @@ public class ListarContratos extends JDialog {
 		btnNewButton.setEnabled(false);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PassDSaldar nuevo = new PassDSaldar(auxiliar.get(table.getSelectedRow()));
-				nuevo.setModal(true);
-				nuevo.setVisible(true);
-				model.setRowCount(0);
+				if(!auxiliar.get(table.getSelectedRow()).isTerminado()) {
+					PassDSaldar nuevo = new PassDSaldar(auxiliar.get(table.getSelectedRow()));
+					nuevo.setModal(true);
+					nuevo.setVisible(true);
+					model.setRowCount(0);
+				}else {
+					JOptionPane.showMessageDialog(null, "Seleccione un contrato no terminado, para prorrogar", "Informacion",JOptionPane.INFORMATION_MESSAGE);
+					btnNewButton.setEnabled(false);
+				}
 			}
 		});
 		btnNewButton.setBounds(709, 309, 186, 23);
@@ -357,9 +362,14 @@ public class ListarContratos extends JDialog {
 				btnsalvar = new JButton("Saldar Contrato");
 				btnsalvar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						SaldarContrato saldar = new SaldarContrato(auxiliar.get(table.getSelectedRow()));
-						saldar.setModal(true);
-						saldar.setVisible(true);
+						if(!auxiliar.get(table.getSelectedRow()).isTerminado()) {
+							SaldarContrato saldar = new SaldarContrato(auxiliar.get(table.getSelectedRow()));
+							saldar.setModal(true);
+							saldar.setVisible(true);
+						}else {
+							JOptionPane.showMessageDialog(null, "Ese contrato esta saldado, seleccione otro para saldar", "Informacion",JOptionPane.INFORMATION_MESSAGE);
+							btnsalvar.setEnabled(false);
+						}
 					}
 				});
 				btnsalvar.setEnabled(false);
@@ -387,6 +397,7 @@ public class ListarContratos extends JDialog {
 
 	private void loadTable(int posicion,boolean estado,String codigoContrato) {
 		model.setRowCount(0);
+		auxiliar.clear();
 		filaLista = new Object[model.getColumnCount()];
 		for (Contrato contra : EmpresaRps.getInstance().getMiscontratos()) {
 			if(posicion == 0) {
@@ -508,19 +519,13 @@ public class ListarContratos extends JDialog {
 		lista.setSelectionModel(new MySelectionModel());
 	}
 	private void cargarLista() {
-		String codigo = String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0));
-		String[] trabajadores = null;
 		int i=0;
-		for (Contrato code : EmpresaRps.getInstance().getMiscontratos()) 
-			if(code.getCodigoContrato().equalsIgnoreCase(codigo)) {
-				trabajadores = new String[code.getProyecto().getJefe().getMisTrabajadores().size()];
-				for (Trabajador worker : code.getProyecto().getJefe().getMisTrabajadores()) {
-					trabajadores[i] = worker.getCedula()+"("+worker.getNombre()+")"+"/"+tipotrab(worker);
-					i++;
-				}
+		String[] trabajadores = new String[auxiliar.get(table.getSelectedRow()).getProyecto().getJefe().getMisTrabajadores().size()];
+		for (Trabajador worker : auxiliar.get(table.getSelectedRow()).getProyecto().getJefe().getMisTrabajadores()) {
+				trabajadores[i] = worker.getCedula()+"("+worker.getNombre()+")"+"/"+tipotrab(worker);
+				i++;
 			}
 		lstTrabajadores.setListData(trabajadores);
-		trabajadores = null;
 	}
 	private String tipotrab(Trabajador worker) {
 		if(worker instanceof Programador)
