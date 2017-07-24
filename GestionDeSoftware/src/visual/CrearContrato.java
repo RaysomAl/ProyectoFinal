@@ -351,7 +351,6 @@ public class CrearContrato extends JDialog {
 						if(cont==0)
 						JOptionPane.showMessageDialog(null, "No hay empresas registradas", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
 					}
-					cont = 0;
 					if(rdbIndependiente.isSelected()) {
 						for (Cliente client1 : EmpresaRps.getInstance().getMisclientes())
 							if(client1 instanceof Indepediente) {
