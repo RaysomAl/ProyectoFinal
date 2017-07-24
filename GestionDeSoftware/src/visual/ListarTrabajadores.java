@@ -149,11 +149,11 @@ public class ListarTrabajadores extends JDialog {
 		     */
 		    private static final long serialVersionUID = 1L;
 
-		    @Override
+		   /* @Override
 		    public boolean isCellEditable(int row, int column) {
 			
 			return false;
-		    }
+		    }*/
 		 
 		};
 		tableModelP.setColumnIdentifiers(columnsHeadersP);
