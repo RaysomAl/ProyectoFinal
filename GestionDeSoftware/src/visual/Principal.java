@@ -549,8 +549,8 @@ public class Principal extends JFrame implements Runnable{
 			}
 		}
 		System.out.println("klk");
-		saldoIngresos.add(j-9,total);
-		saldoPerdidas.add(j-9, Perdidas);
+		saldoIngresos.add(9-j,total);
+		saldoPerdidas.add(9-j, Perdidas);
 		j--;
 		}while(j!=0);
 		XYSeriesCollection data = new XYSeriesCollection();//colleccion para guardar todo en un solo data
