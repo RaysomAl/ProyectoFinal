@@ -171,7 +171,6 @@ public class Principal extends JFrame implements Runnable{
 	     
 		setTitle("EmpresaRps.S.A.");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/evaluation.png")));
-		setResizable(false);
 		dim = super.getToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setSize(dim.width-100, dim.height-100);

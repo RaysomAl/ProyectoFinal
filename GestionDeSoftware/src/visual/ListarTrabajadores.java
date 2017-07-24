@@ -37,6 +37,8 @@ import javax.swing.JTable;
 
 
 
+
+
 import logica.Cliente;
 import logica.Contrato;
 import logica.Diseñador;
@@ -45,8 +47,10 @@ import logica.JefeDeProyecto;
 import logica.Planificador;
 import logica.Programador;
 import logica.Trabajador;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
 
@@ -56,7 +60,6 @@ public class ListarTrabajadores extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable tableTrab;
-	private JTable tableProyectos;
 	private static DefaultTableModel tableModelT;
     private static Object[] rowT;
     private static DefaultTableModel tableModelP;
@@ -70,7 +73,7 @@ public class ListarTrabajadores extends JDialog {
 
 	/**
 	 * Launch the application.
-	 */
+	 *
 	public static void main(String[] args) {
 		try {
 			ListarTrabajadores dialog = new ListarTrabajadores();
@@ -88,25 +91,24 @@ public class ListarTrabajadores extends JDialog {
 	public ListarTrabajadores() throws ParseException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarTrabajadores.class.getResource("/img/listPanel.png")));
 		setTitle("Lista de Trabajadores");
-		setResizable(false);
-		setBounds(100, 100,  1050, 597);
+		setBounds(100, 100,  720, 597);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		Trabajador c1=new JefeDeProyecto("123-1234567-1", "miguel", "gonzales", "buenos aires", "masculino", 8000, "bien", 500, 8, "829-145-1156", 3, 23, 5);
-		EmpresaRps.getInstance().getMistrabajadores().add(c1);
+		//Trabajador c1=new JefeDeProyecto("123-1234567-1", "miguel", "gonzales", "buenos aires", "masculino", 8000, "bien", 500, 8, "829-145-1156", 3, 23, 5);
+		//EmpresaRps.getInstance().getMistrabajadores().add(c1);
 		
 		JPanel ListaTrabajadores = new JPanel();
 		ListaTrabajadores.setBorder(new TitledBorder(null, "Lista de trabajadores", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		ListaTrabajadores.setBounds(12, 82, 691, 452);
+		ListaTrabajadores.setBounds(12, 82, 691, 440);
 		contentPanel.add(ListaTrabajadores);
 		ListaTrabajadores.setLayout(null);
 		
 		JScrollPane scrollPaneLista = new JScrollPane();
-		scrollPaneLista.setBounds(10, 21, 671, 420);
+		scrollPaneLista.setBounds(10, 21, 671, 408);
 		ListaTrabajadores.add(scrollPaneLista);
 		
 		
@@ -129,16 +131,13 @@ public class ListarTrabajadores extends JDialog {
 				cargaTrabajadores();
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"General", "Jefe De Proyecto", "Planificador", "Programador", "Dise\u00F1ador"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefe De Proyecto", "Planificador", "Programador", "Dise\u00F1ador"}));
 		comboBox.setSelectedIndex(0);
 		
 		tableTrab.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-			    if(tableTrab.getSelectedRow()>=0){
-				      int index = tableTrab.getSelectedRow();
-				      CargarProyectos(EmpresaRps.getInstance().getMistrabajadores().get(index).getMisContratos());
-			    }
+			  
 			}
 		});
 		cargaTrabajadores();
@@ -147,38 +146,15 @@ public class ListarTrabajadores extends JDialog {
 		tableTrab.setModel(tableModelT);
 		scrollPaneLista.setViewportView(tableTrab);
 		
-		
-		JPanel proyectosActivos = new JPanel();
-		proyectosActivos.setBorder(new TitledBorder(null, "Proyectos activos", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		proyectosActivos.setBounds(715, 11, 319, 523);
-		contentPanel.add(proyectosActivos);
-		proyectosActivos.setLayout(null);
-		
-		JScrollPane scrollPaneProyectos = new JScrollPane();
-		scrollPaneProyectos.setBounds(10, 21, 299, 491);
-		proyectosActivos.add(scrollPaneProyectos);
-		
 		String[] columnsHeadersP = {"Nombre", "Tipo de Proyecto", "Lenguaje"};
 		tableModelP = new DefaultTableModel(){
 		    /**
 		     * 
 		     */
 		    private static final long serialVersionUID = 1L;
-
-		   /* @Override
-		    public boolean isCellEditable(int row, int column) {
-			
-			return false;
-		    }*/
 		 
 		};
 		tableModelP.setColumnIdentifiers(columnsHeadersP);
-		tableProyectos = new JTable();
-		scrollPaneProyectos.setViewportView(tableProyectos);
-		scrollPaneProyectos.setColumnHeaderView(tableProyectos);
-		tableProyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tableProyectos.setModel(tableModelP);
-		scrollPaneProyectos.setViewportView(tableProyectos);
 		
 		JPanel FiltroTipo = new JPanel();
 		FiltroTipo.setBorder(new TitledBorder(null, "Filtro por Tipo", TitledBorder.CENTER, TitledBorder.TOP, null, null));
@@ -225,8 +201,99 @@ public class ListarTrabajadores extends JDialog {
 		btnBuscar.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/003-find.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//buscarTrab();
+				String cedula = ftBuscarCedula.getText();
+				if(EmpresaRps.getInstance().buscarTrabajador(cedula)!=null){
+					cargarDatos(EmpresaRps.getInstance().buscarTrabajador(cedula));
+					
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "El cliente no existe");
+					
+				}
 			}
+
+			private void cargarDatos(Trabajador trabajador) {
+				
+				tableModelT.setRowCount(0);
+				String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido","Edad", "Teléfono", "Tipo de trabajador"};
+				tableModelT.setColumnIdentifiers(columnsHeadersT);
+				rowT=new Object[tableModelT.getColumnCount()];
+			
+					if(comboBox.getSelectedIndex()==0) {
+						rowT[0]=trabajador.getCedula();
+						rowT[1]=trabajador.getNombre();
+						rowT[2]=trabajador.getApellido();
+						rowT[3]=trabajador.getEdad();
+						rowT[4]=trabajador.getTelefono();
+						if(trabajador instanceof JefeDeProyecto) {
+							rowT[5]="Jefe De Proyecto";
+						}
+						if(trabajador instanceof Planificador) {
+							rowT[5]="Planificador";
+						}
+						if(trabajador instanceof Programador) {
+							rowT[5]="Programador";
+						}
+						if(trabajador instanceof Diseñador) {
+							rowT[5]="Diseñador";
+						}
+						tableModelT.addRow(rowT);
+					}
+					
+					if(comboBox.getSelectedIndex()==1 && trabajador instanceof JefeDeProyecto) {
+						rowT[0]=trabajador.getCedula();
+						rowT[1]=trabajador.getNombre();
+						rowT[2]=trabajador.getApellido();
+						rowT[3]=trabajador.getEdad();
+						rowT[4]=trabajador.getTelefono();
+						rowT[5]="Jefe De Proyecto";
+						tableModelT.addRow(rowT);
+
+					}
+					if(comboBox.getSelectedIndex()==2 && trabajador instanceof Planificador) {
+						rowT[0]=trabajador.getCedula();
+						rowT[1]=trabajador.getNombre();
+						rowT[2]=trabajador.getApellido();
+						rowT[3]=trabajador.getEdad();
+						rowT[4]=trabajador.getTelefono();
+						rowT[5]="Planificador";
+						tableModelT.addRow(rowT);
+					}
+					if(comboBox.getSelectedIndex()==3 && trabajador instanceof Programador) {
+						rowT[0]=trabajador.getCedula();
+						rowT[1]=trabajador.getNombre();
+						rowT[2]=trabajador.getApellido();
+						rowT[3]=trabajador.getEdad();
+						rowT[4]=trabajador.getTelefono();
+						rowT[5]="Programador";	
+						tableModelT.addRow(rowT);
+					}
+					if(comboBox.getSelectedIndex()==4 && trabajador instanceof Diseñador) {
+						rowT[0]=trabajador.getCedula();
+						rowT[1]=trabajador.getNombre();
+						rowT[2]=trabajador.getApellido();
+						rowT[3]=trabajador.getEdad();;
+						rowT[4]=trabajador.getTelefono();
+						rowT[5]="Diseñador";
+						tableModelT.addRow(rowT);
+					
+					
+					
+				}
+				
+				tableTrab.setModel(tableModelT);
+				tableTrab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+				tableTrab.getTableHeader().setResizingAllowed(false);
+				TableColumnModel columnas1 = tableTrab.getColumnModel();
+				columnas1.getColumn(0).setPreferredWidth(111);
+				columnas1.getColumn(1).setPreferredWidth(111);
+				columnas1.getColumn(2).setPreferredWidth(111);
+				columnas1.getColumn(3).setPreferredWidth(111);
+				columnas1.getColumn(4).setPreferredWidth(111);
+				columnas1.getColumn(5).setPreferredWidth(113);
+				
+			}
+			
 		});
 		btnBuscar.setBounds(314, 19, 35, 22);
 		Busquedad.add(btnBuscar);
@@ -252,93 +319,25 @@ public class ListarTrabajadores extends JDialog {
 			buttonPane.add(btnEvaluacin);
 			{
 				JButton okButton = new JButton("Listo");
+				okButton.setIcon(new ImageIcon(ListarTrabajadores.class.getResource("/img/mark.png")));
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
 	}
-	   private void CargarProyectos(ArrayList<Contrato> miscontratos) {
-	       	tableModelP.setRowCount(0);
-		   	DefaultTableCellRenderer cp = new DefaultTableCellRenderer();
-		   	cp.setHorizontalAlignment(SwingConstants.CENTER);
-		   	tableProyectos.getColumnModel().getColumn(0).setCellRenderer(cp);
-		   	tableProyectos.getColumnModel().getColumn(1).setCellRenderer(cp);
-		   	tableProyectos.getColumnModel().getColumn(2).setCellRenderer(cp);
-		   	rowP = new Object[tableModelP.getColumnCount()];
-		   	for (Contrato p : miscontratos) {
-		   		if (p.getProyecto().getEstado().equals("En progreso")) {
-		   			rowP[0]=p.getProyecto().getNombreproyecto();
-		   			rowP[1]=p.getProyecto().getTipo();
-		   			rowP[2]=p.getProyecto().getLenguaje();
-		   			tableModelP.addRow(rowP);
-		   		}
-		   	}
-	    }
+	  
 	
-	/*private void cargarTrab(ArrayList<Trabajador> mistrabajadores) {
-	   	tableModelT.setRowCount(0);
-	   	DefaultTableCellRenderer ct = new DefaultTableCellRenderer();
-	   	ct.setHorizontalAlignment(SwingConstants.CENTER);
-	   	tableTrab.getColumnModel().getColumn(0).setCellRenderer(ct);
-	   	tableTrab.getColumnModel().getColumn(1).setCellRenderer(ct);
-	   	tableTrab.getColumnModel().getColumn(2).setCellRenderer(ct);
-	   	tableTrab.getColumnModel().getColumn(3).setCellRenderer(ct);
-	   	tableTrab.getColumnModel().getColumn(4).setCellRenderer(ct);
-	   	tableTrab.getColumnModel().getColumn(5).setCellRenderer(ct);
-	   	rowT = new Object[tableModelT.getColumnCount()];
-	   	for (Trabajador trab : mistrabajadores) {
-	   		rowT[0]=trab.getCedula();
-	   		rowT[1]=trab.getNombre();
-	   		rowT[2]=trab.getApellido();
-	   		rowT[3]=trab.cantidadProyectosActivos();
-	   		rowT[4]=trab.getTelefono();
-	   	    String aux = null;
-	   	    if (trab instanceof JefeDeProyecto)
-	   	    	aux = "Jefe de proyecto";
-	   	    else if (trab instanceof Planificador)
-	   	    	aux = "Planificador";
-	   	    else if (trab instanceof Programador)
-	   	    	aux = "Programador";
-	   	    else
-	   	    	aux = "Diseñador";
-	   	 rowT[5]=aux;
-	   	tableModelT.addRow(rowT);
-	   	}
-	    }
 	
-	private void buscarTrab() {
-		String cedu = ftBuscarCedula.getText().substring(0, ftBuscarCedula.getCaretPosition());
-		ArrayList<Trabajador> mistrabajadores = new ArrayList<>();
-		ArrayList<Trabajador> selec = new ArrayList<>();
-		for (Trabajador trab: EmpresaRps.getInstance().getMistrabajadores()) {
-			System.out.println(trab.getNombre());
-			String aux = getId(ftBuscarCedula.getCaretPosition(), trab);
-			if (cedu.equals(aux))
-				selec.add(trab);
-		   } 
-		cargarTrab(selec);
-	}
-	
-	/*private ArrayList<Trabajador> noBorrar(){
-		ArrayList<Trabajador> Tnoeliminado = new ArrayList<>();
-		for (Trabajador tr: EmpresaRps.getInstance().getMistrabajadores()) {
-			if (!B.contains(tr))
-				Tnoeliminado.add(tr);
-		}
-		return Tnoeliminado;
-	}*/  
-	
-	private String getId(int num, Trabajador trabajador) {
-		String aux = null;
-		String aux1 = trabajador.getCedula();
-		aux = aux1.substring(0, num);
-		return aux;
-	}
 	
 	public void cargaTrabajadores() {
 		tableModelT.setRowCount(0);
-		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido","Cantidad de contratos", "Teléfono", "Tipo de trabajador"};
+		String[] columnsHeadersT = {"Cédula", "Nombre", "Apellido","Edad", "Teléfono", "Tipo de trabajador"};
 		tableModelT.setColumnIdentifiers(columnsHeadersT);
 		rowT=new Object[tableModelT.getColumnCount()];
 		for (Trabajador trabajador : EmpresaRps.getInstance().getMistrabajadores()) {
@@ -346,7 +345,7 @@ public class ListarTrabajadores extends JDialog {
 				rowT[0]=trabajador.getCedula();
 				rowT[1]=trabajador.getNombre();
 				rowT[2]=trabajador.getApellido();
-				rowT[3]=trabajador.getMisContratos().size();
+				rowT[3]=trabajador.getEdad();
 				rowT[4]=trabajador.getTelefono();
 				if(trabajador instanceof JefeDeProyecto) {
 					rowT[5]="Jefe De Proyecto";
@@ -367,7 +366,7 @@ public class ListarTrabajadores extends JDialog {
 				rowT[0]=trabajador.getCedula();
 				rowT[1]=trabajador.getNombre();
 				rowT[2]=trabajador.getApellido();
-				rowT[3]=trabajador.getMisContratos().size();
+				rowT[3]=trabajador.getEdad();
 				rowT[4]=trabajador.getTelefono();
 				rowT[5]="Jefe De Proyecto";
 				tableModelT.addRow(rowT);
@@ -377,7 +376,7 @@ public class ListarTrabajadores extends JDialog {
 				rowT[0]=trabajador.getCedula();
 				rowT[1]=trabajador.getNombre();
 				rowT[2]=trabajador.getApellido();
-				rowT[3]=trabajador.getMisContratos().size();
+				rowT[3]=trabajador.getEdad();
 				rowT[4]=trabajador.getTelefono();
 				rowT[5]="Planificador";
 				tableModelT.addRow(rowT);
@@ -386,7 +385,7 @@ public class ListarTrabajadores extends JDialog {
 				rowT[0]=trabajador.getCedula();
 				rowT[1]=trabajador.getNombre();
 				rowT[2]=trabajador.getApellido();
-				rowT[3]=trabajador.getMisContratos().size();
+				rowT[3]=trabajador.getEdad();
 				rowT[4]=trabajador.getTelefono();
 				rowT[5]="Programador";	
 				tableModelT.addRow(rowT);
@@ -395,7 +394,7 @@ public class ListarTrabajadores extends JDialog {
 				rowT[0]=trabajador.getCedula();
 				rowT[1]=trabajador.getNombre();
 				rowT[2]=trabajador.getApellido();
-				rowT[3]=trabajador.getMisContratos().size();
+				rowT[3]=trabajador.getEdad();;
 				rowT[4]=trabajador.getTelefono();
 				rowT[5]="Diseñador";
 				tableModelT.addRow(rowT);

@@ -32,6 +32,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class RegistarCliente extends JDialog {
 
@@ -58,6 +60,7 @@ public class RegistarCliente extends JDialog {
 	private JFormattedTextField txtTelefono;
 	private JFormattedTextField txtCedula;
 	private JFormattedTextField txtRnc;
+	private JLabel lblNewLabel;
 	
 
 	/**
@@ -82,7 +85,7 @@ public class RegistarCliente extends JDialog {
 		empresaRps=emp;
 		modiCliente=modificar;
 		setTitle("Registrar Cliente");
-		setBounds(100, 100, 505, 341);
+		setBounds(100, 100, 505, 400);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,7 +93,7 @@ public class RegistarCliente extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JPanel panelCliente = new JPanel();
-			panelCliente.setBounds(5, 36, 474, 120);
+			panelCliente.setBounds(5, 54, 474, 120);
 			panelCliente.setBorder(new TitledBorder(null, "Datos de Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			contentPanel.add(panelCliente);
 			panelCliente.setLayout(null);
@@ -188,7 +191,7 @@ public class RegistarCliente extends JDialog {
 		
 		JPanel panelUbicacion = new JPanel();
 		panelUbicacion.setBorder(new TitledBorder(null, "Datos de la Ubicacion", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelUbicacion.setBounds(5, 158, 474, 92);
+		panelUbicacion.setBounds(5, 185, 474, 92);
 		contentPanel.add(panelUbicacion);
 		panelUbicacion.setLayout(null);
 		
@@ -319,12 +322,18 @@ public class RegistarCliente extends JDialog {
 			}
 		});
 		rdbtnClienteIndepediente.setSelected(true);
-		rdbtnClienteIndepediente.setBounds(6, 7, 158, 23);
+		rdbtnClienteIndepediente.setBounds(5, 24, 158, 23);
 		contentPanel.add(rdbtnClienteIndepediente);
 		
 		
-		rdbtnEmpresa.setBounds(166, 7, 109, 23);
+		rdbtnEmpresa.setBounds(166, 24, 109, 23);
 		contentPanel.add(rdbtnEmpresa);
+		
+		lblNewLabel = new JLabel("TODOS LOS CAMPOS SON OBLIGATORIOS");
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		lblNewLabel.setBounds(10, 3, 236, 14);
+		contentPanel.add(lblNewLabel);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

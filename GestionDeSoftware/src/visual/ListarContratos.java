@@ -26,23 +26,29 @@ import java.awt.Toolkit;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
+
 import java.awt.Color;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JList;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -100,7 +106,7 @@ public class ListarContratos extends JDialog {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 86, 679, 295);
+		scrollPane.setBounds(10, 86, 679, 284);
 		contentPanel.add(scrollPane);
 		
 		table = new JTable();
@@ -364,6 +370,14 @@ public class ListarContratos extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int opcion = JOptionPane.showConfirmDialog(null, "¿Desea cerrar?","Advertencia",JOptionPane.WARNING_MESSAGE);
+						if(opcion == JOptionPane.OK_OPTION){
+						dispose();
+						}
+					}
+				});
 				cancelButton.setIcon(new ImageIcon(ListarContratos.class.getResource("/img/001-delete.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);

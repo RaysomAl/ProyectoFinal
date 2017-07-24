@@ -166,7 +166,7 @@ public class ListarClientes extends JDialog {
 					btnBuscar.setEnabled(false);
 				}
 			});
-			scrollPaneClientes.setBounds(10, 67, 236, 241);
+			scrollPaneClientes.setBounds(10, 67, 236, 238);
 			panel.add(scrollPaneClientes);
 			
 			tbClientes = new JTable();
@@ -214,7 +214,7 @@ public class ListarClientes extends JDialog {
 					btnBuscar.setEnabled(false);
 				}
 			});
-			scrollPaneContractos.setBounds(274, 67, 236, 241);
+			scrollPaneContractos.setBounds(274, 67, 236, 238);
 			panel.add(scrollPaneContractos);
 			
 			tbContractos = new JTable();

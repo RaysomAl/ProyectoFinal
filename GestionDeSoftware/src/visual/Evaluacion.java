@@ -52,7 +52,6 @@ public class Evaluacion extends JDialog {
 		empresaRps=emp;
 		setTitle("Evaluaci\u00F3n De Personal");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Evaluacion.class.getResource("/img/004-signature.png")));
-		setResizable(false);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -142,6 +142,15 @@ public class EmpresaRps implements Serializable {
 		 * elemento de trabajador*/
 	//}
 	
+	 public Trabajador buscarTrabajador(String cedula){
+	    	Trabajador aux = null;
+	    	for (Trabajador trab : mistrabajadores) {
+				if(trab.getCedula().equalsIgnoreCase(cedula)){
+					aux = trab;
+				}
+			}
+	    	return aux;
+	    }
 	 
 	 
 	//********************************************************************************

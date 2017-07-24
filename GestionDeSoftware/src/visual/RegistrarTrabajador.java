@@ -37,6 +37,7 @@ import logica.*;
 import javax.swing.ImageIcon;
 
 import java.awt.Toolkit;
+import java.awt.Font;
 
 
 public class RegistrarTrabajador extends JDialog {
@@ -76,7 +77,7 @@ public class RegistrarTrabajador extends JDialog {
 
 	/**
 	 * Launch the application.
-	 */
+	 *
 	public static void main(String[] args) {
 		try {
 			RegistrarTrabajador dialog = new RegistrarTrabajador();
@@ -102,7 +103,7 @@ public class RegistrarTrabajador extends JDialog {
 		{
 			JPanel datosGenerales = new JPanel();
 			datosGenerales.setBorder(new TitledBorder(null, "Datos Generales", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			datosGenerales.setBounds(10, 11, 578, 170);
+			datosGenerales.setBounds(10, 22, 578, 170);
 			contentPanel.add(datosGenerales);
 			datosGenerales.setLayout(null);
 			{
@@ -558,6 +559,12 @@ public class RegistrarTrabajador extends JDialog {
 			
 			
 		}
+		
+		JLabel lblTodosLosCampos = new JLabel("TODOS LOS CAMPOS SON OBLIGATORIOS");
+		lblTodosLosCampos.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		lblTodosLosCampos.setBounds(10, 11, 254, 14);
+		contentPanel.add(lblTodosLosCampos);
+		lblTodosLosCampos.setForeground(Color.RED);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -649,7 +656,11 @@ public class RegistrarTrabajador extends JDialog {
 				cancelButton.setIcon(new ImageIcon(RegistrarTrabajador.class.getResource("/img/001-delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						int opcion = JOptionPane.showConfirmDialog(null, "¿Desea cerrar?","Advertencia",JOptionPane.WARNING_MESSAGE);
+						if(opcion == JOptionPane.OK_OPTION){
 						dispose();
+					}
+						
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
