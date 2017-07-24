@@ -79,6 +79,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import javax.swing.ScrollPaneConstants;
 
 public class Principal extends JFrame implements Runnable{
 
@@ -390,6 +391,7 @@ public class Principal extends JFrame implements Runnable{
 		Grafica3.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 20, 222, 241);
 		Grafica3.add(scrollPane);
 		
@@ -568,50 +570,52 @@ public class Principal extends JFrame implements Runnable{
 	private CategoryDataset crearStack() {
 		DefaultCategoryDataset resultados = new DefaultCategoryDataset();
 		//resultados.addValue(value, rowKey, columnKey);
-		ArrayList<Cliente> misDATOS = new ArrayList<Cliente>();
+		Cliente[] misDATOS = new Cliente[EmpresaRps.getInstance().getMisclientes().size()];
 		ArrayList<Integer> aldia = new ArrayList<Integer>();
 		ArrayList<Integer> tardio = new ArrayList<Integer>();
 		cargarInt(aldia, 0, EmpresaRps.getInstance().getMisclientes().size());
 		cargarInt(tardio, 0, EmpresaRps.getInstance().getMisclientes().size());
 		int i = 0;
-		for (Cliente clien : EmpresaRps.getInstance().getMisclientes()) {
-			for (Contrato contr : EmpresaRps.getInstance().getMiscontratos()) {
-				if(contr.isTerminado()) {
-					if(contr.getCliente() instanceof Empresa)
-						if(clien instanceof Empresa)
-							if(((Empresa)clien).getRnc().equalsIgnoreCase(((Empresa)contr.getCliente()).getRnc())) { 
-								if(ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
-									aldia.set(i, aldia.get(i)+1);
-								if(!ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
-									tardio.set(i, tardio.get(i)+1);
-							}
-					if(contr.getCliente() instanceof Indepediente)
-						if(clien instanceof Indepediente)
-							if(((Indepediente)clien).getCedula().equalsIgnoreCase(((Indepediente)contr.getCliente()).getCedula())) { 
-								if(ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
-									aldia.set(i, aldia.get(i)+1);
-								if(!ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
-									tardio.set(i, tardio.get(i)+1);
-							}
-				}		
+		if(EmpresaRps.getInstance().getMisclientes().size()!=0) {
+			for (Cliente clien : EmpresaRps.getInstance().getMisclientes()) {
+				for (Contrato contr : EmpresaRps.getInstance().getMiscontratos()) {
+					if(contr.isTerminado()) {
+						if(contr.getCliente() instanceof Empresa)
+							if(clien instanceof Empresa)
+								if(((Empresa)clien).getRnc().equalsIgnoreCase(((Empresa)contr.getCliente()).getRnc())) { 
+									if(ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+										aldia.set(i, aldia.get(i)+1);
+									if(!ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+										tardio.set(i, tardio.get(i)+1);
+								}
+						if(contr.getCliente() instanceof Indepediente)
+							if(clien instanceof Indepediente)
+								if(((Indepediente)clien).getCedula().equalsIgnoreCase(((Indepediente)contr.getCliente()).getCedula())) { 
+									if(ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+										aldia.set(i, aldia.get(i)+1);
+									if(!ComparaFecha(contr.getFechaFinal(),contr.getFechaSaldada()))
+										tardio.set(i, tardio.get(i)+1);
+								}
+					}		
+				}
+				misDATOS[i] = clien;
+				i++;
 			}
-			misDATOS.set(i, clien);
-			i++;
-		}
-		Integer[] losMasTarde = {0,0,0,0,0,0,0,0};
-		int aux = 0;
-		for (int j = 0; j < losMasTarde.length; j++) {
-			for (int x = 0; j < tardio.size(); j++) {
-				if(tardio.get(j)>aux&&buscarInt(losMasTarde,j))
-					aux = j;
+			Integer[] losMasTarde = {0,0,0,0,0,0,0,0};
+			int aux = 0;
+			for (int j = 0; j < losMasTarde.length; j++) {
+				for (int x = 0; j < tardio.size(); j++) {
+					if(tardio.get(j)>aux&&buscarInt(losMasTarde,j))
+						aux = j;
+				}
+				losMasTarde[j]=aux;
+				aux = 0;
 			}
-			losMasTarde[j]=aux;
-			aux = 0;
-		}
-		for (int j = 0; j < losMasTarde.length; j++) {
-			if(losMasTarde[j]!=0) {
-				resultados.addValue(aldia.get(j), "Al dia", misDATOS.get(j).getNombre());
-				resultados.addValue(tardio.get(j), "Tardio", misDATOS.get(j).getNombre());
+			for (int j = 0; j < losMasTarde.length; j++) {
+				if(losMasTarde[j]!=0) {
+					resultados.addValue(aldia.get(j), "Al dia", misDATOS[j].getNombre());
+					resultados.addValue(tardio.get(j), "Tardio", misDATOS[j].getNombre());
+				}
 			}
 		}
 		return resultados;

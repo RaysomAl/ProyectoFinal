@@ -55,8 +55,6 @@ public class ListarClientes extends JDialog {
 	private static JRadioButton rdbtnEmpresa;
 	private static EmpresaRps empresaRps;
 	private Cliente cliente=null;
-	private Cliente c1=new Indepediente("123-1234567-1", "raul", "gonzales", "809", "r12", "dn", "salado", "santiago", "RD");
-	private Cliente c2=new Empresa("123-12345-1", "baldon", "b21", "829", "santiago", "RD");
 	private JFormattedTextField txtCedula;
 	private JFormattedTextField txtRnc;
 	
@@ -81,11 +79,8 @@ public class ListarClientes extends JDialog {
 	public ListarClientes(EmpresaRps emp) throws ParseException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarClientes.class.getResource("/img/listPanel.png")));
 		empresaRps=emp;
-		
 		rdbtnEmpresa = new JRadioButton("Empresa");
 		rdbtnIndepediente = new JRadioButton("Indepediente");
-		EmpresaRps.getInstance().agregarCliente(c1);
-		EmpresaRps.getInstance().agregarCliente(c2);
 		setTitle("Lista de Clientes");
 		setBounds(100, 100, 546, 400);
 		setLocationRelativeTo(null);

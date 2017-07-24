@@ -600,7 +600,7 @@ public class RegistrarTrabajador extends JDialog {
 					    }
 					    if(rbdJefeProyecto.isSelected()){
 					    	 int anoExp = new Integer(SpnExperienciaJefe.getValue().toString());
-					    	 JefeDeProyecto alpha = new JefeDeProyecto(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp);
+					    	 JefeDeProyecto alpha = new JefeDeProyecto(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 5, edad, anoExp);
 					    	 EmpresaRps.getInstance().agregarTrabajador(alpha);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
@@ -608,7 +608,7 @@ public class RegistrarTrabajador extends JDialog {
 					    }
 					    else if (rbdProgramador.isSelected()) {
 					    	String lenguaje = cbxLenguajeProgramador.getSelectedItem().toString(); 
-					    	Programador alpha = new Programador( cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, lenguaje);
+					    	Programador alpha = new Programador( cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 5, edad, lenguaje);
 					    	EmpresaRps.getInstance().agregarTrabajador(alpha);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
@@ -617,7 +617,7 @@ public class RegistrarTrabajador extends JDialog {
 					    else if (rbdPlanificador.isSelected()) {
 					    	 int anoExp = new Integer(spnExperienciaPlaneador.getValue().toString());
 					    	 int cantProy = new Integer(spnCantProyecto.getValue().toString());
-					    	 Planificador alpha = new Planificador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, anoExp,cantProy);
+					    	 Planificador alpha = new Planificador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 5, edad, anoExp,cantProy);
 					    	 EmpresaRps.getInstance().agregarTrabajador(alpha);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
@@ -627,7 +627,7 @@ public class RegistrarTrabajador extends JDialog {
 					    else {
 					    	 
 					    	 String herramienta = cbxHerramienta.getSelectedItem().toString();
-					    	 Diseñador alpha = new Diseñador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 1, edad, herramienta);
+					    	 Diseñador alpha = new Diseñador(cedula, nom, apellido, direccion, sex,0, "s", pago, horasTrab, telef, 5, edad, herramienta);
 					    	 EmpresaRps.getInstance().agregarTrabajador(alpha);
 					    	 System.out.println(EmpresaRps.getInstance().getMistrabajadores().size());
 					    	 JOptionPane.showMessageDialog(null, "¡El trabajador ha sido agregado!", "Trabajador Agregado", JOptionPane.INFORMATION_MESSAGE);
