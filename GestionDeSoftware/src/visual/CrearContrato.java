@@ -333,7 +333,7 @@ public class CrearContrato extends JDialog {
 			
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int cont = 0;
+					int cont = 1;
 					if(rdbEmpresa.isSelected()) {
 						for (Cliente client : EmpresaRps.getInstance().getMisclientes()) 
 							if(client instanceof Empresa) {
@@ -349,7 +349,7 @@ public class CrearContrato extends JDialog {
 								}
 							}
 						if(cont==0)
-						JOptionPane.showMessageDialog(null, "No hay empresas registradas", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, "No hay empresas registradas", "Error de Busqueda",JOptionPane.WARNING_MESSAGE);
 					}
 					if(rdbIndependiente.isSelected()) {
 						for (Cliente client1 : EmpresaRps.getInstance().getMisclientes())
