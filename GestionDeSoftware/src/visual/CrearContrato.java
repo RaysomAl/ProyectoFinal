@@ -333,7 +333,7 @@ public class CrearContrato extends JDialog {
 			
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int cont = 1;
+					int cont = 2;
 					if(rdbEmpresa.isSelected()) {
 						for (Cliente client : EmpresaRps.getInstance().getMisclientes()) 
 							if(client instanceof Empresa) {
